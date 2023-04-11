@@ -5,8 +5,8 @@
         <!-- colocar uma imagem aqui -->
         Logo da Empresa
       </span>
-      <span class="text-3xl cursor-pointer md:hidden block" @click="menuAction" @keypress="bar">
-        <ion-icon name="menu-outline" />
+      <span id="menu" class="text-3xl cursor-pointer md:hidden block" @click="menuAction" @keypress="bar">
+        <font-awesome-icon icon="fa-solid fa-bars" />
       </span>
     </div>
     <ul
@@ -56,22 +56,20 @@ export default {
   //   },
   // },
   data() {
-    return {
-
-    };
+    return {};
   },
   methods: {
     menuAction(e) {
       const list = document.querySelector('ul');
-      console.log(e.target);
+      console.log(e);
       if (e.name === 'menu') {
         console.log('entrou if');
-        e.name = 'close';
+        // e.name = 'close';
         list.classList.add('top-[80px]');
         list.classList.add('opacity-100');
       } else {
         console.log('else if');
-        e.name = 'menu';
+        // e.name = 'menu';
         list.classList.remove('top-[80px]');
         list.classList.remove('opacity-100');
       }
