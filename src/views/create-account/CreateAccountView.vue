@@ -1,8 +1,8 @@
 <template>
   <MenuBar />
-  <div class="container">
+  <!-- <div class="container">
     <h1>Criar Nova Conta</h1>
-  </div>
+  </div> -->
 </template>
 
 <script>
