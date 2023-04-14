@@ -1,10 +1,25 @@
 <template>
-  <!-- <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/create-account">Criar Nova Conta</router-link>
-  </nav> -->
-  <router-view />
+  <header>
+    <MenuBar />
+  </header>
+  <main class="">
+    <!-- Views'll render here -->
+    <router-view />
+  </main>
+  <footer>
+    <FooterBar />
+  </footer>
 </template>
 
-<style>
-</style>
+<script>
+import MenuBar from './components/MenuBar.vue';
+import FooterBar from './components/FooterBar.vue';
+
+export default {
+  components: { MenuBar, FooterBar },
+  data() {
+    return {};
+  },
+};
+
+</script>

@@ -1,16 +1,13 @@
 <template>
-  <MenuBar />
-  <!-- <div class="container">
+  <div class="">
     <h1>Criar Nova Conta</h1>
-  </div> -->
+  </div>
 </template>
 
 <script>
-// eslint-disable-next-line import/no-unresolved
-import MenuBar from '@/components/MenuBar.vue';
 
 export default {
-  components: { MenuBar },
+  components: { },
   data() {
     return {};
   },

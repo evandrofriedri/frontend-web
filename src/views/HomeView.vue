@@ -1,16 +1,9 @@
 <template>
-  <MenuBar />
+  <div class="flex min-h-screen bg-white ">
+    <h2>Home Page!</h2>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// eslint-disable-next-line import/no-unresolved
-import MenuBar from '@/components/MenuBar.vue';
 
-export default {
-  name: 'HomeView',
-  components: {
-    MenuBar,
-  },
-};
 </script>
