@@ -7,7 +7,8 @@ import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import App from './App.vue';
 import router from './router';
 import './index.css';
-
+// eslint-disable-next-line import/no-relative-packages
+import '../node_modules/nprogress/nprogress.css';
 /* add icons to the library */
 library.add(faUser, faBars, faXmark);
 
