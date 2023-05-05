@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-screen bg-gray-50">
+  <footer>
     Footer!
-  </div>
+  </footer>
 </template>

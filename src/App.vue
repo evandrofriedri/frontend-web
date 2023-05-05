@@ -1,22 +1,24 @@
 <template>
-  <header>
-    <MenuBar />
-  </header>
-  <main class="">
-    <!-- Views'll render here -->
+  <component :is="layout">
     <router-view />
-  </main>
-  <footer>
-    <FooterBar />
-  </footer>
+  </component>
 </template>
 
 <script>
-import MenuBar from './components/MenuBar.vue';
-import FooterBar from './components/FooterBar.vue';
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default {
-  components: { MenuBar, FooterBar },
+  setup() {
+    const DefaultLayout = 'default-layout';
+    const { currentRoute } = useRouter();
+
+    const layout = computed(
+      () => `${currentRoute.value.meta.layout || DefaultLayout}`,
+    );
+
+    return { layout };
+  },
   data() {
     return {};
   },

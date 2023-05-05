@@ -1,21 +1,32 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress';
 
+function lazyLoad(view) {
+  return () => import(`../views/${view}.vue`);
+}
+
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: () => import('../views/HomeView.vue'),
+    name: 'Home',
+    component: lazyLoad('HomeView'),
   },
   {
     path: '/login',
-    name: 'login',
-    component: () => import('../views/login/LoginView.vue'),
+    name: 'Login',
+    component: lazyLoad('LoginView'),
+    meta: { layout: 'empty-layout' },
   },
   {
     path: '/create-account',
-    name: 'createAccount',
-    component: () => import('../views/create-account/CreateAccountView.vue'),
+    name: 'CreateAccount',
+    component: lazyLoad('create-account/CreateAccountView'),
+  },
+  {
+    path: '/:patchMatch(.*)',
+    name: 'NotFound',
+    component: lazyLoad('NotFoundView'),
+    meta: { layout: 'empty-layout' },
   },
   // {
   //   path: '/list-account',

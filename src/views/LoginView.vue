@@ -2,13 +2,13 @@
   <div class="flex min-h-screen bg-white ">
     <div class="flex-1 hidden lg:block relative w-0 bg-gray-700">
       <div class="flex h-full justify-center items-center">
-        <img src="../../assets/undraw_authentication_re_svpt.svg" alt="">
+        <img src="../assets/undraw_authentication_re_svpt.svg" alt="">
       </div>
     </div>
     <div class="flex flex-1 flex-col justify-center py-10 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px24">
       <div class="mx-auto w-full max-w-sm lg:w-80">
         <div>
-          <img src="../../assets/undraw_authentication_re_svpt.svg" alt="" class="lg:hidden h-20 w-auto">
+          <img src="../assets/undraw_authentication_re_svpt.svg" alt="" class="lg:hidden h-20 w-auto">
           <h2 class="mt-6 text-3xl font-semibold text-blue-700">
             Entrar
           </h2>
