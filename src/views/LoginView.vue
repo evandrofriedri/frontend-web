@@ -2,14 +2,14 @@
   <div class="flex min-h-screen bg-white ">
     <div class="flex-1 hidden lg:block relative w-0 bg-gray-700">
       <div class="flex h-full justify-center items-center">
-        <img src="../assets/undraw_authentication_re_svpt.svg" alt="">
+        <img src="../assets/undraw_fingerprint_login_re_t71l.svg" alt="">
       </div>
     </div>
     <div class="flex flex-1 flex-col justify-center py-10 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px24">
       <div class="mx-auto w-full max-w-sm lg:w-80">
         <div>
-          <img src="../assets/undraw_authentication_re_svpt.svg" alt="" class="lg:hidden h-20 w-auto">
-          <h2 class="mt-6 text-3xl font-semibold text-blue-700">
+          <img src="../assets/undraw_fingerprint_login_re_t71l.svg" alt="" class="lg:hidden h-20 w-auto">
+          <h2 class="mt-6 text-3xl font-semibold text-gray-700">
             Entrar
           </h2>
           <p class="mt-2 text-sm text-gray-700 max-w">
@@ -22,13 +22,13 @@
         <div>
           <form action="">
             <div class="mb-4">
-              <label><input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded focus:outline-none" type="text" placeholder="login" /></label>
+              <label><input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none" type="text" placeholder="E-mail" /></label>
             </div>
             <div class="mb-4">
-              <label><input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded focus:outline-none" type="password" placeholder="senha"></label>
+              <label><input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none" type="password" placeholder="Senha"></label>
             </div>
             <div class="mb-4">
-              <button class="inline-block w-full py-4 px-8 leading-none text-white bg-blue-700 hover:bg-blue-900 font-semibold rounded shadow" type="submit">
+              <button class="inline-block w-full py-4 px-8 leading-none text-white bg-blue-700 hover:bg-blue-900 font-semibold rounded-md" type="submit">
                 Entrar
               </button>
             </div>

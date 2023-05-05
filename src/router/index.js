@@ -21,6 +21,7 @@ const routes = [
     path: '/create-account',
     name: 'CreateAccount',
     component: lazyLoad('create-account/CreateAccountView'),
+    meta: { layout: 'empty-layout' },
   },
   {
     path: '/:patchMatch(.*)',
