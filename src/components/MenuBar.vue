@@ -37,7 +37,7 @@
           <img src="../assets/logo.png" class="h-8" alt="Logo">
         </router-link>
       </div>
-      <div class="p-2 cursor-pointer font-medium hover:bg-gray-200 hover:rounded-xl">
+      <div class="p-2 cursor-pointer font-semibold text-gray-700 hover:bg-gray-200 hover:rounded-xl">
         <router-link to="/login" class="text-base duration-100">
           <font-awesome-icon icon="fa-regular fa-user" class="mr-1" />
           Entrar
