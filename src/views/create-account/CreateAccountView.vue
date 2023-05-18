@@ -9,18 +9,19 @@
       <div class="mx-auto w-full max-w-sm">
         <div class="p-5 bg-white sm:shadow-2xl sm:rounded-xl">
           <img src="../../assets/undraw_sign_up_n6im.svg" alt="" class="lg:hidden h-20 w-auto">
-          <h2 class="mt-6 mb-6 text-3xl text-center font-semibold text-gray-700">
+          <h2 class="mt-6 mb-6 text-3xl font-semibold text-gray-700">
             Criar seu cadastro
           </h2>
           <form action="" @submit.prevent="submitForm">
             <div class="mb-4">
               <label class="text-base text-gray-700 max-w"> Nome Completo
                 <input
-                  id="username2"
+                  id="username"
                   v-model.trim="formData.userName"
                   name="name"
                   class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
                   type="text"
+                  placeholder="Nome Completo"
                 />
               </label>
               <span v-for="error in v$.userName.$errors" :key="error.$uid" class="text-sm text-red-600">
@@ -33,11 +34,12 @@
               </p>
               <label>
                 <input
-                  id="userEmail2"
+                  id="userEmail"
                   v-model.trim="formData.userEmail"
                   name="email"
                   class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
                   type="text"
+                  placeholder="Email"
                 />
               </label>
               <span v-for="error in v$.userEmail.$errors" :key="error.$uid" class="text-sm text-red-600">
@@ -55,6 +57,7 @@
                   name="password"
                   class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
                   type="password"
+                  placeholder="Senha de no mínimo 8 caracteres"
                 />
               </label>
               <span v-for="error in v$.password.$errors" :key="error.$uid" class="text-sm text-red-600">
@@ -72,6 +75,7 @@
                   name="confirmPassword"
                   class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
                   type="password"
+                  placeholder="Confirmação da senha"
                 />
               </label>
               <span v-for="error in v$.confirmPassword.$errors" :key="error.$uid" class="text-sm text-red-600">

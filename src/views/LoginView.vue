@@ -12,18 +12,26 @@
           <h2 class="mt-6 lg:mt-0 text-3xl font-semibold text-gray-700">
             Entrar
           </h2>
-          <p class="mt-2 text-sm text-gray-700 max-w">
-            Primeiro acesso?
-          </p>
-          <router-link class="font-medium text-blue-700" to="/create-account">
-            Cadastre-se
-          </router-link>
+          <div class="mt-4 mb-4">
+            <button class="inline-block w-full py-4 px-8 leading-none text-gray-700 bg-gray-50 border  hover:bg-gray-200 font-semibold rounded-md" type="submit">
+              <font-awesome-icon icon="fa-brands fa-google" /> Fazer login com o Google
+            </button>
+          </div>
+          <div class="flex py-4 items-center">
+            <div class="flex-grow border-t border-gray-200" />
+            <span class="mx-4 text-gray-200">ou</span>
+            <div class="flex-grow border-t border-gray-200" />
+          </div>
           <form action="">
             <div class="mb-4">
-              <label><input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none" type="text" placeholder="E-mail" /></label>
+              <label class="text-base text-gray-700 max-w"> Seu email
+                <input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none" type="text" placeholder="E-mail" />
+              </label>
             </div>
             <div class="mb-4">
-              <label><input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none" type="password" placeholder="Senha"></label>
+              <label class="text-base text-gray-700 max-w"> Senha
+                <input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none" type="password" placeholder="Senha">
+              </label>
             </div>
             <div class="mb-4">
               <button class="inline-block w-full py-4 px-8 leading-none text-white bg-blue-700 hover:bg-blue-900 font-semibold rounded-md" type="submit">
@@ -32,6 +40,17 @@
             </div>
             <div class="mb-4">
               <p><a href="" class="text-blue-700">Esqueceu a senha?</a></p>
+            </div>
+            <div class="py-4 items-center">
+              <div class="flex-grow border-t border-gray-200" />
+            </div>
+            <div class="">
+              <span class="text-sm text-gray-700 max-w">
+                Primeiro acesso?
+              </span>
+              <router-link class="font-medium text-blue-700" to="/create-account">
+                Cadastre-se
+              </router-link>
             </div>
           </form>
         </div>
