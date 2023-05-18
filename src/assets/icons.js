@@ -1,7 +1,6 @@
 /**
  * Importação de Icones
  */
-// import { faUser } from '@fortawesome/free-regular-svg-icons';
 import {
   faBars, faCircleUser, faMagnifyingGlass, faTableList,
 } from '@fortawesome/free-solid-svg-icons';
