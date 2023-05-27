@@ -1,0 +1,3 @@
+<template>
+  --botao padrao
+</template>
