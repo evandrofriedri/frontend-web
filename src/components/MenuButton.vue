@@ -1,9 +1,10 @@
 <template>
-  <button :id="id" type="button">
-    <font-awesome-icon :icon="icon" size="xl" />
-  </button>
+  <div class="cursor-pointer p-2 hover:bg-gray-200 hover:rounded-xl">
+    <button :id="id" type="button">
+      <font-awesome-icon :icon="icon" size="xl" />
+    </button>
+  </div>
 </template>
-
 <script setup>
 defineProps({
   id: {

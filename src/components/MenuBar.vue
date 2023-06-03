@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="max-w-screen flex items-center justify-between p-2 bg-gray-50 w-full top-0 left-0 shadow-md">
-      <div id="div-menu" class="cursor-pointer p-2 hover:bg-gray-200 hover:rounded-xl" @click="openMenu" @keypress="openMenu">
+      <div id="div-menu" @click="openMenu" @keypress="openMenu">
         <MenuButton id="menu-button" icon="fa-solid fa-bars" />
       </div>
       <div id="div-blur" hidden class="bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm" @click="closeMenu" @keypress="closeMenu" />
@@ -23,7 +23,7 @@
       <div>
         <LogoApp />
       </div>
-      <div id="div-menu" class="cursor-pointer p-2 hover:bg-gray-200 hover:rounded-xl" @click="searchProduct" @keypress="searchProduct">
+      <div id="div-menu" @click="searchProduct" @keypress="searchProduct">
         <MenuButton id="search-button" icon="fa-solid fa-magnifying-glass" />
       </div>
     </div>
