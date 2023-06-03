@@ -23,16 +23,22 @@
             <div class="flex-grow border-t border-gray-200" />
           </div>
           <form action="">
-            <div class="mb-4">
+            <BaseInput id="email" v-model="email" label="Seu email" type="email" placeholder="E-mail" />
+            <BaseInput id="senha" v-model="senha" label="Senha" type="password" placeholder="Senha" />
+            <!-- <div class="mb-4">
               <label class="text-base text-gray-700 max-w"> Seu email
-                <input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none" type="text" placeholder="E-mail" />
+                <input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700
+                bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
+                type="text" placeholder="E-mail" />
               </label>
             </div>
             <div class="mb-4">
               <label class="text-base text-gray-700 max-w"> Senha
-                <input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none" type="password" placeholder="Senha">
+                <input class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700
+                bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
+                type="password" placeholder="Senha">
               </label>
-            </div>
+            </div> -->
             <div class="mb-4">
               <button class="inline-block w-full py-4 px-8 leading-none text-white bg-blue-700 hover:bg-blue-900 font-semibold rounded-md" type="submit">
                 Entrar
@@ -58,3 +64,12 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import BaseInput from '../components/BaseInput.vue';
+
+const email = ref('');
+const senha = ref('');
+
+</script>

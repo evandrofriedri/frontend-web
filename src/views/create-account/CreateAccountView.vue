@@ -13,75 +13,10 @@
             Criar seu cadastro
           </h2>
           <form action="" @submit.prevent="submitForm">
-            <div class="mb-4">
-              <label class="text-base text-gray-700 max-w"> Nome Completo
-                <input
-                  id="username"
-                  v-model.trim="formData.userName"
-                  name="name"
-                  class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
-                  type="text"
-                  placeholder="Nome Completo"
-                />
-              </label>
-              <span v-for="error in v$.userName.$errors" :key="error.$uid" class="text-sm text-red-600">
-                {{ error.$message }}
-              </span>
-            </div>
-            <div class="mb-4">
-              <p class="text-base text-gray-700 max-w">
-                Email
-              </p>
-              <label>
-                <input
-                  id="userEmail"
-                  v-model.trim="formData.userEmail"
-                  name="email"
-                  class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
-                  type="text"
-                  placeholder="Email"
-                />
-              </label>
-              <span v-for="error in v$.userEmail.$errors" :key="error.$uid" class="text-sm text-red-600">
-                {{ error.$message }}
-              </span>
-            </div>
-            <div class="mb-4">
-              <p class="mt-3 text-base text-gray-700 max-w">
-                Senha
-              </p>
-              <label>
-                <input
-                  id="password"
-                  v-model="formData.password"
-                  name="password"
-                  class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
-                  type="password"
-                  placeholder="Senha de no mínimo 8 caracteres"
-                />
-              </label>
-              <span v-for="error in v$.password.$errors" :key="error.$uid" class="text-sm text-red-600">
-                {{ error.$message }}
-              </span>
-            </div>
-            <div class="mb-4">
-              <p class="mt-3 text-base text-gray-700 max-w">
-                Insira novamente a Senha
-              </p>
-              <label>
-                <input
-                  id="confirmPassword"
-                  v-model="formData.confirmPassword"
-                  name="confirmPassword"
-                  class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
-                  type="password"
-                  placeholder="Confirmação da senha"
-                />
-              </label>
-              <span v-for="error in v$.confirmPassword.$errors" :key="error.$uid" class="text-sm text-red-600">
-                {{ error.$message }}<br>
-              </span>
-            </div>
+            <BaseInput id="username" v-model="formData.userName" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.userName.$errors" />
+            <BaseInput id="userEmail" v-model="formData.userEmail" label="Email" type="email" placeholder="Email" :errors="v$.userEmail.$errors" />
+            <BaseInput id="password" v-model="formData.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
+            <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
             <div class="mb-4">
               <button
                 class="inline-block w-full py-4 px-8 leading-none text-white bg-blue-700 hover:bg-blue-900 font-semibold rounded-md"
@@ -103,6 +38,7 @@ import {
   required, email, sameAs, minLength, helpers,
 } from '@vuelidate/validators';
 import { reactive, computed } from 'vue';
+import BaseInput from '../../components/BaseInput.vue';
 
 const formData = reactive({
   userName: '',
