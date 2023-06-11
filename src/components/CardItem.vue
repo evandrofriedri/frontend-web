@@ -1,14 +1,14 @@
 <template>
-  <div class="p-2 flex flex-row max-w-2xl rounded-lg bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300">
-    <div class="flex flex-col justify-start pr-5">
-      <h5 class="mb-2 text-xl font-medium text-neutral-800">
-        {{ title }}
-      </h5>
-      <p class="mb-2 text-sm text-neutral-600">
-        {{ description }}
+  <div class="p-3 flex rounded-lg bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="openModal" @keydown="openModal">
+    <div class="flex flex-col pr-5">
+      <p class="mb-2 text-lg font-medium text-neutral-800">
+        {{ props.title }}
       </p>
-      <p class="text-base font-bold">
-        R$ {{ price }}
+      <p class="mb-2 text-sm text-neutral-600">
+        {{ props.description }}
+      </p>
+      <p class="text-sm font-bold">
+        R$ {{ props.price }}
       </p>
     </div>
     <img
@@ -17,11 +17,33 @@
       alt=""
     />
   </div>
+  <Teleport to="#modal">
+    <Transition name="modal">
+      <div v-if="isModalOpen" class="flex fixed top-0 left-0 w-screen h-screen bg-black/50 justify-center items-center">
+        <div ref="modal" class="relative bg-white px-12 py-24 rounded shadow-lg">
+          <button type="button" class="absolute top-3 right-3 bg-none cursor-pointer" @click="isModalOpen = false">
+            <font-awesome-icon icon="fa-solid fa-xmark" />
+          </button>
+          {{ props.title }}
+          {{ props.description }}
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 
-defineProps({
+const isModalOpen = ref(false);
+const modal = ref(null);
+
+onClickOutside(modal, () => {
+  isModalOpen.value = false;
+});
+
+const props = defineProps({
   title: {
     type: String,
     default: '',
@@ -36,4 +58,21 @@ defineProps({
   },
 });
 
+function openModal() {
+  isModalOpen.value = true;
+}
+
 </script>
+
+<style>
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.25s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: scale(1.1);
+}
+</style>

@@ -4,8 +4,8 @@
       <div id="div-menu" @click="openMenu" @keypress="openMenu">
         <MenuButton id="menu-button" icon="fa-solid fa-bars" />
       </div>
-      <div id="div-blur" hidden class="bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm" @click="closeMenu" @keypress="closeMenu" />
-      <div id="menu" class="fixed p-2 top-0 w-[270px] left-[-280px] h-screen z-50 bg-gray-700 flex-col shadow-md text-white transition-all duration-200">
+      <div id="div-blur" hidden class="bg-black/50 min-h-screen w-full fixed top-0 left-0 right-0" @click="closeMenu" @keypress="closeMenu" />
+      <div id="menu" class="fixed p-2 top-0 w-[270px] left-[-280px] h-screen z-50 bg-gray-700 flex-col shadow-md text-white transition-all duration-500">
         <MenuItemBar icon="fa-solid fa-circle-user" label="Entre ou Cadastre-se" route="/login" @click="closeMenu" />
         <MenuSeparator />
         <MenuItemBar v-if="admin" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/userAdmin" @click="closeMenu" />
