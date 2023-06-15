@@ -67,7 +67,7 @@ function openModal() {
 <style>
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
 }
 
 .modal-enter-from,
