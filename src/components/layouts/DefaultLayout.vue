@@ -1,7 +1,13 @@
 <template>
-  <MenuBar />
-  <slot />
-  <FooterBar />
+  <header>
+    <MenuBar />
+  </header>
+  <main>
+    <slot />
+  </main>
+  <footer>
+    <FooterBar />
+  </footer>
 </template>
 
 <script>
