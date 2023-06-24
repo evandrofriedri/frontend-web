@@ -19,7 +19,7 @@
   </div>
   <Teleport to="#modal">
     <Transition name="modal">
-      <div v-if="isModalOpen" class="flex fixed top-0 left-0 w-screen h-screen bg-black/50 justify-center items-center">
+      <div v-if="isModalOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
         <div ref="modal" class="relative bg-white px-12 py-24 rounded shadow-lg">
           <button type="button" class="absolute top-3 right-3 bg-none cursor-pointer" @click="isModalOpen = false">
             <font-awesome-icon icon="fa-solid fa-xmark" />

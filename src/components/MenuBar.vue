@@ -1,11 +1,14 @@
 <template>
-  <div class="max-w-screen flex items-center justify-between p-2 bg-gray-50 w-full top-0 left-0 shadow-md">
+  <div class="fixed max-w-screen z-10 flex items-center justify-between p-2 bg-gray-50 w-full top-0 left-0">
     <div id="div-menu" @click="isOpenMenu = !isOpenMenu" @keypress="isOpenMenu = !isOpenMenu">
       <MenuButton id="menu-button" icon="fa-solid fa-bars" />
     </div>
-    <Transition name="fade">
-      <div v-if="isOpenMenu" class="bg-black/50 min-h-screen w-full fixed top-0 left-0" />
-    </Transition>
+    <div>
+      <LogoApp />
+    </div>
+    <div id="div-menu" @click="searchProduct" @keypress="searchProduct">
+      <MenuButton id="search-button" icon="fa-solid fa-magnifying-glass" />
+    </div>
     <Transition name="slide">
       <div v-if="isOpenMenu" ref="blur" class="fixed p-2 top-0 w-[270px] left-0 h-screen z-50 bg-gray-700 flex-col shadow-md text-white transition-all duration-500">
         <MenuItemBar icon="fa-solid fa-circle-user" label="Entre ou Cadastre-se" route="/login" />
@@ -23,12 +26,9 @@
         </div>
       </div>
     </Transition>
-    <div>
-      <LogoApp />
-    </div>
-    <div id="div-menu" @click="searchProduct" @keypress="searchProduct">
-      <MenuButton id="search-button" icon="fa-solid fa-magnifying-glass" />
-    </div>
+    <Transition name="fade">
+      <div v-if="isOpenMenu" class="fixed top-0 left-0 bg-black/50 min-h-screen z-10 w-full" />
+    </Transition>
   </div>
 </template>
 
