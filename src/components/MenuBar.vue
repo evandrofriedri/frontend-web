@@ -10,7 +10,7 @@
       <MenuButton id="search-button" icon="fa-solid fa-magnifying-glass" />
     </div>
     <Transition name="slide">
-      <div v-if="isOpenMenu" ref="blur" class="fixed p-2 top-0 w-[270px] left-0 h-screen z-50 bg-gray-700 flex-col shadow-md text-white transition-all duration-500">
+      <div v-if="isOpenMenu" ref="blur" class="fixed p-2 top-0 w-[270px] left-0 h-screen z-50 bg-gray-700 flex-col shadow-md text-white">
         <MenuItemBar icon="fa-solid fa-circle-user" label="Entre ou Cadastre-se" route="/login" />
         <MenuSeparator />
         <MenuItemBar v-if="admin" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/userAdmin" />

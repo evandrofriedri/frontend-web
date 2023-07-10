@@ -1,14 +1,12 @@
 <template>
-  <li class="px-4 py-3">
-    <a :href="props.link">
-      {{ props.title }}
-    </a>
-  </li>
+  <a class="px-4 py-2 border-b-4 border-b-transparent duration-300" :href="props.href">
+    {{ props.title }}
+  </a>
 </template>
 
 <script setup>
 const props = defineProps({
-  link: {
+  href: {
     type: String,
     default: '',
   },

@@ -64,7 +64,7 @@ function openModal() {
 
 </script>
 
-<style>
+<style scoped>
 .modal-enter-active,
 .modal-leave-active {
   transition: all 0.3s ease;
