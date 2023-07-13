@@ -1,8 +1,9 @@
 <template>
-  <div id="sticky" class="sticky flex items-center overflow-x-auto bg-gray-50 justify-between top-14 z-0 shadow-md">
+  <div id="sticky" class="sticky flex items-center overflow-x-auto bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
     <MenuItemSticky v-for="(header) in headers" :key="header.id" :href="`#${header.id}`" :title="header.title" :class="{ active: header.id == currentSection }" />
   </div>
   <div class="container mx-auto">
+    <div class="flex w-full h-48" />
     <section v-for="(header) in headers" :key="header.id">
       <SectionTitle :id="header.id" :title="header.title" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -42,12 +43,13 @@ onMounted(() => {
       entries.forEach((entry) => {
         if (entry.intersectionRatio > 0) {
           currentSection.value = entry.target.getAttribute('id');
-        // document.querySelector('#sticky').scrollLeft = 100;
+
+          // document.querySelector('#sticky').scrollLeft = 100, 0);
         }
       });
     },
     {
-      rootMargin: '0px 0px -90% 0px',
+      rootMargin: '0px 0px -85% 0px',
     },
   );
   document.querySelectorAll('h2').forEach((section) => {
