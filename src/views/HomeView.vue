@@ -1,5 +1,5 @@
 <template>
-  <div id="sticky" class="sticky flex items-center overflow-x-auto bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
+  <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
     <MenuItemSticky v-for="(header) in headers" :key="header.id" :href="`#${header.id}`" :title="header.title" :class="{ active: header.id == currentSection }" />
   </div>
   <div class="container mx-auto">
@@ -102,6 +102,6 @@ const headers = [
 <style scoped>
 a.active {
   font-weight: bold;
-  border-color: black;
+  border-color: rgb(17 24 39 );
 }
 </style>

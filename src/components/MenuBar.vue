@@ -77,7 +77,7 @@ onClickOutside(blur, () => {
 }
 
 #parent-menu {
-  background-image: url('../assets/capa3.jpg');
+  background-image: url('../assets/capa6.jpg');
 }
 
 </style>

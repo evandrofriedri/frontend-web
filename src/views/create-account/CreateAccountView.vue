@@ -19,7 +19,7 @@
             <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
             <div class="mb-4">
               <button
-                class="inline-block w-full py-4 px-8 leading-none text-white bg-blue-700 hover:bg-blue-900 font-semibold rounded-md"
+                class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded-md"
                 type="submit"
               >
                 Cadastrar

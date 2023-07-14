@@ -1,13 +1,13 @@
 <template>
   <div class="p-3 flex rounded-lg bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="openModal" @keydown="openModal">
     <div class="flex flex-col pr-5">
-      <p class="mb-2 text-lg font-medium text-neutral-800">
+      <p class="mb-2 text-lg font-medium text-gray-900">
         {{ props.title }}
       </p>
-      <p class="mb-2 text-sm text-neutral-600">
+      <p class="mb-2 text-sm text-gray-600">
         {{ props.description }}
       </p>
-      <p class="text-sm font-bold">
+      <p class="text-sm font-bold text-gray-900">
         R$ {{ props.price }}
       </p>
     </div>
@@ -20,10 +20,18 @@
   <Teleport to="#modal">
     <Transition name="modal">
       <div v-if="isModalOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative bg-white px-12 py-24 rounded shadow-lg">
+        <div ref="modal" class="relative bg-white p-24 rounded shadow-lg">
           <button type="button" class="absolute top-3 right-3 bg-none cursor-pointer" @click="isModalOpen = false">
             <font-awesome-icon icon="fa-solid fa-xmark" />
           </button>
+          <!-- <div class="flex">
+            <div class="">
+              teste 1
+            </div>
+            <div class="">
+              teste 2
+            </div>
+          </div> -->
           {{ props.title }}
           {{ props.description }}
         </div>

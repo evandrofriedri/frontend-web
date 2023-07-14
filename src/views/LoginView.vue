@@ -26,12 +26,12 @@
             <BaseInput id="email" v-model="email" label="Seu email" type="email" placeholder="E-mail" />
             <BaseInput id="senha" v-model="senha" label="Senha" type="password" placeholder="Senha" />
             <div class="mb-4">
-              <button class="inline-block w-full py-4 px-8 leading-none text-white bg-blue-700 hover:bg-blue-900 font-semibold rounded-md" type="submit">
+              <button class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded-md" type="submit">
                 Entrar
               </button>
             </div>
             <div class="mb-4">
-              <p><a href="" class="text-blue-700">Esqueceu a senha?</a></p>
+              <p><a href="" class="font-semibold text-gray-900">Esqueceu a senha?</a></p>
             </div>
             <div class="py-3 items-center">
               <div class="flex-grow border-t border-gray-200" />
@@ -40,7 +40,7 @@
               <span class="text-sm text-gray-700 max-w">
                 Primeiro acesso?
               </span>
-              <router-link class="font-medium text-blue-700" to="/create-account">
+              <router-link class="font-semibold text-gray-900" to="/create-account">
                 Cadastre-se
               </router-link>
             </div>
