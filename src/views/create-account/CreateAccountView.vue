@@ -7,7 +7,7 @@
     </div>
     <div class="flex flex-1 flex-col justify-center py-10 px-4 sm:px-6 lg:px-20">
       <div class="mx-auto w-full max-w-sm">
-        <div class="p-5 bg-white sm:shadow-2xl sm:rounded-xl">
+        <div class="p-5 bg-white sm:shadow-2xl sm:rounded">
           <img src="../../assets/undraw_sign_up_n6im.svg" alt="" class="lg:hidden h-20 w-auto">
           <h2 class="mt-6 mb-6 text-3xl font-semibold text-gray-700">
             Criar seu cadastro
@@ -19,7 +19,7 @@
             <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
             <div class="mb-4">
               <button
-                class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded-md"
+                class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded"
                 type="submit"
               >
                 Cadastrar

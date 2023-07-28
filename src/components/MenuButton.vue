@@ -1,9 +1,7 @@
 <template>
-  <div class="cursor-pointer p-2 hover:bg-gray-800 hover:rounded-xl duration-300 text-white">
-    <button type="button">
-      <font-awesome-icon :icon="icon" size="xl" />
-    </button>
-  </div>
+  <button type="button" class="cursor-pointer px-3 py-2 bg-black/50 hover:bg-gray-800 hover:rounded text-white">
+    <font-awesome-icon :icon="icon" size="xl" />
+  </button>
 </template>
 <script setup>
 defineProps({

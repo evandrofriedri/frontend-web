@@ -4,7 +4,7 @@
 import {
   faBars, faCircleUser, faMagnifyingGlass, faList,
   faUtensils, faRectangleList, faChevronRight, faLocationDot,
-  faUsersGear, faListCheck, faCircleInfo, faXmark,
+  faUsersGear, faListCheck, faCircleInfo, faXmark, faMinus, faPlus, faCartShopping,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
@@ -23,6 +23,9 @@ const icons = {
   faListCheck,
   faCircleInfo,
   faXmark,
+  faMinus,
+  faPlus,
+  faCartShopping,
 };
 
 export default icons;

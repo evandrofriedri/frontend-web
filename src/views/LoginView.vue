@@ -7,13 +7,13 @@
     </div>
     <div class="flex flex-1 flex-col justify-center py-10 px-4 sm:px-6 lg:px-20">
       <div class="mx-auto w-full max-w-sm">
-        <div class="p-5 bg-white sm:shadow-2xl sm:rounded-xl">
+        <div class="p-5 bg-white sm:shadow-2xl sm:rounded">
           <img src="../assets/undraw_fingerprint_login_re_t71l.svg" alt="" class="lg:hidden h-20 w-auto">
           <h2 class="mt-6 lg:mt-0 text-3xl font-semibold text-gray-700">
             Entrar
           </h2>
           <div class="mt-4 mb-4">
-            <button class="inline-block w-full py-4 px-8 leading-none text-gray-700 bg-gray-50 border  hover:bg-gray-200 font-semibold rounded-md" type="submit">
+            <button class="inline-block w-full py-4 px-8 leading-none text-gray-700 bg-gray-50 border  hover:bg-gray-200 font-semibold rounded" type="submit">
               <font-awesome-icon icon="fa-brands fa-google" /> Fazer login com o Google
             </button>
           </div>
@@ -26,7 +26,7 @@
             <BaseInput id="email" v-model="email" label="Seu email" type="email" placeholder="E-mail" />
             <BaseInput id="senha" v-model="senha" label="Senha" type="password" placeholder="Senha" />
             <div class="mb-4">
-              <button class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded-md" type="submit">
+              <button class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded" type="submit">
                 Entrar
               </button>
             </div>

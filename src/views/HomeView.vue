@@ -7,23 +7,16 @@
     <section v-for="(header) in headers" :key="header.id">
       <SectionTitle :id="header.id" :title="header.title" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <CardItem title="0Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="1Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="2Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="3Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="4Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="5Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="6Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="7Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="8Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="9Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="1Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="2Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="3Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="4Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="5Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="6Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
-        <CardItem title="7Hamburger da Casa" description="O melhor hamburger de todos os tempos! Venha conferir! Valen muito a pena" :price="24.90" />
+        <CardItem
+          v-for="(product) in header.products"
+          :key="product.id"
+          :title="product.title"
+          :description="product.description"
+          :price="product.price"
+          :additional="product.additional"
+          :additionals="product.additionals"
+          :image="product.image"
+        />
       </div>
     </section>
   </div>
@@ -61,39 +54,421 @@ const headers = [
   {
     id: 'promocoes',
     title: 'Promoções',
-    // products: []
+    products: [
+      {
+        id: 1,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: true,
+        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=999&q=80',
+      },
+      {
+        id: 2,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: true,
+        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        image: 'https://images.unsplash.com/photo-1550317138-10000687a72b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1520&q=80',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: true,
+        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        image: 'https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: true,
+        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        image: 'https://images.unsplash.com/photo-1610970878459-a0e464d7592b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1524&q=80',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: true,
+        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        image: 'https://images.unsplash.com/photo-1549611016-3a70d82b5040?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1130&q=80',
+      },
+    ],
   },
   {
     id: 'combos',
     title: 'Combos',
+    products: [
+      {
+        id: 1,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1199957/pexels-photo-1199957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 2,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1893558/pexels-photo-1893558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+    ],
   },
   {
     id: 'especiais',
     title: 'Especiais',
+    products: [
+      {
+        id: 1,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1199957/pexels-photo-1199957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 2,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1893558/pexels-photo-1893558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+    ],
   },
   {
     id: 'sanduiches',
     title: 'Sanduiches',
+    products: [
+      {
+        id: 1,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1199957/pexels-photo-1199957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 2,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1893558/pexels-photo-1893558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+    ],
   },
   {
     id: 'porcoes',
     title: 'Porções',
+    products: [
+      {
+        id: 1,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1199957/pexels-photo-1199957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 2,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1893558/pexels-photo-1893558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+    ],
   },
   {
     id: 'classicos',
     title: 'Clássicos',
+    products: [
+      {
+        id: 1,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1199957/pexels-photo-1199957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 2,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1893558/pexels-photo-1893558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+    ],
   },
   {
     id: 'sobremesas',
     title: 'Sobremesas',
+    products: [
+      {
+        id: 1,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1199957/pexels-photo-1199957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 2,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1893558/pexels-photo-1893558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+    ],
   },
   {
     id: 'refrigerantes',
     title: 'Refrigerantes',
+    products: [
+      {
+        id: 1,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1199957/pexels-photo-1199957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 2,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1633578/pexels-photo-1633578.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1893558/pexels-photo-1893558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+    ],
   },
   {
     id: 'cervejas',
     title: 'Cervejas',
+    products: [
+      {
+        id: 1,
+        title: 'Heineken',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/4374009/pexels-photo-4374009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 2,
+        title: 'Budweiser',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/3222707/pexels-photo-3222707.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 3,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 4,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1251198/pexels-photo-1251198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+      {
+        id: 5,
+        title: 'hamburguer da casa',
+        description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
+        price: 24.9,
+        additional: false,
+        image: 'https://images.pexels.com/photos/1893558/pexels-photo-1893558.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      },
+    ],
   },
 ];
 

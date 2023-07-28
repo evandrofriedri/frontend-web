@@ -3,7 +3,7 @@
   <div class="mb-4">
     <label v-if="label" :for="id" class="text-base text-gray-700 max-w"> {{ label }}
       <input
-        class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded-md focus:outline-none"
+        class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded focus:outline-none"
         :value="modelValue"
         type="text"
         :placeholder="placeholder"
