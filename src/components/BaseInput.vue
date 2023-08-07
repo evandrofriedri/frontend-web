@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/require-explicit-emits -->
 <template>
   <div class="mb-4">
     <label v-if="label" :for="id" class="text-base text-gray-700 max-w"> {{ label }}
@@ -18,6 +17,8 @@
 </template>
 
 <script setup>
+
+defineEmits(['update:modelValue']);
 
 defineProps({
   id: {
