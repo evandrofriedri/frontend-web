@@ -1,21 +1,29 @@
 <template>
+  <div class="fixed z-10 right-2 top-3">
+    <div id="search-button" class="items-center">
+      <label>
+        <input
+          v-model="input"
+          class="appearance-none inline w-full py-1.5 px-2 leading-tight
+          text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded focus:outline-none"
+          type="text"
+          placeholder="Procure seu produto..."
+        />
+      </label>
+    </div>
+  </div>
   <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
-    <MenuItemSticky v-for="(header) in headers" :key="header.id" :href="`#${header.id}`" :title="header.title" :class="{ active: header.id == currentSection }" />
+    <MenuItemSticky v-for="(data) in datas" :key="data.id" :href="`#${data.id}`" :title="data.title" :class="{ active: data.id == currentSection }" />
   </div>
   <div class="container mx-auto">
     <div class="flex w-full h-48" />
-    <section v-for="(header) in headers" :key="header.id">
-      <SectionTitle :id="header.id" :title="header.title" />
+    <section v-for="(data) in filteredList()" :key="data.id">
+      <SectionTitle :id="data.id" :title="data.title" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
         <CardItem
-          v-for="(product) in header.products"
+          v-for="(product) in data.products"
           :key="product.id"
-          :title="product.title"
-          :description="product.description"
-          :price="product.price"
-          :additional="product.additional"
-          :additionals="product.additionals"
-          :image="product.image"
+          :product="product"
         />
       </div>
     </section>
@@ -29,6 +37,7 @@ import CardItem from '../components/CardItem.vue';
 import SectionTitle from '../components/SectionTitle.vue';
 
 const currentSection = ref('');
+const input = ref('');
 
 onMounted(() => {
   const observer = new IntersectionObserver(
@@ -50,54 +59,54 @@ onMounted(() => {
   });
 });
 
-const headers = [
+const datas = [
   {
     id: 'promocoes',
     title: 'Promoções',
     products: [
       {
         id: 1,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: true,
-        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        additionals: [{ id: 1, name: 'Rúcula', price: 2.00 }, { id: 2, name: 'Bacon', price: 2.00 }, { id: 3, name: 'Tomate', price: 2.00 }, { id: 4, name: 'Ovo', price: 2.00 }],
         image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=999&q=80',
       },
       {
         id: 2,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: true,
-        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        additionals: [{ id: 1, name: 'Rúcula', price: 2.00 }, { id: 2, name: 'Bacon', price: 2.00 }, { id: 3, name: 'Tomate', price: 2.00 }, { id: 4, name: 'Ovo', price: 2.00 }],
         image: 'https://images.unsplash.com/photo-1550317138-10000687a72b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1520&q=80',
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: true,
-        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        additionals: [{ id: 1, name: 'Rúcula', price: 2.00 }, { id: 2, name: 'Bacon', price: 2.00 }, { id: 3, name: 'Tomate', price: 2.00 }, { id: 4, name: 'Ovo', price: 2.00 }],
         image: 'https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80',
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: true,
-        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        additionals: [{ id: 1, name: 'Rúcula', price: 2.00 }, { id: 2, name: 'Bacon', price: 2.00 }, { id: 3, name: 'Tomate', price: 2.00 }, { id: 4, name: 'Ovo', price: 2.00 }],
         image: 'https://images.unsplash.com/photo-1610970878459-a0e464d7592b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1524&q=80',
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: true,
-        additionals: [{ name: 'Rúcula', price: 1.99 }, { name: 'Bacon', price: 1.99 }, { name: 'Tomate', price: 1.99 }, { name: 'Ovo', price: 1.99 }],
+        additionals: [{ id: 1, name: 'Rúcula', price: 2.00 }, { id: 2, name: 'Bacon', price: 2.00 }, { id: 3, name: 'Tomate', price: 2.00 }, { id: 4, name: 'Ovo', price: 2.00 }],
         image: 'https://images.unsplash.com/photo-1549611016-3a70d82b5040?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1130&q=80',
       },
     ],
@@ -108,7 +117,7 @@ const headers = [
     products: [
       {
         id: 1,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -116,7 +125,7 @@ const headers = [
       },
       {
         id: 2,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -124,7 +133,7 @@ const headers = [
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -132,7 +141,7 @@ const headers = [
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -140,7 +149,7 @@ const headers = [
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -154,7 +163,7 @@ const headers = [
     products: [
       {
         id: 1,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -162,7 +171,7 @@ const headers = [
       },
       {
         id: 2,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -170,7 +179,7 @@ const headers = [
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -178,7 +187,7 @@ const headers = [
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -186,7 +195,7 @@ const headers = [
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -200,7 +209,7 @@ const headers = [
     products: [
       {
         id: 1,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -208,7 +217,7 @@ const headers = [
       },
       {
         id: 2,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -216,7 +225,7 @@ const headers = [
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -224,7 +233,7 @@ const headers = [
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -232,7 +241,7 @@ const headers = [
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -246,7 +255,7 @@ const headers = [
     products: [
       {
         id: 1,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -254,7 +263,7 @@ const headers = [
       },
       {
         id: 2,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -262,7 +271,7 @@ const headers = [
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -270,7 +279,7 @@ const headers = [
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -278,7 +287,7 @@ const headers = [
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -292,7 +301,7 @@ const headers = [
     products: [
       {
         id: 1,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -300,7 +309,7 @@ const headers = [
       },
       {
         id: 2,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -308,7 +317,7 @@ const headers = [
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -316,7 +325,7 @@ const headers = [
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -324,7 +333,7 @@ const headers = [
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -338,7 +347,7 @@ const headers = [
     products: [
       {
         id: 1,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -346,7 +355,7 @@ const headers = [
       },
       {
         id: 2,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -354,7 +363,7 @@ const headers = [
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -362,7 +371,7 @@ const headers = [
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -370,7 +379,7 @@ const headers = [
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -384,7 +393,7 @@ const headers = [
     products: [
       {
         id: 1,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -392,7 +401,7 @@ const headers = [
       },
       {
         id: 2,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -400,7 +409,7 @@ const headers = [
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -408,7 +417,7 @@ const headers = [
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -416,7 +425,7 @@ const headers = [
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -430,7 +439,7 @@ const headers = [
     products: [
       {
         id: 1,
-        title: 'Heineken',
+        name: 'Heineken',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -438,7 +447,7 @@ const headers = [
       },
       {
         id: 2,
-        title: 'Budweiser',
+        name: 'Budweiser',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -446,7 +455,7 @@ const headers = [
       },
       {
         id: 3,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -454,7 +463,7 @@ const headers = [
       },
       {
         id: 4,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -462,7 +471,7 @@ const headers = [
       },
       {
         id: 5,
-        title: 'hamburguer da casa',
+        name: 'hamburguer da casa',
         description: 'O melhor hamburger de todos os tempos! Venha conferir! Vale muito a pena',
         price: 24.9,
         additional: false,
@@ -471,6 +480,10 @@ const headers = [
     ],
   },
 ];
+
+function filteredList() {
+  return datas.filter((d) => d.title.toLowerCase().includes(input.value.toLowerCase()));
+}
 
 </script>
 
