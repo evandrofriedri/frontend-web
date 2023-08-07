@@ -3,20 +3,18 @@
     <div id="menu-button" @click="isOpenMenu = !isOpenMenu" @keypress="isOpenMenu = !isOpenMenu">
       <MenuButton icon="fa-solid fa-bars" />
     </div>
-    <div id="search-button" @click="searchProduct" @keypress="searchProduct">
-      <MenuButton icon="fa-solid fa-magnifying-glass" />
-    </div>
   </div>
   <Transition name="slide">
     <div v-if="isOpenMenu" ref="blur" class="fixed p-2 top-0 w-[270px] left-0 h-screen z-50 bg-gray-700 flex-col">
-      <MenuItemBar icon="fa-solid fa-circle-user" label="Entre ou Cadastre-se" route="/login" />
+      <MenuItemBar icon="fa-solid fa-circle-user" :label="firstName[0]" :description="email" route="/login" />
+      <SubMenuItemBar icon="fa-solid fa-user-gear" label="Gerenciar Conta" route="/userConfig" />
+      <SubMenuItemBar icon="fa-solid fa-rectangle-list" label="Meus Pedidos" route="/orders" />
+      <SubMenuItemBar icon="fa-solid fa-location-dot" label="Meus Endereços" route="/address" />
       <MenuSeparator />
       <MenuItemBar v-if="admin" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/userAdmin" />
       <MenuItemBar v-if="admin" icon="fa-solid fa-list-check" label="Gerenciar Cardápio" route="/menuAdmin" />
       <MenuSeparator v-if="admin" />
       <MenuItemBar icon="fa-solid fa-utensils" label="Cardápio" route="/" />
-      <MenuItemBar icon="fa-solid fa-rectangle-list" label="Meus Pedidos" route="/orders" />
-      <MenuItemBar icon="fa-solid fa-location-dot" label="Endereços" route="/address" />
       <MenuItemBar icon="fa-solid fa-circle-info" label="Informações" route="/about" />
       <MenuSeparator />
       <div class="">
@@ -25,7 +23,7 @@
     </div>
   </Transition>
   <Transition name="fade">
-    <div v-if="isOpenMenu" class="fixed top-0 left-0 bg-black/50 min-h-screen z-10 w-full" />
+    <div v-if="isOpenMenu" class="fixed top-0 left-0 bg-black/50 min-h-screen z-20 w-full" />
   </Transition>
 </template>
 
@@ -36,10 +34,14 @@ import LogoApp from './LogoApp.vue';
 import MenuButton from './MenuButton.vue';
 import MenuItemBar from './MenuItemBar.vue';
 import MenuSeparator from './MenuSeparator.vue';
+import SubMenuItemBar from './SubMenuItemBar.vue';
 
 const isOpenMenu = ref(false);
 const blur = ref(null);
 
+const fullName = ref('Evandro Mathias Friedrichsen');
+const firstName = fullName.value.split(' ');
+const email = 'evandrofriedri@gmail.com';
 const admin = ref(true);
 
 onClickOutside(blur, () => {

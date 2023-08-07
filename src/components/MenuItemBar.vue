@@ -1,18 +1,25 @@
 <template>
   <router-link :to="route">
-    <div class="flex flex-row items-center px-2 py-4 hover:bg-gray-900 cursor-pointer rounded duration-300 text-white">
+    <div class="flex items-center px-2 py-4 hover:bg-gray-900 cursor-pointer rounded duration-300 text-white">
       <font-awesome-icon :icon="icon" size="xl" class="basis-1/12 w-5" />
-      <span class="basis-10/12 ml-3 ">{{ label }}</span>
-      <font-awesome-icon icon="fa-solid fa-chevron-right" size="sm" class="basis-1/12" />
+      <div class="basis-11/12 ml-2">
+        <div> {{ label }} </div>
+        <div v-if="description != ''" class="text-xs text-gray-400">
+          {{ description }}
+        </div>
+      </div>
     </div>
   </router-link>
 </template>
 
 <script setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 defineProps({
   label: {
+    type: String,
+    default: '',
+  },
+  description: {
     type: String,
     default: '',
   },
