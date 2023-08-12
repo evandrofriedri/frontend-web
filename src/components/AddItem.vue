@@ -2,7 +2,7 @@
   <div class="flex">
     <button
       type="button"
-      class="px-1.5 cursor-pointer text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded"
+      class="px-1.5 text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded"
       @click="decrease();$emit('decrementCount', { count: count, additional: additional })"
     >
       <font-awesome-icon icon="fa-solid fa-minus" size="2xs" />
@@ -12,7 +12,7 @@
     </div>
     <button
       type="button"
-      class="px-1.5 cursor-pointer text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded"
+      class="px-1.5 text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded"
       @click="increase();$emit('incrementCount', { count: count, additional: additional })"
     >
       <font-awesome-icon icon="fa-solid fa-plus" size="2xs" />
@@ -21,7 +21,7 @@
       {{ additional.name }}
     </div>
   </div>
-  <div>+ {{ additional.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</div>
+  <div> {{ additional.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</div>
 </template>
 
 <script setup>
