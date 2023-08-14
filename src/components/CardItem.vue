@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 flex rounded bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalOpen = true" @keydown="isModalOpen = true">
+  <div class="p-3 flex rounded bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
     <div class="flex flex-col pr-5">
       <p class="mb-2 text-lg font-medium text-gray-900">
         {{ props.product.name }}
@@ -17,15 +17,16 @@
   </div>
   <Teleport to="#modal">
     <Transition name="modal">
-      <div v-if="isModalOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
+      <div v-if="isModalCardItemOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
         <div ref="modal" class="relative bg-white rounded shadow-lg">
-          <button type="button" class="absolute top-3 right-3 bg-none cursor-pointer" @click="isModalOpen = false">
-            <font-awesome-icon icon="fa-solid fa-xmark" />
+          <button type="button" class="absolute top-0 right-0 -mt-5 -mr-5 bg-none" @click="isModalCardItemOpen = false">
+            <font-awesome-icon icon="fa-solid fa-xmark" size="xl" />
           </button>
           <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow rounded">
             <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
               <img :src="props.product.image" class="object-cover h-48 w-full" alt="" />
             </div>
+            {{ itemCart }}
             <div class="p-4 flex flex-col">
               <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
                 {{ props.product.name }}
@@ -50,15 +51,15 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="p-4">
-              <label>
+              <label class="mt-2">
                 <div class="text-base text-gray-800">Observações</div>
                 <textarea
+                  v-model="observation"
                   class="w-full"
                   rows="2"
-                  placeholder="Ex: Retirar cebola, retirar molho..."
+                  placeholder="Ex:Retirar cebola, retirar molho..."
                   maxlength="80"
+                  @change="setObservation"
                 /></label>
             </div>
             <div class="p-4 flex text-justify items-center">
@@ -66,10 +67,14 @@
                 <ToggleCount @toggle-qtde-product="toggleQtdeProduct" />
               </div>
               <div class="w-3/5">
-                <button type="button" class="inline-block w-full p-3 leading-none text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded" @click="addCart();isModalOpen = false">
+                <button
+                  type="button"
+                  class="inline-block w-full p-3 leading-none text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded"
+                  @click="addItemCart();updateCart();isModalCardItemOpen = false"
+                >
                   <font-awesome-icon icon="fa-solid fa-cart-shopping" />
                   Adicionar
-                  {{ totalProduct.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
+                  {{ totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
                 </button>
               </div>
             </div>
@@ -81,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import ToggleCount from './ToggleCount.vue';
 import AddItem from './AddItem.vue';
@@ -95,38 +100,55 @@ const props = defineProps({
   },
 });
 
-const isModalOpen = ref(false);
+const isModalCardItemOpen = ref(false);
 const modal = ref(null);
-
+const emitter = inject('emitter');
 const qtdeProduct = ref(1);
 const totalAdditional = ref(0);
+const observation = ref('');
 const totalProduct = ref(qtdeProduct.value * props.product.price);
+const totalItemCart = ref(qtdeProduct.value * props.product.price);
 
 const itemCart = {
   id: props.product.id,
   qtde: qtdeProduct.value,
   name: props.product.name,
   additionals: [],
-  total: totalProduct.value,
+  observation: '',
+  totalProduct: totalProduct.value,
+  totalItemCart: totalItemCart.value,
 };
 
 onClickOutside(modal, () => {
-  isModalOpen.value = false;
+  isModalCardItemOpen.value = false;
 });
 
-function refreshTotal() {
+function updateTotal() {
+  itemCart.additionals.forEach((item) => {
+    let countTemp = 0;
+    let totalTemp = 0;
+    countTemp = item.count * qtdeProduct.value;
+    totalTemp = countTemp * item.price;
+    // eslint-disable-next-line no-param-reassign
+    item.multCount = countTemp;
+    // eslint-disable-next-line no-param-reassign
+    item.total = totalTemp;
+  });
   // eslint-disable-next-line
   totalAdditional.value = itemCart.additionals.map((item) => item.total).reduce((prev, curr) => prev + curr, 0);
 
-  totalProduct.value = (qtdeProduct.value * (totalAdditional.value + props.product.price));
+  totalProduct.value = (qtdeProduct.value * props.product.price);
+  totalItemCart.value = ((qtdeProduct.value * props.product.price) + totalAdditional.value);
+
   itemCart.qtde = qtdeProduct.value;
-  itemCart.total = totalProduct.value;
+  itemCart.totalProduct = totalProduct.value;
+  itemCart.totalItemCart = totalItemCart.value;
 }
 
 function toggleQtdeProduct(data) {
   qtdeProduct.value = data.qtde;
 
-  refreshTotal();
+  updateTotal();
 }
 
 function decrementAdditional(data) {
@@ -135,48 +157,79 @@ function decrementAdditional(data) {
   if (searchIndex !== -1) {
     if (data.count !== 0) {
       itemCart.additionals[searchIndex].count = data.count;
+      itemCart.additionals[searchIndex].multCount = data.count;
+      itemCart.additionals[searchIndex].price = data.additional.price;
+      // eslint-disable-next-line vue/max-len
       itemCart.additionals[searchIndex].total = data.count * data.additional.price;
     } else {
       itemCart.additionals.splice(searchIndex, 1);
     }
   }
-  refreshTotal();
+  updateTotal();
 }
 
 function incrementAdditional(data) {
   const searchIndex = itemCart.additionals.findIndex((s) => s.name === data.additional.name);
-
   if (searchIndex !== -1) {
     if (data.count !== 0) {
       itemCart.additionals[searchIndex].count = data.count;
+      itemCart.additionals[searchIndex].multCount = data.count;
+      itemCart.additionals[searchIndex].price = data.additional.price;
+      // eslint-disable-next-line vue/max-len
       itemCart.additionals[searchIndex].total = data.count * data.additional.price;
     }
   } else {
     itemCart.additionals.push({
       id: data.additional.id,
       count: 1,
+      multCount: 1,
+      price: data.additional.price,
       name: data.additional.name,
       total: data.additional.price,
     });
   }
-  refreshTotal();
+  updateTotal();
 }
 
-function addCart() {
-  let cartItems;
-  if (localStorage.getItem('cartItems') === null) {
-    cartItems = [];
+function setObservation() {
+  itemCart.observation = observation.value;
+}
+
+function resetItem() {
+  qtdeProduct.value = 1;
+  totalAdditional.value = 0;
+  observation.value = '';
+  totalProduct.value = (qtdeProduct.value * props.product.price);
+  totalItemCart.value = (qtdeProduct.value * props.product.price);
+
+  itemCart.qtde = qtdeProduct.value;
+  itemCart.additionals = [];
+  itemCart.observation = '';
+  itemCart.totalProduct = qtdeProduct.value * props.product.price;
+  itemCart.totalItemCart = qtdeProduct.value * props.product.price;
+}
+
+function addItemCart() {
+  let itemsCart;
+  if (localStorage.getItem('itemsCart') === null) {
+    itemsCart = [];
   } else {
-    cartItems = JSON.parse(localStorage.getItem('cartItems'));
+    itemsCart = JSON.parse(localStorage.getItem('itemsCart'));
   }
 
-  cartItems.push(itemCart);
-  localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  itemsCart.push(itemCart);
+  localStorage.setItem('itemsCart', JSON.stringify(itemsCart));
+
+  resetItem();
 }
 
+function updateCart() {
+  emitter.emit('update');
+}
 </script>
 
-<style scoped>.modal-enter-active,
+<style scoped>
+.modal-enter-active,
 .modal-leave-active {
   transition: all 0.3s ease;
 }
@@ -185,4 +238,5 @@ function addCart() {
 .modal-leave-to {
   opacity: 0;
   transform: scale(1.1);
-}</style>
+}
+</style>

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import FooterBar from '../FooterBar.vue';
-import MenuBar from '../MenuBar.vue';
+import FooterBar from '../components/FooterBar.vue';
+import MenuBar from '../components/MenuBar.vue';
 
 export default {
   components: { MenuBar, FooterBar },
