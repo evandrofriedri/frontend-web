@@ -26,7 +26,6 @@
             <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
               <img :src="props.product.image" class="object-cover h-48 w-full" alt="" />
             </div>
-            {{ itemCart }}
             <div class="p-4 flex flex-col">
               <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
                 {{ props.product.name }}
@@ -86,7 +85,7 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
+import { ref, inject, reactive } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import ToggleCount from './ToggleCount.vue';
 import AddItem from './AddItem.vue';
@@ -109,7 +108,7 @@ const observation = ref('');
 const totalProduct = ref(qtdeProduct.value * props.product.price);
 const totalItemCart = ref(qtdeProduct.value * props.product.price);
 
-const itemCart = {
+const itemCart = reactive({
   id: props.product.id,
   qtde: qtdeProduct.value,
   name: props.product.name,
@@ -117,7 +116,7 @@ const itemCart = {
   observation: '',
   totalProduct: totalProduct.value,
   totalItemCart: totalItemCart.value,
-};
+});
 
 onClickOutside(modal, () => {
   isModalCardItemOpen.value = false;

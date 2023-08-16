@@ -22,11 +22,16 @@
             <font-awesome-icon icon="fa-solid fa-xmark" size="xl" />
           </button>
           <div class="p-4 mx-auto w-screen h-screen sm:h-auto md:w-[768px] lg:w-[1024px] bg-white shadow rounded">
-            <h1 class="text-lg text-gray-800 font-semibold text-justify">
-              Itens Adicionados
-            </h1>
-            <div class="flex flex-col h-72 md:h-[600px] overflow-auto">
-              <div v-for="(item, index) in market" :key="index" class="text-base text-gray-800 border p-2 mt-1">
+            <div class="flex">
+              <button class="sm:hidden pr-3" type="button" @click="isModalCartOpen = false">
+                <font-awesome-icon icon="fa-solid fa-chevron-left" size="lg" />
+              </button>
+              <h1 class="text-lg text-gray-800 font-semibold text-justify">
+                Itens Adicionados
+              </h1>
+            </div>
+            <div class="flex flex-col max-h-72 md:max-h-[600px] overflow-auto border rounded p-2">
+              <div v-for="(item, index) in market" :key="index" class="text-base text-gray-800 border rounded p-2 mt-1">
                 <div class="flex justify-between text-justify">
                   <p class="font-medium">
                     {{ item.qtde }}x {{ item.name }}&nbsp;&nbsp;
@@ -61,29 +66,48 @@
                   <p>Total Item</p> <p>{{ item.totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
                 </div>
               </div>
-              <div class="flex justify-between text-lg text-gray-800 font-semibold pt-2">
-                <p>Subtotal</p> <p>{{ subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
+              <div v-if="market.length == 0" class="flex justify-center items-center italic text-xl text-gray-800 p-4">
+                <font-awesome-icon icon="fa-solid fa-store" size="2xl" />
+                <h1>Nenhum item no carrinho, retorne ao cardápio para adicionar seu produto!</h1>
               </div>
             </div>
-            <div class="flex justify-between text-lg text-gray-800 font-semibold text-right pt-2">
+            <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold pb-4">
+              <p>Subtotal</p> <p>{{ subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
+            </div>
+            <div v-if="market.length > 0" class="flex justify-between items-center p-2 border rounded">
+              <div class="flex flex-col items-baseline">
+                <div class="flex items-center">
+                  <input id="delivery-radio-1" :checked="forDelivery" type="radio" value="" name="delivery-radio" class="w-4 h-4 text-gray-800 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('deliver')">
+                  <label for="delivery-radio-1" :checked="!forDelivery" class="w-full ml-2 text-base font-medium text-gray-900">Para entregar</label>
+                </div>
+                <div class="flex items-center">
+                  <input id="delivery-radio-2" type="radio" value="" name="delivery-radio" class="w-4 h-4 text-gray-800 border-gray-300 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('local')">
+                  <label for="delivery-radio-2" class="w-full ml-2 text-base font-medium text-gray-900">Buscar na loja</label>
+                </div>
+              </div>
+              <LayoutItem icon="fa-solid fa-map-location-dot" :label="address.label" :description="address.description" />
+            </div>
+            <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold text-right pb-4">
               <p>Entrega</p><p> {{ delivery.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
             </div>
-            <h1 class="text-lg text-gray-800 font-medium text-justify">
-              Para entrega ou Buscar no local:
-            </h1>
-            <h1 class="text-lg text-gray-800 font-medium text-justify">
-              Forma de Pagamento:
-            </h1>
+            <div v-if="market.length > 0" class="flex justify-between items-center text-gray-800 pb-4">
+              <p class="text-lg font-semibold">
+                Forma de Pagamento
+              </p>
+              <p class="italic">
+                Na entrega do pedido
+              </p>
+            </div>
+            <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold pb-4">
+              <p>Total</p> <p>{{ total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
+            </div>
             <div class="flex text-justify items-center">
-              <div class="w-2/5">
-                teste
-              </div>
+              <div class="w-2/5" />
               <div v-if="market.length > 0" class="w-3/5">
                 <button
                   id="btnConfirmOrder"
                   type="button"
                   class="inline-block w-full p-3 leading-none text-white bg-gray-700 disabled:bg-slate-300 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded"
-
                   @click="confirmOrder();cleanCart();isModalCartOpen = false"
                 >
                   <font-awesome-icon icon="fa-solid fa-check" size="lg" />
@@ -99,12 +123,24 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
+import {
+  ref,
+  inject,
+  reactive,
+  onMounted,
+} from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import LayoutItem from './LayoutItem.vue';
 
 const market = ref([]);
 const subTotal = ref(0);
+const total = ref(0);
 const delivery = ref(0);
+const forDelivery = ref(true);
+const address = reactive({
+  label: '',
+  description: '',
+});
 const isModalCartOpen = ref(false);
 const modal = ref(null);
 const animationBtn = ref(false);
@@ -113,6 +149,12 @@ const emitter = inject('emitter');
 onClickOutside(modal, () => {
   isModalCartOpen.value = false;
 });
+
+function loadData() {
+  address.label = 'Rua Dona Lucia, 145';
+  address.description = 'Jardim Porto Alegre';
+  delivery.value = 14.9;
+}
 
 function warnDisabled() {
   animationBtn.value = true;
@@ -132,6 +174,8 @@ function updateCart() {
   if (items !== null) {
     subTotal.value = items.map((i) => i.totalItemCart).reduce((prev, curr) => prev + curr, 0);
   }
+
+  total.value = (subTotal.value + delivery.value);
   warnDisabled();
 }
 
@@ -156,6 +200,25 @@ function cleanCart() {
   updateCart();
   console.log('carrinho limpo');
 }
+
+function updateDelivery(option) {
+  if (option === 'deliver') {
+    address.label = 'Rua Dona Lucia, 145';
+    address.description = 'Jardim Porto Alegre';
+    delivery.value = 14.90;
+    forDelivery.value = true;
+  } else {
+    address.label = 'Rua Santo Dumont, 1234';
+    address.description = 'Centro';
+    delivery.value = 0;
+    forDelivery.value = false;
+  }
+  updateCart();
+}
+
+onMounted(() => {
+  loadData();
+});
 
 emitter.on('update', () => {
   updateCart();
