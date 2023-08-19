@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="px-2.5 py-1 text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded"
+    class="px-2.5 py-1 text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded-xl"
     @click="decrease();$emit('toggleQtdeProduct', { qtde: qtde })"
   >
     <font-awesome-icon icon="fa-solid fa-minus" size="sm" />
@@ -11,7 +11,7 @@
   </div>
   <button
     type="button"
-    class="px-2.5 py-1 text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded"
+    class="px-2.5 py-1 text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded-xl"
     @click="increase();$emit('toggleQtdeProduct', { qtde: qtde })"
   >
     <font-awesome-icon icon="fa-solid fa-plus" size="sm" />

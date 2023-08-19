@@ -5,7 +5,8 @@
         <input
           v-model="input"
           class="appearance-none inline w-full py-1.5 px-2 leading-tight
-          text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200 rounded focus:outline-none"
+          text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200
+          rounded-xl focus:outline-none"
           type="text"
           placeholder="Procure seu produto..."
         />
