@@ -22,11 +22,14 @@
             <span class="mx-4 text-gray-200">ou</span>
             <div class="flex-grow border-t border-gray-200" />
           </div>
-          <form action="">
-            <BaseInput id="email" v-model="email" label="Seu email" type="email" placeholder="E-mail" />
-            <BaseInput id="senha" v-model="senha" label="Senha" type="password" placeholder="Senha" />
+          <form action="" @submit.prevent="submitForm">
+            <BaseInput id="email" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
+            <BaseInput id="senha" v-model="formData.password" label="Senha" type="password" placeholder="Senha" :errors="v$.password.$errors" />
             <div class="mb-4">
-              <button class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded" type="submit">
+              <button
+                class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded"
+                type="submit"
+              >
                 Entrar
               </button>
             </div>
@@ -52,10 +55,38 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { reactive, computed } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import {
+  required, email, helpers,
+} from '@vuelidate/validators';
 import BaseInput from '../components/BaseInput.vue';
 
-const email = ref('');
-const senha = ref('');
+const formData = reactive({
+  userEmail: '',
+  password: '',
+});
+
+const rules = computed(() => ({
+  userEmail: {
+    required: helpers.withMessage('Campo obrigatório', required),
+    email: helpers.withMessage('Insira um email válido', email),
+  },
+  password: {
+    required: helpers.withMessage('Campo obrigatório', required),
+  },
+}));
+
+const v$ = useVuelidate(rules, formData);
+
+const submitForm = async () => {
+  const result = await v$.value.$validate();
+
+  if (result) {
+    console.log('fomr enviado!');
+  } else {
+    console.log('nao enviado!');
+  }
+};
 
 </script>

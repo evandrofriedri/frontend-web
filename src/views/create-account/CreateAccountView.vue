@@ -14,7 +14,8 @@
           </h2>
           <form action="" @submit.prevent="submitForm">
             <BaseInput id="username" v-model="formData.userName" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.userName.$errors" />
-            <BaseInput id="userEmail" v-model="formData.userEmail" label="Email" type="email" placeholder="Email" :errors="v$.userEmail.$errors" />
+            <BaseInput id="userEmail" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
+            <BaseInput id="cellphone" v-model="formData.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
             <BaseInput id="password" v-model="formData.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
             <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
             <div class="mb-4">
@@ -38,13 +39,27 @@ import {
   required, email, sameAs, minLength, helpers,
 } from '@vuelidate/validators';
 import { reactive, computed } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import BaseInput from '../../components/BaseInput.vue';
 
 const formData = reactive({
   userName: '',
   userEmail: '',
+  cellphone: '',
   password: '',
   confirmPassword: '',
+});
+
+const number = helpers.regex(
+  /^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$/,
+);
+
+useEventListener(document, 'input', (evt) => {
+  if (evt.target.name === 'cellphone') {
+    const x = evt.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+    // eslint-disable-next-line no-param-reassign
+    evt.target.value = !x[2] ? x[1] : `(${x[1]}) ${x[2]}${x[3] ? `-${x[3]}` : ''}`;
+  }
 });
 
 const rules = computed(() => ({
@@ -52,6 +67,10 @@ const rules = computed(() => ({
   userEmail: {
     required: helpers.withMessage('Campo obrigatório', required),
     email: helpers.withMessage('Insira um email válido', email),
+  },
+  cellphone: {
+    required: helpers.withMessage('Campo obrigatório', required),
+    number: helpers.withMessage('Formato inválido Ex: (xx) xxxxx-xxxx', number),
   },
   password: {
     required: helpers.withMessage('Campo obrigatório', required),

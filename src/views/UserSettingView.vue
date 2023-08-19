@@ -11,7 +11,7 @@
             <div class="flex flex-col md:flex-row">
               <div class="basis-1/2 pr-2">
                 <BaseInput id="username" v-model="formData.userName" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.userName.$errors" />
-                <BaseInput id="userEmail" v-model="formData.userEmail" label="Email" type="email" placeholder="Email" :errors="v$.userEmail.$errors" />
+                <BaseInput id="userEmail" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
                 <BaseInput id="cellphone" v-model="formData.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
               </div>
               <div class="basis-1/2">
