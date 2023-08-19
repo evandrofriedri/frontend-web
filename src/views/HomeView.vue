@@ -27,6 +27,10 @@
         />
       </div>
     </section>
+    <div v-if="foundProduct === 0" class="flex justify-center items-center italic text-xl text-gray-800 p-4">
+      <font-awesome-icon icon="fa-solid fa-magnifying-glass" size="2xl" />
+      <h1>Produto não encontrado!</h1>
+    </div>
   </div>
 </template>
 
@@ -40,6 +44,7 @@ import ShoppingCart from '../components/ShoppingCart.vue';
 const currentSection = ref('');
 const input = ref('');
 const emitter = inject('emitter');
+const foundProduct = ref(0);
 
 function updateCart() {
   emitter.emit('update');
@@ -533,8 +538,14 @@ const datas = [
   },
 ];
 
+function thereIsProduct(obj) {
+  foundProduct.value = Object.values(obj).length;
+}
+
 function filteredList() {
-  return datas.filter((d) => d.title.toLowerCase().includes(input.value.toLowerCase()));
+  const filtData = datas.filter((d) => d.title.toLowerCase().includes(input.value.toLowerCase()));
+  thereIsProduct(filtData);
+  return filtData;
 }
 
 </script>

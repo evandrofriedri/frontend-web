@@ -7,7 +7,7 @@ import {
   faUsersGear, faListCheck, faCircleInfo, faXmark, faMinus, faPlus,
   faCartShopping, faUserGear, faCheck, faChevronLeft, faStore,
   faMapLocationDot, faExclamationTriangle, faArrowRightToBracket,
-  faArrowRightFromBracket,
+  faArrowRightFromBracket, faListOl,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -44,6 +44,7 @@ const icons = {
   faExclamationTriangle,
   faArrowRightToBracket,
   faArrowRightFromBracket,
+  faListOl,
 };
 
 export default icons;
