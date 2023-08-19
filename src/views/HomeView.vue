@@ -1,18 +1,14 @@
 <template>
   <div class="fixed z-10 right-2 top-3">
     <div id="search-button" class="items-center">
-      <!-- <label>
+      <label>
         <input
           v-model="input"
-          class="appearance-none inline w-full py-1.5 px-2 leading-tight
-          text-gray-700 bg-gray-50 focus:bg-white borde border-gray-200
-          rounded-xl focus:outline-none"
+          class="appearance-none block w-full py-1.5 px-2 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 rounded-xl focus:border-gray-500 focus:outline-none"
           type="text"
           placeholder="Procure seu produto..."
         />
-      </label> -->
-      <!-- <BaseInput id="search" v-model="input" label="" type="text"
-         placeholder="Procure seu produto" /> -->
+      </label>
     </div>
   </div>
   <ShoppingCart />
@@ -40,7 +36,6 @@ import MenuItemSticky from '../components/MenuItemSticky.vue';
 import CardItem from '../components/CardItem.vue';
 import SectionTitle from '../components/SectionTitle.vue';
 import ShoppingCart from '../components/ShoppingCart.vue';
-// import BaseInput from '../components/BaseInput.vue';
 
 const currentSection = ref('');
 const input = ref('');
