@@ -1,7 +1,9 @@
 <template>
-  <component :is="layout">
-    <router-view />
-  </component>
+  <div class="bg-gray-100">
+    <component :is="layout">
+      <router-view />
+    </component>
+  </div>
 </template>
 
 <script>

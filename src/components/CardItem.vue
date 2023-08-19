@@ -24,7 +24,7 @@
           </button>
           <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow rounded">
             <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
-              <img :src="props.product.image" class="object-cover h-48 w-full" alt="" />
+              <img :src="props.product.image" class="object-cover h-48 w-full rounded-t" alt="" />
             </div>
             <div class="p-4 flex flex-col">
               <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
