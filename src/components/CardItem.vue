@@ -66,15 +66,11 @@
                 <ToggleCount @toggle-qtde-product="toggleQtdeProduct" />
               </div>
               <div class="w-3/5">
-                <button
-                  type="button"
-                  class="inline-block w-full p-3 leading-none text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded-xl"
+                <FormButton
+                  icon="fa-solid fa-cart-shopping"
+                  :description="'Adicionar ' + totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })"
                   @click="addItemCart();updateCart();isModalCardItemOpen = false"
-                >
-                  <font-awesome-icon icon="fa-solid fa-cart-shopping" />
-                  Adicionar
-                  {{ totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
-                </button>
+                />
               </div>
             </div>
           </div>
@@ -89,6 +85,7 @@ import { ref, inject, reactive } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import ToggleCount from './ToggleCount.vue';
 import AddItem from './AddItem.vue';
+import FormButton from './FormButton.vue';
 
 const props = defineProps({
   product: {

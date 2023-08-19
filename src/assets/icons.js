@@ -6,7 +6,8 @@ import {
   faUtensils, faRectangleList, faChevronRight, faLocationDot,
   faUsersGear, faListCheck, faCircleInfo, faXmark, faMinus, faPlus,
   faCartShopping, faUserGear, faCheck, faChevronLeft, faStore,
-  faMapLocationDot, faExclamationTriangle,
+  faMapLocationDot, faExclamationTriangle, faArrowRightToBracket,
+  faArrowRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -41,6 +42,8 @@ const icons = {
   faMapLocationDot,
   faFloppyDisk,
   faExclamationTriangle,
+  faArrowRightToBracket,
+  faArrowRightFromBracket,
 };
 
 export default icons;

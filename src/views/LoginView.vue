@@ -13,7 +13,7 @@
             Entrar
           </h2>
           <div class="mt-4 mb-4">
-            <button class="inline-block w-full py-4 px-8 leading-none text-gray-700 bg-gray-50 border  hover:bg-gray-200 font-semibold rounded-xl" type="submit">
+            <button class="inline-block w-full p-3.5 leading-none text-gray-700 bg-gray-50 border hover:bg-gray-200 font-semibold rounded-xl" type="submit">
               <font-awesome-icon icon="fa-brands fa-google" /> Fazer login com o Google
             </button>
           </div>
@@ -26,12 +26,11 @@
             <BaseInput id="email" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
             <BaseInput id="senha" v-model="formData.password" label="Senha" type="password" placeholder="Senha" :errors="v$.password.$errors" />
             <div class="mb-4">
-              <button
-                class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded-xl"
-                type="submit"
-              >
-                Entrar
-              </button>
+              <FormButton
+                btn-type="submit"
+                icon="fa-solid fa-arrow-right-to-bracket"
+                description="Entrar"
+              />
             </div>
             <div class="mb-4">
               <p><a href="" class="font-semibold text-gray-900">Esqueceu a senha?</a></p>
@@ -61,6 +60,7 @@ import {
   required, email, helpers,
 } from '@vuelidate/validators';
 import BaseInput from '../components/BaseInput.vue';
+import FormButton from '../components/FormButton.vue';
 
 const formData = reactive({
   userEmail: '',

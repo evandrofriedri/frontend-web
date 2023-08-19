@@ -19,12 +19,11 @@
             <BaseInput id="password" v-model="formData.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
             <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
             <div class="mb-4">
-              <button
-                class="inline-block w-full py-4 px-8 leading-none text-white bg-gray-700 hover:bg-gray-900 font-semibold rounded-xl"
-                type="submit"
-              >
-                Cadastrar
-              </button>
+              <FormButton
+                btn-type="submit"
+                icon="fa-regular fa-floppy-disk"
+                description="Cadastrar"
+              />
             </div>
           </form>
         </div>
@@ -41,6 +40,7 @@ import {
 import { reactive, computed } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import BaseInput from '../../components/BaseInput.vue';
+import FormButton from '../../components/FormButton.vue';
 
 const formData = reactive({
   userName: '',

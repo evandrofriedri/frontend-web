@@ -1,17 +1,14 @@
 <template>
   <div v-if="market.length > 0" class="fixed z-10 inset-x-0 bottom-2 right-2 left-2">
     <div id="cart" :class="{ shake: animationBtn }">
-      <button
-        type="button"
-        class="inline-block w-full p-3 leading-none text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded-xl"
+      <FormButton
+        icon="fa-solid fa-cart-shopping"
+        description="Carrinho"
         @click="isModalCartOpen = true"
-      >
-        <font-awesome-icon icon="fa-solid fa-cart-shopping" />
-        Carrinho
-        <div class="absolute top-0 right-0 -mt-2 -mr-2 px-2 py-1 bg-red-500 rounded-full">
-          {{ market.length }}
-        </div>
-      </button>
+      />
+      <div class="absolute leading-none text-white font-semibold top-0 right-0 -mt-2 -mr-2 px-2 py-1 bg-red-500 rounded-full">
+        {{ market.length }}
+      </div>
     </div>
   </div>
   <Teleport to="#modal">
@@ -104,15 +101,11 @@
             <div class="flex text-justify items-center">
               <div class="w-2/5" />
               <div v-if="market.length > 0" class="w-3/5">
-                <button
-                  id="btnConfirmOrder"
-                  type="button"
-                  class="inline-block w-full p-3 leading-none text-white bg-gray-700 disabled:bg-slate-300 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded-xl"
+                <FormButton
+                  icon="fa-solid fa-check"
+                  description="Confirmar Pedido"
                   @click="confirmOrder();cleanCart();isModalCartOpen = false"
-                >
-                  <font-awesome-icon icon="fa-solid fa-check" size="lg" />
-                  Confirmar Pedido
-                </button>
+                />
               </div>
             </div>
           </div>
@@ -131,6 +124,7 @@ import {
 } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import LayoutItem from './LayoutItem.vue';
+import FormButton from './FormButton.vue';
 
 const market = ref([]);
 const subTotal = ref(0);
