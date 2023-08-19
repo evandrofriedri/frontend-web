@@ -18,11 +18,11 @@
   <Teleport to="#modal">
     <Transition name="modal">
       <div v-if="isModalCardItemOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative bg-white rounded-xl shadow-lg">
+        <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
           <button type="button" class="absolute top-0 right-0 -mt-5 -mr-5 bg-none" @click="isModalCardItemOpen = false">
             <font-awesome-icon icon="fa-solid fa-xmark" size="xl" />
           </button>
-          <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow rounded-xl">
+          <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded-xl">
             <div class="bg-gray-50 justify-between bg-cover bg-center rounded-xl">
               <img :src="props.product.image" class="object-cover h-48 w-full rounded-t-xl" alt="" />
             </div>

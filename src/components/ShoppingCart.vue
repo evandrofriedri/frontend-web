@@ -14,11 +14,11 @@
   <Teleport to="#modal">
     <Transition name="modal">
       <div v-if="isModalCartOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative bg-white rounded-xl shadow-lg">
+        <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
           <button type="button" class="absolute top-0 right-0 -mt-5 -mr-5 bg-none" @click="isModalCartOpen = false">
             <font-awesome-icon icon="fa-solid fa-xmark" size="xl" />
           </button>
-          <div class="p-4 mx-auto w-screen h-screen sm:h-auto md:w-[768px] lg:w-[1024px] bg-white shadow rounded-xl">
+          <div class="p-4 mx-auto w-screen h-screen sm:h-auto md:w-[768px] lg:w-[1024px] bg-white shadow-2xl rounded-xl">
             <div class="flex">
               <button class="sm:hidden pr-3" type="button" @click="isModalCartOpen = false">
                 <font-awesome-icon icon="fa-solid fa-chevron-left" size="lg" />
