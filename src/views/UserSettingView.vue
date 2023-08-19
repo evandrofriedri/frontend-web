@@ -3,7 +3,7 @@
     <div class="flex w-full h-48" />
     <div class="flex flex-1 flex-col justify-center py-10 px-4 sm:px-6 lg:px-20">
       <div class="mx-auto w-full">
-        <div class="p-5 bg-white sm:shadow-md sm:rounded-xl">
+        <div class="p-5 bg-white sm:shadow-md sm:rounded-xl mb-3">
           <h2 class="mt-6 mb-6 text-3xl font-semibold text-gray-700">
             Dados da Conta
           </h2>
@@ -20,12 +20,26 @@
               </div>
             </div>
             <div class="flex">
-              <div class="w-1/2" />
-              <div class="w-1/2">
-                <FormButton btn-type="submit" icon="fa-regular fa-floppy-disk" description="Atualizar Dados" />
+              <div class="w-2/5 md:w-3/4" />
+              <div class="w-3/5 md:w-1/4">
+                <FormButton btn-type="submit" icon="fa-regular fa-floppy-disk" description="Salvar Dados" />
               </div>
             </div>
           </form>
+        </div>
+        <div class="p-5 bg-white sm:shadow-md sm:rounded-xl">
+          <h2 class="mt-6 mb-6 text-3xl font-semibold text-gray-700">
+            Apagar Conta
+          </h2>
+          <h1 class="text-gray-700">
+            Apaga todos os dados e histórico da conta.
+          </h1>
+          <div class="flex">
+            <div class="w-2/5 md:w-3/4" />
+            <div class="w-3/5 md:w-1/4">
+              <FormButton btn-type="submit" icon="fa-regular fa-trash-can" description="Apagar" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
