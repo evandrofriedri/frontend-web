@@ -2,12 +2,11 @@
  * Importação de Icones
  */
 import {
-  faBars, faCircleUser, faMagnifyingGlass, faList,
-  faUtensils, faRectangleList, faChevronRight, faLocationDot,
-  faUsersGear, faListCheck, faCircleInfo, faXmark, faMinus, faPlus,
+  faBars, faCircleUser, faMagnifyingGlass, faList, faMinus, faPlus,
+  faUtensils, faUsersGear, faListCheck, faCircleInfo, faXmark,
   faCartShopping, faUserGear, faCheck, faChevronLeft, faStore,
-  faMapLocationDot, faExclamationTriangle, faArrowRightToBracket,
-  faArrowRightFromBracket, faListOl,
+  faExclamationTriangle, faArrowRightToBracket, faAddressCard,
+  faArrowRightFromBracket, faListOl, faClockRotateLeft, faKitchenSet,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -23,9 +22,6 @@ const icons = {
   faGoogle,
   faList,
   faUtensils,
-  faRectangleList,
-  faChevronRight,
-  faLocationDot,
   faUsersGear,
   faListCheck,
   faCircleInfo,
@@ -39,12 +35,14 @@ const icons = {
   faPenToSquare,
   faChevronLeft,
   faStore,
-  faMapLocationDot,
   faFloppyDisk,
   faExclamationTriangle,
   faArrowRightToBracket,
   faArrowRightFromBracket,
   faListOl,
+  faClockRotateLeft,
+  faAddressCard,
+  faKitchenSet,
 };
 
 export default icons;

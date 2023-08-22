@@ -8,10 +8,10 @@
     <div v-if="isOpenMenu" ref="blur" class="fixed p-2 top-0 w-[270px] left-0 h-screen z-50 bg-gray-700 flex-col">
       <MenuItemBar icon="fa-solid fa-circle-user" :label="firstName[0]" :description="email" route="/login" />
       <SubMenuItemBar icon="fa-solid fa-user-gear" label="Gerenciar Conta" route="/userSetting" @click="toggleMenu()" />
-      <SubMenuItemBar icon="fa-solid fa-rectangle-list" label="Meus Pedidos" route="/orders" @click="toggleMenu()" />
-      <SubMenuItemBar icon="fa-solid fa-location-dot" label="Meus Endereços" route="/address" @click="toggleMenu()" />
+      <SubMenuItemBar icon="fa-solid fa-list-check" label="Meus Pedidos" route="/orders" @click="toggleMenu()" />
+      <SubMenuItemBar icon="fa-solid fa-address-card" label="Meus Endereços" route="/address" @click="toggleMenu()" />
       <MenuSeparator />
-      <MenuItemBar v-if="admin" icon="fa-solid fa-list-check" label="Gerenciar Pedidos" route="/orderAdmin" @click="toggleMenu()" />
+      <MenuItemBar v-if="admin" icon="fa-solid fa-kitchen-set" label="Gerenciar Pedidos" route="/orderAdmin" @click="toggleMenu()" />
       <MenuItemBar v-if="admin" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/userAdmin" @click="toggleMenu()" />
       <MenuItemBar v-if="admin" icon="fa-solid fa-list-ol" label="Gerenciar Cardápio" route="/menuAdmin" @click="toggleMenu()" />
       <MenuSeparator v-if="admin" />

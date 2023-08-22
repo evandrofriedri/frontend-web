@@ -17,6 +17,11 @@ const routes = [
     component: lazyLoad('UserSettingView'),
   },
   {
+    path: '/orders',
+    name: 'Orders',
+    component: lazyLoad('OrdersView'),
+  },
+  {
     path: '/login',
     name: 'Login',
     component: lazyLoad('LoginView'),
