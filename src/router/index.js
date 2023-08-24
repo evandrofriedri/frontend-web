@@ -22,6 +22,11 @@ const routes = [
     component: lazyLoad('OrdersView'),
   },
   {
+    path: '/address',
+    name: 'Address',
+    component: lazyLoad('AddressView'),
+  },
+  {
     path: '/login',
     name: 'Login',
     component: lazyLoad('LoginView'),
