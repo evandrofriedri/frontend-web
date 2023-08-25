@@ -22,9 +22,9 @@
     "core-js": "^3.8.3",
     "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
+    "sweetalert2": "^11.7.27",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3",
-    "vue-sweetalert2": "^5.0.5"
+    "vue-router": "^4.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
