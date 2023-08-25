@@ -1,44 +1,53 @@
 <template>
-  <div class="flex min-h-screen bg-white ">
-    <div class="flex-1 hidden lg:block relative w-0 px-20">
-      <div class="flex h-full justify-center items-center">
-        <img src="../../assets/undraw_sign_up_n6im.svg" alt="">
-      </div>
-    </div>
-    <div class="flex flex-1 flex-col justify-center py-10 px-4 sm:px-6 lg:px-20">
-      <div class="mx-auto w-full max-w-sm">
-        <div class="p-5 bg-white sm:shadow-2xl sm:rounded-xl">
-          <img src="../../assets/undraw_sign_up_n6im.svg" alt="" class="lg:hidden h-20 w-auto">
-          <h2 class="mt-6 mb-6 text-3xl font-semibold text-gray-700">
-            Criar seu cadastro
-          </h2>
-          <form action="" @submit.prevent="submitForm">
+  <div class="flex w-full h-48" />
+  <div class="flex flex-col container mx-auto py-10 px-4 sm:px-6 lg:px-20">
+    <h1 class="mb-5 text-xl font-semibold text-gray-700">
+      Dados da Conta
+    </h1>
+    <div class="p-5 bg-white shadow-md rounded-xl mb-3">
+      <form action="" @submit.prevent="submitForm">
+        <div class="flex flex-col md:flex-row">
+          <div class="basis-1/2 pr-2">
             <BaseInput id="username" v-model="formData.userName" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.userName.$errors" />
             <BaseInput id="userEmail" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
             <BaseInput id="cellphone" v-model="formData.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
-            <BaseInput id="password" v-model="formData.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
-            <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
-            <div class="mb-4">
-              <FormButton
-                btn-type="submit"
-                icon="fa-regular fa-floppy-disk"
-                description="Cadastrar"
-              />
-            </div>
-          </form>
+          </div>
+          <div class="basis-1/2">
+            <BaseInput id="password" v-model="formData.password" label="Nova senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
+            <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Confirmar senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
+          </div>
+        </div>
+        <div class="flex">
+          <div class="w-2/5 md:w-3/4" />
+          <div class="w-3/5 md:w-1/4">
+            <FormButton btn-type="submit" icon="fa-regular fa-floppy-disk" description="Salvar Dados" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <h1 class="mb-5 text-xl font-semibold text-gray-700">
+      Apagar Conta
+    </h1>
+    <div class="p-5 bg-white shadow-md rounded-xl">
+      <h1 class="text-gray-700">
+        Apaga todos os dados e histórico da conta.
+      </h1>
+      <div class="flex">
+        <div class="w-2/5 md:w-3/4" />
+        <div class="w-3/5 md:w-1/4">
+          <FormButton btn-type="submit" icon="fa-regular fa-trash-can" description="Apagar" />
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
+import { useEventListener } from '@vueuse/core';
 import {
   required, email, sameAs, minLength, helpers,
 } from '@vuelidate/validators';
 import { reactive, computed } from 'vue';
-import { useEventListener } from '@vueuse/core';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
 

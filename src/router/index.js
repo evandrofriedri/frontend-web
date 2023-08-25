@@ -12,9 +12,9 @@ const routes = [
     component: lazyLoad('HomeView'),
   },
   {
-    path: '/userSetting',
-    name: 'UserSetting',
-    component: lazyLoad('UserSettingView'),
+    path: '/account',
+    name: 'ListAccount',
+    component: lazyLoad('account/ListAccountView'),
   },
   {
     path: '/orders',
@@ -35,7 +35,7 @@ const routes = [
   {
     path: '/create-account',
     name: 'CreateAccount',
-    component: lazyLoad('create-account/CreateAccountView'),
+    component: lazyLoad('account/CreateAccountView'),
     meta: { layout: 'empty-layout' },
   },
   {
