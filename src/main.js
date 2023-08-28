@@ -2,7 +2,6 @@ import { createApp } from 'vue';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-// import VueSweetalert2 from 'vue-sweetalert2';
 
 import './index.css';
 import mitt from 'mitt';

@@ -84,7 +84,7 @@ function toggleMenu() {
 }
 
 #parent-menu {
-  background-image: url('../assets/capa6.jpg');
+  background-image: url('../assets/capa.jpg');
 }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
   <router-link to="/">
-    <img src="../assets/logo.png" class="h-8" alt="Logo">
+    <img src="../assets/logo.svg" class="mx-auto h-28" alt="Logo">
   </router-link>
 </template>
