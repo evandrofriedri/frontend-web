@@ -12,9 +12,21 @@ const routes = [
     component: lazyLoad('HomeView'),
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: lazyLoad('LoginView'),
+    meta: { layout: 'empty-layout' },
+  },
+  {
     path: '/account',
     name: 'ListAccount',
     component: lazyLoad('account/ListAccountView'),
+  },
+  {
+    path: '/create-account',
+    name: 'CreateAccount',
+    component: lazyLoad('account/CreateAccountView'),
+    meta: { layout: 'empty-layout' },
   },
   {
     path: '/orders',
@@ -24,19 +36,12 @@ const routes = [
   {
     path: '/address',
     name: 'Address',
-    component: lazyLoad('AddressView'),
+    component: lazyLoad('address/AddressView'),
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: lazyLoad('LoginView'),
-    meta: { layout: 'empty-layout' },
-  },
-  {
-    path: '/create-account',
-    name: 'CreateAccount',
-    component: lazyLoad('account/CreateAccountView'),
-    meta: { layout: 'empty-layout' },
+    path: '/orderAdmin',
+    name: 'OrderAdmin',
+    component: lazyLoad('OrderAdminView'),
   },
   {
     path: '/about',
@@ -50,16 +55,6 @@ const routes = [
     component: lazyLoad('NotFoundView'),
     meta: { layout: 'empty-layout' },
   },
-  // {
-  //   path: '/list-account',
-  //   name: 'Lista Contas',
-  //   component: () => import('../components/create-account/ListAccountComponent')
-  // },
-  // {
-  //   path: '/edit-account/:id',
-  //   name: 'Editar Conta',
-  //   component: () => import('../components/create-account/EditAccountComponent')
-  // }
 ];
 
 const router = createRouter({
