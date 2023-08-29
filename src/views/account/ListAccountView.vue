@@ -17,9 +17,8 @@
             <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Confirmar senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
           </div>
         </div>
-        <div class="flex">
-          <div class="w-2/5 md:w-3/4" />
-          <div class="w-3/5 md:w-1/4">
+        <div class="grid grid-cols-12">
+          <div class="col-start-6 md:col-start-10 col-end-13">
             <FormButton btn-type="submit" icon="fa-regular fa-floppy-disk" description="Salvar Dados" />
           </div>
         </div>
@@ -32,9 +31,8 @@
       <h1 class="text-gray-700">
         Apaga todos os dados e histórico da conta.
       </h1>
-      <div class="flex">
-        <div class="w-2/5 md:w-3/4" />
-        <div class="w-3/5 md:w-1/4">
+      <div class="grid grid-cols-12">
+        <div class="col-start-6 md:col-start-10 col-end-13">
           <FormButton btn-type="submit" icon="fa-regular fa-trash-can" description="Apagar" />
         </div>
       </div>

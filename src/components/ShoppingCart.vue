@@ -98,9 +98,8 @@
             <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold pb-4">
               <p>Total</p> <p>{{ total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
             </div>
-            <div class="flex text-justify items-center">
-              <div class="w-2/5" />
-              <div v-if="market.length > 0" class="w-3/5">
+            <div class="grid grid-cols-12 text-justify items-center">
+              <div v-if="market.length > 0" class="col-start-6 md:col-start-10 col-end-13">
                 <FormButton
                   icon="fa-solid fa-check"
                   description="Confirmar Pedido"
