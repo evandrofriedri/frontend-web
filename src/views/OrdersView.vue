@@ -35,33 +35,44 @@
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue';
 
-const statusPedido = [
-  {
-    pedido_id: 1,
-    data_status: [
-      {
-        status_id: 1,
-        data_alteracao: '21-08-2023 15:15',
-        status_nome: 'PEDIDO REALIZADO',
-      },
-      {
-        status_id: 2,
-        data_alteracao: '',
-        status_nome: 'EM PREPARO',
-      },
-      {
-        status_id: 3,
-        data_alteracao: '',
-        status_nome: 'PRONTO',
-      },
-      {
-        status_id: 4,
-        data_alteracao: '',
-        status_nome: 'ENTREGUE',
-      },
-    ],
-  },
-  {},
-];
+const statusPedido = ref(null);
+
+function loadData() {
+  const data = [
+    {
+      pedido_id: 1,
+      data_status: [
+        {
+          status_id: 1,
+          data_alteracao: '21-08-2023 15:15',
+          status_nome: 'PEDIDO REALIZADO',
+        },
+        {
+          status_id: 2,
+          data_alteracao: '',
+          status_nome: 'EM PREPARO',
+        },
+        {
+          status_id: 3,
+          data_alteracao: '',
+          status_nome: 'PRONTO',
+        },
+        {
+          status_id: 4,
+          data_alteracao: '',
+          status_nome: 'ENTREGUE',
+        },
+      ],
+    },
+    {},
+  ];
+
+  return data;
+}
+
+onMounted(async () => {
+  statusPedido.value = await loadData();
+});
 </script>

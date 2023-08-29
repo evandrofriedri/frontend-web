@@ -51,7 +51,7 @@ onServerPrefetch(async () => { // talvez usará esse qdo tiver conexão com banc
   addresses.value = await loadData();
 });
 
-onMounted(() => {
-  addresses.value = loadData();
+onMounted(async () => {
+  addresses.value = await loadData();
 });
 </script>

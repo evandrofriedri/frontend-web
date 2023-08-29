@@ -45,11 +45,11 @@ import { useEventListener } from '@vueuse/core';
 import {
   required, email, sameAs, minLength, helpers,
 } from '@vuelidate/validators';
-import { reactive, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
 
-const formData = reactive({
+const formData = ref({
   userName: '',
   userEmail: '',
   cellphone: '',
@@ -85,7 +85,7 @@ const rules = computed(() => ({
   },
   confirmPassword: {
     required: helpers.withMessage('Campo obrigatório ', required),
-    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(formData.password)),
+    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(formData.value.password)),
   },
 }));
 
@@ -100,5 +100,21 @@ const submitForm = async () => {
     console.log('nao enviado!');
   }
 };
+
+function loadData() {
+  const data = {
+    userName: 'Evandro Mathias Friedrichsen',
+    userEmail: 'evandrofriedri@gmail.com',
+    cellphone: '(44) 99900-9626',
+    password: '',
+    confirmPassword: '',
+  };
+
+  return data;
+}
+
+onMounted(async () => {
+  formData.value = await loadData();
+});
 
 </script>
