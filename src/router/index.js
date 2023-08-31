@@ -44,6 +44,16 @@ const routes = [
     component: lazyLoad('OrderAdminView'),
   },
   {
+    path: '/accountAdmin',
+    name: 'AccountAdmin',
+    component: lazyLoad('account/AccountAdminView'),
+  },
+  {
+    path: '/menuAdmin',
+    name: 'MenuAdmin',
+    component: lazyLoad('MenuAdminView'),
+  },
+  {
     path: '/about',
     name: 'About',
     component: lazyLoad('AboutView'),

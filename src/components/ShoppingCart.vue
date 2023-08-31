@@ -32,11 +32,11 @@
                 <div class="flex justify-between text-justify">
                   <p class="font-medium">
                     {{ item.qtde }}x {{ item.name }}&nbsp;&nbsp;
-                    <button type="button">
-                      <font-awesome-icon icon="fa-regular fa-pen-to-square" />
-                    </button> &nbsp;
                     <button type="button" @click="deleteItemCart(index)">
                       <font-awesome-icon icon="fa-regular fa-trash-can" />
+                    </button> &nbsp;
+                    <button type="button">
+                      <font-awesome-icon icon="fa-regular fa-pen-to-square" />
                     </button>
                   </p>
                   <p class="font-medium">

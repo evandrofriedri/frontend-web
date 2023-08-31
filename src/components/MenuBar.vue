@@ -12,7 +12,7 @@
       <SubMenuItemBar icon="fa-solid fa-address-card" label="Meus Endereços" route="/address" @click="toggleMenu()" />
       <MenuSeparator />
       <MenuItemBar v-if="admin" icon="fa-solid fa-kitchen-set" label="Gerenciar Pedidos" route="/orderAdmin" @click="toggleMenu()" />
-      <MenuItemBar v-if="admin" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/userAdmin" @click="toggleMenu()" />
+      <MenuItemBar v-if="admin" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/accountAdmin" @click="toggleMenu()" />
       <MenuItemBar v-if="admin" icon="fa-solid fa-list-ol" label="Gerenciar Cardápio" route="/menuAdmin" @click="toggleMenu()" />
       <MenuSeparator v-if="admin" />
       <MenuItemBar icon="fa-solid fa-utensils" label="Cardápio" route="/" @click="toggleMenu()" />

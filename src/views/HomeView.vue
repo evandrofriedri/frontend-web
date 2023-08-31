@@ -1,6 +1,6 @@
 <template>
   <div class="fixed z-10 right-2 top-3">
-    <SearchInput id="homeSearch" v-model="search" placeholder="Procure seu produto..." />
+    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o nome do produto..." />
   </div>
   <ShoppingCart />
   <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
@@ -529,11 +529,30 @@ const datas = [
 ];
 
 function thereIsProduct(obj) {
-  foundProduct.value = Object.values(obj).length;
+  foundProduct.value = Object.values(obj[0].products).length;
 }
 
 function filteredList() {
-  const filtData = datas.filter((d) => d.title.toLowerCase().includes(search.value.toLowerCase()));
+  let filtData = [];
+  const arrSearch = {
+    id: 'busca',
+    title: 'Resultado da Busca',
+    products: [],
+  };
+  if (search.value !== '') {
+    datas.forEach((element) => {
+      element.products.forEach((pdt) => {
+        const pdtLowCase = pdt.name.toLowerCase();
+        if (pdtLowCase.includes(search.value.toLowerCase())) {
+          arrSearch.products.push(pdt);
+        }
+      });
+    });
+    filtData.push(arrSearch);
+  } else {
+    filtData = datas;
+  }
+
   thereIsProduct(filtData);
   return filtData;
 }
