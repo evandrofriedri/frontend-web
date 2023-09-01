@@ -68,13 +68,13 @@ function toggleMenu() {
 
 .fade-leave-active,
 .fade-enter-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.25s;
 }
 
 /* menu slide */
 .slide-enter-active,
 .slide-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .slide-enter-from,

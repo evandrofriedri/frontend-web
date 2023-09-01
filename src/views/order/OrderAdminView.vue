@@ -23,6 +23,9 @@
               Descrição
             </th>
             <th scope="col" class="px-2 py-2">
+              Observação
+            </th>
+            <th scope="col" class="px-2 py-2">
               Total
             </th>
             <th scope="col" class="px-2 py-2">
@@ -37,32 +40,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
-            <td class="px-2 py-2">
-              {{ item.pedido_id }}
-            </td>
-            <td class="px-2 py-2">
-              {{ item.data_pedido }}
-            </td>
-            <td class="px-2 py-2">
-              {{ item.descricao }}
-            </td>
-            <td class="px-2 py-2">
-              {{ item.total }}
-            </td>
-            <td class="px-2 py-2 font-medium ">
-              {{ item.status_id }}
-            </td>
-            <td class="px-2 py-2 ">
-              <button type="button" title="Cancelar Pedido" @click="orderCancel(item.pedido_id)">
-                <font-awesome-icon icon="fa-regular fa-trash-can" />
-              </button>&nbsp;&nbsp;
-              <button type="button" title="Editar Pedido" @click="orderCancel(item.pedido_id)">
-                <font-awesome-icon icon="fa-regular fa-pen-to-square" />
-              </button>&nbsp;&nbsp;
-              <button type="button" title="Dar sequência ao fluxo do pedido" @click="orderForward(item.status_id)">
-                <font-awesome-icon icon="fa-regular fa-square-caret-right" />
-              </button>
-            </td>
+            <ItemOrderAdmin :order="item" />
           </tr>
         </tbody>
       </table>
@@ -73,8 +51,9 @@
 
 <script setup>
 import { ref } from 'vue';
-import SearchInput from '../components/SearchInput.vue';
-import CardNotFound from '../components/CardNotFound.vue';
+import SearchInput from '../../components/SearchInput.vue';
+import CardNotFound from '../../components/CardNotFound.vue';
+import ItemOrderAdmin from '../../components/ItemOrderAdmin.vue';
 
 const search = ref('');
 let orders = [];
@@ -101,18 +80,7 @@ function loadData() {
   return data;
 }
 
-function orderCancel(id) {
-  console.log(id);
-  // chamar api para excluir o pedido, no caso fazer update para ativo = 0
-}
-
-function orderForward(id) {
-  console.log(id);
-  // chamar api para lançar data do status na tabela de status
-  // atualizar o status_id na tabela de pedido
-}
-
-function thereIsProduct(obj) {
+function thereIsOrder(obj) {
   foundOrder.value = Object.values(obj).length;
 }
 
@@ -120,7 +88,7 @@ function filteredList() {
   orders = loadData();
   // eslint-disable-next-line vue/max-len
   const filtData = orders.filter((d) => d.descricao.toLowerCase().includes(search.value.toLowerCase()));
-  thereIsProduct(filtData);
+  thereIsOrder(filtData);
   return filtData;
 }
 

@@ -34,29 +34,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
-            <td class="px-2 py-2">
-              {{ item.name }}
-            </td>
-            <td class="px-2 py-2">
-              {{ item.email }}
-            </td>
-            <td class="px-2 py-2">
-              {{ item.cellphone }}
-            </td>
-            <td class="px-2 py-2 ">
-              {{ item.status_id }}
-            </td>
-            <td class="px-2 py-2 ">
-              <button type="button" title="Desativar Conta" @click="accountCancel(item.account_id)">
-                <font-awesome-icon icon="fa-regular fa-trash-can" />
-              </button>&nbsp;&nbsp;
-              <button type="button" title="Ativar Conta" @click="accountPlay(item.account_id)">
-                <font-awesome-icon icon="fa-regular fa-pen-to-square" />
-              </button>&nbsp;&nbsp;
-              <button type="button" title="Ativar Conta" @click="accountPlay(item.account_id)">
-                <font-awesome-icon icon="fa-regular fa-square-caret-right" />
-              </button>
-            </td>
+            <ItemAccountAdmin :account="item" />
           </tr>
         </tbody>
       </table>
@@ -69,6 +47,7 @@
 import { ref } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
+import ItemAccountAdmin from '../../components/ItemAccountAdmin.vue';
 
 const search = ref('');
 let accounts = [];
@@ -95,18 +74,7 @@ function loadData() {
   return data;
 }
 
-function accountCancel(id) {
-  console.log(id);
-  // chamar api para excluir a conta, no caso fazer update para ativo = 0
-}
-
-function accountPlay(id) {
-  console.log(id);
-  // chamar api para lançar data do status na tabela de status
-  // atualizar o status_id na tabela de contas
-}
-
-function thereIsProduct(obj) {
+function thereIsAccount(obj) {
   foundAccount.value = Object.values(obj).length;
 }
 
@@ -114,7 +82,7 @@ function filteredList() {
   accounts = loadData();
   // eslint-disable-next-line vue/max-len
   const filtData = accounts.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
-  thereIsProduct(filtData);
+  thereIsAccount(filtData);
   return filtData;
 }
 
