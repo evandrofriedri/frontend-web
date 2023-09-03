@@ -34,7 +34,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
-            <ItemAccountAdmin :account="item" />
+            <AccountAdminItem :account="item" />
           </tr>
         </tbody>
       </table>
@@ -47,7 +47,7 @@
 import { ref } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
-import ItemAccountAdmin from '../../components/ItemAccountAdmin.vue';
+import AccountAdminItem from '../../components/AccountAdminItem.vue';
 
 const search = ref('');
 let accounts = [];

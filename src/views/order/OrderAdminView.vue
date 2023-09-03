@@ -40,7 +40,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
-            <ItemOrderAdmin :order="item" />
+            <OrderAdminItem :order="item" />
           </tr>
         </tbody>
       </table>
@@ -53,7 +53,7 @@
 import { ref } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
-import ItemOrderAdmin from '../../components/ItemOrderAdmin.vue';
+import OrderAdminItem from '../../components/OrderAdminItem.vue';
 
 const search = ref('');
 let orders = [];
