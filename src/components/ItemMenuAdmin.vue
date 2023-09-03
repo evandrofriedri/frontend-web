@@ -12,15 +12,16 @@
     {{ props.menu.status_id }}
   </td>
   <td class="px-2 py-2 ">
-    <button type="button" title="Cancelar Pedido" @click="menuDelete(props.menu)">
+    <button type="button" title="Excluir Produto" @click="menuDelete(props.menu)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
-    <button type="button" title="Adicionar observação no pedido" @click="isModaltemOpen = true">
+    <button type="button" title="Editar Produto" @click="isModaltemOpen = true">
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>&nbsp;&nbsp;
-    <button type="button" title="Dar sequência ao fluxo do pedido" @click="menuForward(props.menu.status_id)">
+    <!-- <button type="button" title="Dar sequência ao fluxo do pedido"
+       @click="menuForward(props.menu.status_id)">
       <font-awesome-icon icon="fa-regular fa-square-caret-right" />
-    </button>
+    </button> -->
   </td>
   <Teleport to="#modal">
     <Transition name="modal">
@@ -84,7 +85,7 @@ onClickOutside(modal, () => {
 
 function menuDelete(menu) {
   Swal.fire({
-    title: `Deseja excluir produto ${menu.name}?`,
+    title: `Deseja excluir o produto ${menu.name}?`,
     text: 'Não poderá reverter após confirmação!',
     icon: 'warning',
     showCancelButton: true,
@@ -105,29 +106,29 @@ function menuDelete(menu) {
   // chamar api para excluir o pedido, no caso fazer update para ativo = 0
 }
 
-function menuForward(menu) {
-  Swal.fire({
-    title: `Deseja dar sequêncio ao fluxo do pedido nº ${menu}?`,
-    text: 'Não poderá reverter após confirmação!',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonColor: '#374151',
-    cancelButtonColor: '#EF4444',
-    confirmButtonText: 'Confirmar',
-    cancelButtonText: 'Voltar',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Status atualizado!',
-        text: `Pedido nº ${menu} atualizado.`,
-        confirmButtonColor: '#374151',
-      });
-    }
-  });
-  // chamar api para lançar data do status na tabela de status
-  // atualizar o status_id na tabela de pedido
-}
+// function menuForward(menu) {
+//   Swal.fire({
+//     title: `Deseja dar sequêncio ao fluxo do pedido nº ${menu}?`,
+//     text: 'Não poderá reverter após confirmação!',
+//     icon: 'question',
+//     showCancelButton: true,
+//     confirmButtonColor: '#374151',
+//     cancelButtonColor: '#EF4444',
+//     confirmButtonText: 'Confirmar',
+//     cancelButtonText: 'Voltar',
+//   }).then((result) => {
+//     if (result.isConfirmed) {
+//       Swal.fire({
+//         icon: 'success',
+//         title: 'Status atualizado!',
+//         text: `Pedido nº ${menu} atualizado.`,
+//         confirmButtonColor: '#374151',
+//       });
+//     }
+//   });
+//   // chamar api para lançar data do status na tabela de status
+//   // atualizar o status_id na tabela de pedido
+// }
 
 function addObs() {
   // let itemsCart;
@@ -144,16 +145,3 @@ function addObs() {
 }
 
 </script>
-
-<style scoped>
-.modal-enter-active,
-.modal-leave-active {
-  transition: all 0.25s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-  transform: scale(1.1);
-}
-</style>

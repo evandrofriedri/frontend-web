@@ -7,7 +7,7 @@
     <div class="p-5 bg-white shadow-md rounded-xl mb-3">
       <form action="" @submit.prevent="submitForm">
         <div class="flex flex-col md:flex-row">
-          <div class="basis-1/2 pr-2">
+          <div class="basis-1/2 pr-0 md:pr-2">
             <BaseInput id="username" v-model="formData.userName" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.userName.$errors" />
             <BaseInput id="userEmail" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
             <BaseInput id="cellphone" v-model="formData.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
