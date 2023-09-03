@@ -222,16 +222,3 @@ function updateCart() {
   emitter.emit('update');
 }
 </script>
-
-<style scoped>
-.modal-enter-active,
-.modal-leave-active {
-  transition: all 0.25s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-  transform: scale(1.1);
-}
-</style>
