@@ -26,7 +26,6 @@
     <Transition name="modal">
       <div v-if="isModaltemOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
         <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
-          <CloseButton @click="isModaltemOpen = false" />
           <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded-xl">
             <div class="p-4 flex flex-col">
               <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
@@ -64,7 +63,6 @@ import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import Swal from 'sweetalert2';
 import FormButton from './FormButton.vue';
-import CloseButton from './CloseButton.vue';
 
 const isModaltemOpen = ref(false);
 const modal = ref(null);

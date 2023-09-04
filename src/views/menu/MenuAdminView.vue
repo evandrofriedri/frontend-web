@@ -48,7 +48,6 @@
     <Transition name="modal">
       <div v-if="isModalAddOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
         <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
-          <CloseButton @click="isModalAddOpen = false" />
           <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded-xl">
             <form action="" @submit.prevent="submitForm">
               <div class="p-4 flex flex-col">
@@ -104,7 +103,6 @@ import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import MenuAdminItem from '../../components/MenuAdminItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
-import CloseButton from '../../components/CloseButton.vue';
 import FormButton from '../../components/FormButton.vue';
 import BaseInput from '../../components/BaseInput.vue';
 import SelectInput from '../../components/SelectInput.vue';

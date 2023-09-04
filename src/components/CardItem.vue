@@ -19,7 +19,6 @@
     <Transition name="modal">
       <div v-if="isModalCardItemOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
         <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
-          <CloseButton @click="isModalCardItemOpen = false" />
           <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded-xl">
             <div class="bg-gray-50 justify-between bg-cover bg-center rounded-xl">
               <img :src="props.product.image" class="object-cover h-48 w-full rounded-t-xl" alt="" />
@@ -84,7 +83,6 @@ import { onClickOutside } from '@vueuse/core';
 import ToggleCount from './ToggleCount.vue';
 import AddItem from './AddItem.vue';
 import FormButton from './FormButton.vue';
-import CloseButton from './CloseButton.vue';
 
 const props = defineProps({
   product: {

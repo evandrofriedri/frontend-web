@@ -15,7 +15,6 @@
     <Transition name="modal">
       <div v-if="isModalCartOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
         <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
-          <CloseButton @click="isModalCartOpen = false" />
           <div class="p-4 mx-auto w-screen h-screen sm:h-auto md:w-[768px] lg:w-[1024px] bg-white shadow-2xl rounded-xl">
             <div class="flex">
               <button class="sm:hidden pr-3" type="button" @click="isModalCartOpen = false">
@@ -122,7 +121,6 @@ import {
 import { onClickOutside } from '@vueuse/core';
 import LayoutItem from './LayoutItem.vue';
 import FormButton from './FormButton.vue';
-import CloseButton from './CloseButton.vue';
 
 const market = ref([]);
 const subTotal = ref(0);
