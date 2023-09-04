@@ -4,7 +4,7 @@
     <h1 class="mb-5 text-xl font-semibold text-gray-700">
       Meus Endereços
     </h1>
-    <div v-for="(item, index) in addresses" :key="index" class="flex justify-between items-center p-5 bg-white text-gray-700 shadow-md rounded-xl mb-3">
+    <div v-for="(item, index) in addresses" :key="index" class="flex justify-between items-center p-5 bg-white text-gray-700 shadow-md rounded mb-3">
       <div>
         <p>{{ item.address }}</p>
         <p>{{ item.city }}</p>

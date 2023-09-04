@@ -12,7 +12,7 @@
         <SearchInput id="accountAdminSearch" v-model="search" placeholder="Digite o nome do produto" />
       </div>
     </div>
-    <div v-show="foundMenu !== 0" class="p-5 bg-white shadow-md rounded-xl mb-3 overflow-x-auto">
+    <div v-show="foundMenu !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
       <table class="w-full text-sm text-left text-gray-700">
         <thead class="text-xs text-gray-900 uppercase bg-gray-50">
           <tr>
@@ -47,8 +47,8 @@
   <Teleport to="#modal">
     <Transition name="modal">
       <div v-if="isModalAddOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
-          <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded-xl">
+        <div ref="modal" class="relative bg-white rounded shadow-2xl">
+          <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded">
             <form action="" @submit.prevent="submitForm">
               <div class="p-4 flex flex-col">
                 <h1 class="text-lg text-gray-800 font-medium text-justify mb-2">
@@ -61,7 +61,7 @@
                   <div class="text-base text-gray-700">
                     Adicionais
                   </div>
-                  <div class="max-h-[200px] overflow-auto rounded-xl mb-4">
+                  <div class="max-h-[200px] overflow-auto rounded mb-4">
                     <div v-for="(item, index) in additionals" :key="index">
                       <div class="flex justify-between pt-2 text-gray-700">
                         <AddCheckboxlItem

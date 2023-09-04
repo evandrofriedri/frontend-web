@@ -4,7 +4,7 @@
     <select
       :id="id"
       :name="id"
-      class="block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 rounded-xl focus:border-gray-500 focus:outline-none"
+      class="block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none"
       v-bind="$attrs"
       @input="$emit('update:modelValue', $event.target.value)"
     >

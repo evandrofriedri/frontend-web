@@ -14,8 +14,8 @@
   <Teleport to="#modal">
     <Transition name="modal">
       <div v-if="isModalCartOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
-          <div class="p-4 mx-auto w-screen h-screen sm:h-auto md:w-[768px] lg:w-[1024px] bg-white shadow-2xl rounded-xl">
+        <div ref="modal" class="relative bg-white rounded shadow-2xl">
+          <div class="p-4 mx-auto w-screen h-screen sm:h-auto md:w-[768px] lg:w-[1024px] bg-white shadow-2xl rounded">
             <div class="flex">
               <button class="sm:hidden pr-3" type="button" @click="isModalCartOpen = false">
                 <font-awesome-icon icon="fa-solid fa-chevron-left" size="lg" />
@@ -24,8 +24,8 @@
                 Itens Adicionados
               </h1>
             </div>
-            <div class="flex flex-col max-h-72 md:max-h-[600px] overflow-auto border rounded-xl p-2">
-              <div v-for="(item, index) in market" :key="index" class="text-base text-gray-800 border rounded-xl p-2 mt-1">
+            <div class="flex flex-col max-h-72 md:max-h-[600px] overflow-auto border rounded p-2">
+              <div v-for="(item, index) in market" :key="index" class="text-base text-gray-800 border rounded p-2 mt-1">
                 <div class="flex justify-between text-justify">
                   <p class="font-medium">
                     {{ item.qtde }}x {{ item.name }}&nbsp;&nbsp;
@@ -68,7 +68,7 @@
             <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold pb-4">
               <p>Subtotal</p> <p>{{ subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
             </div>
-            <div v-if="market.length > 0" class="flex justify-between items-center p-2 border rounded-xl">
+            <div v-if="market.length > 0" class="flex justify-between items-center p-2 border rounded">
               <div class="flex flex-col items-baseline">
                 <div class="flex items-center">
                   <input id="delivery-radio-1" :checked="forDelivery" type="radio" value="" name="delivery-radio" class="w-4 h-4 text-gray-800 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('deliver')">

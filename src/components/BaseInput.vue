@@ -2,7 +2,7 @@
   <div class="mb-4">
     <label :for="id" class="text-base text-gray-700 max-w"> {{ label }}
       <input
-        class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 rounded-xl focus:border-gray-500 focus:outline-none"
+        class="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none"
         :value="modelValue"
         :placeholder="placeholder"
         v-bind="$attrs"

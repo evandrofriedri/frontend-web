@@ -9,7 +9,7 @@
         <SearchInput id="orderAdminSearch" v-model="search" placeholder="Digite a descrição do pedido" />
       </div>
     </div>
-    <div v-show="foundOrder !== 0" class="p-5 bg-white shadow-md rounded-xl mb-3 overflow-x-auto">
+    <div v-show="foundOrder !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
       <table class="w-full text-sm text-left text-gray-700">
         <thead class="text-xs text-gray-900 uppercase bg-gray-50">
           <tr>

@@ -4,7 +4,7 @@
     <h1 class="mb-5 text-xl font-semibold text-gray-700">
       Dados da Conta
     </h1>
-    <div class="p-5 bg-white shadow-md rounded-xl mb-3">
+    <div class="p-5 bg-white shadow-md rounded mb-3">
       <form action="" @submit.prevent="submitForm">
         <div class="flex flex-col md:flex-row">
           <div class="basis-1/2 pr-0 md:pr-2">
@@ -27,7 +27,7 @@
     <h1 class="mb-5 text-xl font-semibold text-gray-700">
       Apagar Conta
     </h1>
-    <div class="p-5 bg-white shadow-md rounded-xl">
+    <div class="p-5 bg-white shadow-md rounded">
       <h1 class="text-gray-700">
         Apaga todos os dados e histórico da conta.
       </h1>

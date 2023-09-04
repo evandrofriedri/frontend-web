@@ -4,7 +4,7 @@
     <h1 class="mb-5 text-xl font-semibold text-gray-700">
       Acompanhar Pedidos
     </h1>
-    <div v-for="(item, index) in statusPedido" :key="index" class="p-5 bg-white shadow-md rounded-xl mb-3">
+    <div v-for="(item, index) in statusPedido" :key="index" class="p-5 bg-white shadow-md rounded mb-3">
       <h1 class="mb-3 text-lg font-semibold text-gray-700">
         Pedido #{{ item.pedido_id }}
       </h1>
@@ -19,7 +19,7 @@
                 <font-awesome-icon icon="fa-solid fa-check" size="sm" />
               </div>
             </div>
-            <div :class="`${data.data_alteracao == '' ? 'bg-gray-300' : 'bg-green-500'} col-start-3 col-end-12 p-4 rounded-xl my-4 mr-auto shadow-md w-full`">
+            <div :class="`${data.data_alteracao == '' ? 'bg-gray-300' : 'bg-green-500'} col-start-3 col-end-12 p-4 rounded my-4 mr-auto shadow-md w-full`">
               <h3 class="font-semibold text-base mb-1">
                 {{ data.status_nome }}
               </h3>

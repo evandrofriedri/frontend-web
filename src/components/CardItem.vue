@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 flex rounded-xl bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
+  <div class="p-3 flex rounded bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
     <div class="flex flex-col pr-5">
       <p class="mb-2 text-lg font-medium text-gray-900">
         {{ props.product.name }}
@@ -11,17 +11,17 @@
         {{ props.product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
       </p>
     </div>
-    <div class="min-w-fit rounded-xl">
-      <img :src="props.product.image" class="object-cover h-24 w-24 rounded-xl" alt="" />
+    <div class="min-w-fit rounded">
+      <img :src="props.product.image" class="object-cover h-24 w-24 rounded" alt="" />
     </div>
   </div>
   <Teleport to="#modal">
     <Transition name="modal">
       <div v-if="isModalCardItemOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative bg-white rounded-xl shadow-2xl">
-          <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded-xl">
-            <div class="bg-gray-50 justify-between bg-cover bg-center rounded-xl">
-              <img :src="props.product.image" class="object-cover h-48 w-full rounded-t-xl" alt="" />
+        <div ref="modal" class="relative bg-white rounded shadow-2xl">
+          <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded">
+            <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
+              <img :src="props.product.image" class="object-cover h-48 w-full rounded-t" alt="" />
             </div>
             <div class="p-4 flex flex-col">
               <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
