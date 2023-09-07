@@ -1,9 +1,9 @@
 <template>
   <div class="mb-4">
-    <label :for="id" class="text-base text-gray-700 max-w">{{ label }}</label>
+    <label :for="name" class="text-base text-gray-700 max-w">{{ label }}</label>
     <select
-      :id="id"
-      :name="id"
+      :name="name"
+      :value="modelValue"
       class="block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none"
       v-bind="$attrs"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -24,7 +24,7 @@
 defineEmits(['update:modelValue']);
 
 defineProps({
-  id: {
+  name: {
     type: String,
     default: '',
   },
