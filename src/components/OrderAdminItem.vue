@@ -21,57 +21,56 @@
     <button type="button" title="Cancelar Pedido" @click="orderCancel(props.order)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
-    <button type="button" title="Adicionar observação no pedido" @click="isModaltemOpen = true">
+    <button type="button" title="Adicionar observação no pedido" @click="isModalItemOpen = true">
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>&nbsp;&nbsp;
     <button type="button" title="Dar sequência ao fluxo do pedido" @click="orderForward(props.order)">
       <font-awesome-icon icon="fa-regular fa-square-caret-right" />
     </button>
   </td>
-  <Teleport to="#modal">
-    <Transition name="modal">
-      <div v-if="isModaltemOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative bg-white rounded shadow-2xl">
-          <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded">
-            <div class="p-4 flex flex-col">
-              <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
-                Pedido Nº {{ props.order.pedido_id }}
-              </h1>
-              <label class="mt-2">
-                <div class="text-base text-gray-800">Observações</div>
-                <textarea
-                  :value="props.order.observation"
-                  class="w-full"
-                  rows="3"
-                  placeholder="Ex:Retirar cebola, retirar molho..."
-                  maxlength="80"
-                />
-              </label>
-            </div>
-            <div class="p-4 grid grid-cols-12">
-              <div class="col-start-6 md:col-start-10 col-end-13">
-                <FormButton
-                  icon="fa-solid fa-check"
-                  description="Alterar Observação"
-                  @click="addObs();isModaltemOpen = false"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+  <ModalWrapper :modal-open="isModalItemOpen">
+    <div class="flex mb-2">
+      <ReturnButton @click="isModalItemOpen = false" />
+      <h1 class="text-lg text-gray-800 font-semibold text-justify">
+        {{ props.order.name }}
+      </h1>
+    </div>
+    <div class="flex flex-col">
+      <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
+        Pedido Nº {{ props.order.pedido_id }}
+      </h1>
+      <label class="mt-2">
+        <div class="text-base text-gray-800">Observações</div>
+        <textarea
+          :value="props.order.observation"
+          class="w-full"
+          rows="3"
+          placeholder="Ex:Retirar cebola, retirar molho..."
+          maxlength="80"
+        />
+      </label>
+    </div>
+    <div class="grid grid-cols-12">
+      <div class="col-start-6 md:col-start-10 col-end-13">
+        <FormButton
+          icon="fa-regular fa-floppy-disk"
+          description="Salvar"
+          @click="addObs();isModalItemOpen = false"
+        />
       </div>
-    </Transition>
-  </Teleport>
+    </div>
+  </ModalWrapper>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { onClickOutside } from '@vueuse/core';
+import { ref, inject } from 'vue';
 import Swal from 'sweetalert2';
 import FormButton from './FormButton.vue';
+import ModalWrapper from './ModalWrapper.vue';
+import ReturnButton from './ReturnButton.vue';
 
-const isModaltemOpen = ref(false);
-const modal = ref(null);
+const isModalItemOpen = ref(false);
+const emitter = inject('emitter');
 
 const props = defineProps({
   order: {
@@ -82,8 +81,8 @@ const props = defineProps({
   },
 });
 
-onClickOutside(modal, () => {
-  isModaltemOpen.value = false;
+emitter.on('setModalFalse', () => {
+  isModalItemOpen.value = false;
 });
 
 function orderCancel(order) {

@@ -15,74 +15,73 @@
       <img :src="props.product.image" class="object-cover h-24 w-24 rounded" alt="" />
     </div>
   </div>
-  <Teleport to="#modal">
-    <Transition name="modal">
-      <div v-if="isModalCardItemOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative bg-white rounded shadow-2xl">
-          <div class="mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded">
-            <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
-              <img :src="props.product.image" class="object-cover h-48 w-full rounded-t" alt="" />
-            </div>
-            <div class="p-4 flex flex-col">
-              <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
-                {{ props.product.name }}
-              </h1>
-              <p class="text-sm font-light text-gray-800 text-justify mt-2">
-                {{ props.product.description }}
-              </p>
-              <p class="text-base text-gray-800 font-semibold text-right mt-2">
-                {{ props.product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
-              </p>
-              <div v-if="props.product.additional" class="w-full mt-4">
-                <div class="text-base text-gray-800">
-                  Adicionais
-                </div>
-                <div v-for="(item, index) in props.product.additionals" :key="index">
-                  <div class="flex justify-between pt-2 text-gray-800">
-                    <AddItem
-                      :additional="item"
-                      @decrement-count="decrementAdditional"
-                      @increment-count="incrementAdditional"
-                    />
-                  </div>
-                </div>
-              </div>
-              <label class="mt-2">
-                <div class="text-base text-gray-800">Observações</div>
-                <textarea
-                  v-model="observation"
-                  class="w-full"
-                  rows="2"
-                  placeholder="Ex:Retirar cebola, retirar molho..."
-                  maxlength="80"
-                  @change="setObservation"
-                /></label>
-            </div>
-            <div class="p-4 flex text-justify items-center">
-              <div class="w-2/5">
-                <ToggleCount @toggle-qtde-product="toggleQtdeProduct" />
-              </div>
-              <div class="w-3/5">
-                <FormButton
-                  icon="fa-solid fa-cart-shopping"
-                  :description="'Adicionar ' + totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })"
-                  @click="addItemCart();updateCart();isModalCardItemOpen = false"
-                />
-              </div>
-            </div>
+  <ModalWrapper :modal-open="isModalCardItemOpen">
+    <div class="flex mb-2">
+      <ReturnButton @click="isModalCardItemOpen = false" />
+      <h1 class="text-lg text-gray-800 font-semibold text-justify">
+        {{ props.product.name }}
+      </h1>
+    </div>
+    <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
+      <img :src="props.product.image" class="object-cover h-48 w-full rounded-t" alt="" />
+    </div>
+    <div class="flex flex-col">
+      <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
+        {{ props.product.name }}
+      </h1>
+      <p class="text-sm font-light text-gray-800 text-justify mt-2">
+        {{ props.product.description }}
+      </p>
+      <p class="text-base text-gray-800 font-semibold text-right mt-2">
+        {{ props.product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
+      </p>
+      <div v-if="props.product.additional" class="w-full mt-4">
+        <div class="text-base text-gray-800">
+          Adicionais
+        </div>
+        <div v-for="(item, index) in props.product.additionals" :key="index">
+          <div class="flex justify-between pt-2 text-gray-800">
+            <AddItem
+              :additional="item"
+              @decrement-count="decrementAdditional"
+              @increment-count="incrementAdditional"
+            />
           </div>
         </div>
       </div>
-    </Transition>
-  </Teleport>
+      <label class="mt-2">
+        <div class="text-base text-gray-800">Observações</div>
+        <textarea
+          v-model="observation"
+          class="w-full"
+          rows="2"
+          placeholder="Ex:Retirar cebola, retirar molho..."
+          maxlength="80"
+          @change="setObservation"
+        /></label>
+    </div>
+    <div class="flex text-justify items-center">
+      <div class="w-2/5">
+        <ToggleCount @toggle-qtde-product="toggleQtdeProduct" />
+      </div>
+      <div class="w-3/5">
+        <FormButton
+          icon="fa-solid fa-cart-shopping"
+          :description="'Adicionar ' + totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })"
+          @click="addItemCart();updateCart();isModalCardItemOpen = false"
+        />
+      </div>
+    </div>
+  </ModalWrapper>
 </template>
 
 <script setup>
 import { ref, inject, reactive } from 'vue';
-import { onClickOutside } from '@vueuse/core';
 import ToggleCount from './ToggleCount.vue';
 import AddItem from './AddItem.vue';
 import FormButton from './FormButton.vue';
+import ReturnButton from './ReturnButton.vue';
+import ModalWrapper from './ModalWrapper.vue';
 
 const props = defineProps({
   product: {
@@ -94,7 +93,6 @@ const props = defineProps({
 });
 
 const isModalCardItemOpen = ref(false);
-const modal = ref(null);
 const emitter = inject('emitter');
 const qtdeProduct = ref(1);
 const totalAdditional = ref(0);
@@ -112,7 +110,7 @@ const itemCart = reactive({
   totalItemCart: totalItemCart.value,
 });
 
-onClickOutside(modal, () => {
+emitter.on('setModalFalse', () => {
   isModalCardItemOpen.value = false;
 });
 
