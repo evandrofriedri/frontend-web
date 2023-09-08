@@ -17,7 +17,7 @@
     </button>&nbsp;&nbsp;
     <button type="button" title="Editar Produto" @click="isModalItemOpen = true">
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
-    </button>&nbsp;&nbsp;
+    </button>
   </td>
   <ModalWrapper :modal-open="isModalItemOpen">
     <FormProductItem label-form="Editar Produto" label-btn="Salvar" :product="product" />
@@ -46,9 +46,9 @@ emitter.on('setModalFalse', () => {
   isModalItemOpen.value = false;
 });
 
-function pdtDelete(menu) {
+function pdtDelete(product) {
   Swal.fire({
-    title: `Deseja excluir o produto ${menu.name}?`,
+    title: `Deseja excluir o produto ${product.name}?`,
     text: 'Não poderá reverter após confirmação!',
     icon: 'warning',
     showCancelButton: true,
@@ -61,7 +61,7 @@ function pdtDelete(menu) {
       Swal.fire({
         icon: 'success',
         title: 'Produto Excluído!',
-        text: `Produto ${menu.name} excluído.`,
+        text: `Produto ${product.name} excluído.`,
         confirmButtonColor: '#374151',
       });
     }
