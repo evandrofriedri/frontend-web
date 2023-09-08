@@ -1,10 +1,12 @@
 <template>
   <form action="" @submit.prevent="submitForm">
-    <div class="p-4 flex flex-col">
-      <h1 class="text-lg text-gray-800 font-medium text-justify mb-2">
-        Novo Produto
-      </h1>
-      {{ newProduct }}
+    <div class="flex flex-col">
+      <div class="flex mb-2">
+        <ReturnButton @click="closeModal()" />
+        <h1 class="text-lg text-gray-800 font-medium text-justify">
+          {{ labelForm }}
+        </h1>
+      </div>
       <div class="flex flex-col">
         <BaseInput id="name" v-model="newProduct.name" label="Nome Produto" type="text" placeholder="Nome Produto" :errors="v$.name.$errors" />
         <BaseInput id="description" v-model="newProduct.description" label="Descrição" type="text" placeholder="Descrição" :errors="v$.description.$errors" />
@@ -26,28 +28,36 @@
         <BaseInput id="price" v-model="newProduct.price" label="Preço" type="number" placeholder="Preço do Produto" :errors="v$.price.$errors" />
       </div>
     </div>
-    <div class="p-4 grid grid-cols-12">
+    <div class="grid grid-cols-12">
       <div class="col-start-6 md:col-start-8 col-end-13">
         <FormButton
           btn-type="submit"
           icon="fa-regular fa-floppy-disk"
-          description="Cadastrar Produto"
+          :description="labelBtn"
         />
       </div>
     </div>
   </form>
 </template>
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import {
+  ref,
+  computed,
+  onMounted,
+  inject,
+} from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers, between,
 } from '@vuelidate/validators';
+import Swal from 'sweetalert2';
 import CheckboxInput from './CheckboxInput.vue';
 import BaseInput from './BaseInput.vue';
 import SelectInput from './SelectInput.vue';
 import FormButton from './FormButton.vue';
+import ReturnButton from './ReturnButton.vue';
 
+const emitter = inject('emitter');
 const categories = ref([]);
 const additionals = ref([]);
 const newProduct = ref({
@@ -66,6 +76,14 @@ const props = defineProps({
     default() {
       return { msg: 0 };
     },
+  },
+  labelForm: {
+    type: String,
+    default: '',
+  },
+  labelBtn: {
+    type: String,
+    default: '',
   },
 });
 
@@ -90,6 +108,10 @@ const rules = computed(() => ({
 
 const v$ = useVuelidate(rules, newProduct);
 
+function closeModal() {
+  emitter.emit('closeModal');
+}
+
 function updateAdditional(data) {
   const searchIndex = newProduct.value.additionals.indexOf(parseInt(data, 10));
   if (searchIndex === -1) {
@@ -102,7 +124,7 @@ function loadCategories() {
   const data = [
     {
       id: '',
-      name: 'Selecione',
+      name: '--- Selecione uma Categoria ---',
     },
     {
       id: 1,
@@ -192,6 +214,14 @@ const submitForm = async () => {
   if (result) {
     console.log('fomr enviado!');
     console.log(newProduct.value);
+    Swal.fire({
+      icon: 'success',
+      title: 'Produto salvo com sucesso!',
+      text: `Produto ${newProduct.value.name} salvo.`,
+      confirmButtonColor: '#374151',
+    }).then(() => {
+      closeModal();
+    });
   } else {
     console.log('nao enviado!');
   }

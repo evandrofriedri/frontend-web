@@ -1,7 +1,4 @@
 <template>
-  <!-- <h1 class="mb-5 text-xl font-semibold text-gray-700">
-    Produtos Cadastrados
-  </h1> -->
   <div class="grid grid-cols-12 items-center mb-2">
     <div class="col-start-1 col-end-2">
       <BaseButton icon="fa-solid fa-file-circle-plus" description="" @click="isModalProductOpen = true" />
@@ -41,26 +38,19 @@
     </table>
   </div>
   <CardNotFound :found="foundProduct" label="Produto não encontrado!" />
-  <Teleport to="#modal">
-    <Transition name="modal">
-      <div v-if="isModalProductOpen" class="flex fixed top-0 left-0 z-10 w-screen h-screen bg-black/50 justify-center items-center">
-        <div ref="modal" class="relative mx-auto w-full max-w-xs md:max-w-md lg:max-w-lg bg-white shadow-2xl rounded">
-          <FormProductItem :product="newProduct" />
-        </div>
-      </div>
-    </Transition>
-  </Teleport>
+  <ModalWrapper :modal-open="isModalProductOpen">
+    <FormProductItem label-form="Novo Produto" label-btn="Cadastrar" :product="newProduct" />
+  </ModalWrapper>
 </template>
 <script setup>
-import { ref } from 'vue';
-import { onClickOutside } from '@vueuse/core';
+import { ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import ProductAdminItem from '../../components/ProductAdminItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
 import FormProductItem from '../../components/FormProductItem.vue';
+import ModalWrapper from '../../components/ModalWrapper.vue';
 
-const modal = ref(null);
 const search = ref('');
 let products = [];
 const isModalProductOpen = ref(false);
@@ -75,7 +65,9 @@ const newProduct = ref({
   price: 0,
 });
 
-onClickOutside(modal, () => {
+const emitter = inject('emitter');
+
+emitter.on('setModalFalse', () => {
   isModalProductOpen.value = false;
 });
 
