@@ -9,7 +9,7 @@
     {{ product.category }}
   </td>
   <td class="px-2 py-2">
-    {{ product.status_id }}
+    {{ product.price }}
   </td>
   <td class="px-2 py-2 ">
     <button type="button" title="Excluir Produto" @click="pdtDelete(product)">
