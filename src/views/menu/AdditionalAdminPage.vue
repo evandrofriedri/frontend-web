@@ -31,7 +31,7 @@
   </div>
   <CardNotFound :found="foundAdditional" label="Adicional não encontrado!" />
   <ModalWrapper :modal-open="isModalAdditionalOpen">
-    <FormAdditionalItem label-form="Novo Adicional" label-btn="Cadastrar" :additional="newAdditional" />
+    <FormAdditional label-form="Novo Adicional" label-btn="Cadastrar" :additional="newAdditional" />
   </ModalWrapper>
 </template>
 <script setup>
@@ -40,7 +40,7 @@ import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import AdditionalAdminItem from '../../components/AdditionalAdminItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
-import FormAdditionalItem from '../../components/FormAdditionalItem.vue';
+import FormAdditional from '../../components/FormAdditional.vue';
 import ModalWrapper from '../../components/ModalWrapper.vue';
 
 const search = ref('');

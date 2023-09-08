@@ -39,7 +39,7 @@
   </div>
   <CardNotFound :found="foundProduct" label="Produto não encontrado!" />
   <ModalWrapper :modal-open="isModalProductOpen">
-    <FormProductItem label-form="Novo Produto" label-btn="Cadastrar" :product="newProduct" />
+    <FormProduct label-form="Novo Produto" label-btn="Cadastrar" :product="newProduct" />
   </ModalWrapper>
 </template>
 <script setup>
@@ -48,7 +48,7 @@ import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import ProductAdminItem from '../../components/ProductAdminItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
-import FormProductItem from '../../components/FormProductItem.vue';
+import FormProduct from '../../components/FormProduct.vue';
 import ModalWrapper from '../../components/ModalWrapper.vue';
 
 const search = ref('');

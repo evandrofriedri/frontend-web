@@ -9,7 +9,7 @@
         <CategoryAdminPage />
       </PageTab>
       <PageTab title="Adicionais">
-        Ola 3
+        <AdditionalAdminPage />
       </PageTab>
     </TabWrapper>
   </div>
@@ -19,4 +19,5 @@ import TabWrapper from '../../components/TabWrapper.vue';
 import PageTab from '../../components/PageTab.vue';
 import ProductAdminPage from './ProductAdminPage.vue';
 import CategoryAdminPage from './CategoryAdminPage.vue';
+import AdditionalAdminPage from './AdditionalAdminPage.vue';
 </script>

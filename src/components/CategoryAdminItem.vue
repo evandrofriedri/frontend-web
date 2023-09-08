@@ -11,7 +11,7 @@
     </button>
   </td>
   <ModalWrapper :modal-open="isModaltemOpen">
-    <FormCategoryItem label-form="Editar Categoria" label-btn="Salvar" :category="category" />
+    <FormCategory label-form="Editar Categoria" label-btn="Salvar" :category="category" />
   </ModalWrapper>
 </template>
 
@@ -20,7 +20,7 @@ import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
-import FormCategoryItem from './FormCategoryItem.vue';
+import FormCategory from './FormCategory.vue';
 
 const isModaltemOpen = ref(false);
 const modal = ref(null);

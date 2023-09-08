@@ -28,7 +28,7 @@
   </div>
   <CardNotFound :found="foundCategory" label="Categoria não encontrada!" />
   <ModalWrapper :modal-open="isModalCategoryOpen">
-    <FormCategoryItem label-form="Nova Categoria" label-btn="Cadastrar" :category="newCategory" />
+    <FormCategory label-form="Nova Categoria" label-btn="Cadastrar" :category="newCategory" />
   </ModalWrapper>
 </template>
 <script setup>
@@ -37,7 +37,7 @@ import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import CategoryAdminItem from '../../components/CategoryAdminItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
-import FormCategoryItem from '../../components/FormCategoryItem.vue';
+import FormCategory from '../../components/FormCategory.vue';
 import ModalWrapper from '../../components/ModalWrapper.vue';
 
 const search = ref('');

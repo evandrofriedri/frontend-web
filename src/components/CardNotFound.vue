@@ -1,6 +1,6 @@
 <template>
   <div v-if="found == 0" class="flex justify-center items-center italic text-xl text-gray-800 m-14">
-    <font-awesome-icon icon="fa-solid fa-magnifying-glass" size="2xl" />
+    <font-awesome-icon icon="fa-solid fa-magnifying-glass" size="2xl" class="mr-2" />
     <h1>{{ label }}</h1>
   </div>
 </template>

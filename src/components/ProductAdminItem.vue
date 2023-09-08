@@ -20,14 +20,14 @@
     </button>
   </td>
   <ModalWrapper :modal-open="isModalItemOpen">
-    <FormProductItem label-form="Editar Produto" label-btn="Salvar" :product="product" />
+    <FormProduct label-form="Editar Produto" label-btn="Salvar" :product="product" />
   </ModalWrapper>
 </template>
 
 <script setup>
 import { ref, inject } from 'vue';
 import Swal from 'sweetalert2';
-import FormProductItem from './FormProductItem.vue';
+import FormProduct from './FormProduct.vue';
 import ModalWrapper from './ModalWrapper.vue';
 
 const isModalItemOpen = ref(false);

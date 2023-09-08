@@ -14,7 +14,7 @@
     </button>
   </td>
   <ModalWrapper :modal-open="isModaltemOpen">
-    <FormAdditionalItem label-form="Editar Adicional" label-btn="Salvar" :additional="additional" />
+    <FormAdditional label-form="Editar Adicional" label-btn="Salvar" :additional="additional" />
   </ModalWrapper>
 </template>
 
@@ -23,7 +23,7 @@ import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
-import FormAdditionalItem from './FormAdditionalItem.vue';
+import FormAdditional from './FormAdditional.vue';
 
 const isModaltemOpen = ref(false);
 const modal = ref(null);
