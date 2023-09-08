@@ -21,9 +21,7 @@
             Categoria
           </th>
           <th scope="col" class="px-2 py-2">
-            <!-- talvez um status Pago|nao pago pode ser necessario ser criado e retirado
-              botao Ações -->
-            Status
+            Preço
           </th>
           <th scope="col" class="px-2 py-2">
             Ações
@@ -78,7 +76,7 @@ function loadProduct() {
       name: 'Hamburguer da casa',
       description: 'Melhor hamburguer de todos os tempos',
       category_id: 1,
-      status_id: 1,
+      price: 34.9,
       additionals: [3, 4],
     },
     {
@@ -86,7 +84,7 @@ function loadProduct() {
       name: 'Budweiser',
       description: 'Cerveja gelada e de qualidade',
       category_id: 4,
-      status_id: 1,
+      price: 32.9,
       additionals: [],
     },
   ];
