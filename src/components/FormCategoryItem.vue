@@ -85,8 +85,8 @@ const submitForm = async () => {
     console.log(newCategory.value);
     Swal.fire({
       icon: 'success',
-      title: 'Produto salvo com sucesso!',
-      text: `Produto ${newCategory.value.name} salvo.`,
+      title: 'Categoria salva com sucesso!',
+      text: `Categoria ${newCategory.value.name} salva.`,
       confirmButtonColor: '#374151',
     }).then(() => {
       closeModal();
