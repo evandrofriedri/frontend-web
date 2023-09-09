@@ -57,7 +57,6 @@ const routes = [
     path: '/about',
     name: 'About',
     component: lazyLoad('AboutView'),
-    meta: { layout: 'empty-layout' },
   },
   {
     path: '/:patchMatch(.*)',
