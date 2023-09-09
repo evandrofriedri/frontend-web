@@ -55,6 +55,10 @@ const newAdditional = ref({
 const emitter = inject('emitter');
 
 emitter.on('setModalFalse', () => {
+  newAdditional.value = {
+    id: '',
+    name: '',
+  };
   isModalAdditionalOpen.value = false;
 });
 

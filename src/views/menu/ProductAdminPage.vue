@@ -66,6 +66,15 @@ const newProduct = ref({
 const emitter = inject('emitter');
 
 emitter.on('setModalFalse', () => {
+  newProduct.value = {
+    id: '',
+    name: '',
+    description: '',
+    category_id: '',
+    additionals: [],
+    imageUrl: '',
+    price: 0,
+  };
   isModalProductOpen.value = false;
 });
 

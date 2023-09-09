@@ -52,6 +52,10 @@ const newCategory = ref({
 const emitter = inject('emitter');
 
 emitter.on('setModalFalse', () => {
+  newCategory.value = {
+    id: -1,
+    name: '',
+  };
   isModalCategoryOpen.value = false;
 });
 
