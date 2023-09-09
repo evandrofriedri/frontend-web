@@ -17,13 +17,11 @@
 
 <script setup>
 import { ref } from 'vue';
-import { onClickOutside } from '@vueuse/core';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormCategory from './FormCategory.vue';
 
 const isModaltemOpen = ref(false);
-const modal = ref(null);
 
 defineProps({
   category: {
@@ -32,10 +30,6 @@ defineProps({
       return { msg: 0 };
     },
   },
-});
-
-onClickOutside(modal, () => {
-  isModaltemOpen.value = false;
 });
 
 function ctgDelete(category) {

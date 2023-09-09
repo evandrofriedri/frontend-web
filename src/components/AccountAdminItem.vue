@@ -22,12 +22,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { onClickOutside } from '@vueuse/core';
 import Swal from 'sweetalert2';
-
-const isModaltemOpen = ref(false);
-const modal = ref(null);
 
 defineProps({
   account: {
@@ -36,10 +31,6 @@ defineProps({
       return { msg: 0 };
     },
   },
-});
-
-onClickOutside(modal, () => {
-  isModaltemOpen.value = false;
 });
 
 function accountDeactivate(account) {

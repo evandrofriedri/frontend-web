@@ -48,7 +48,7 @@ let additionals = [];
 const isModalAdditionalOpen = ref(false);
 const foundAdditional = ref(0);
 const newAdditional = ref({
-  id: -1,
+  id: '',
   name: '',
 });
 

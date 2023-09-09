@@ -61,7 +61,7 @@ const emitter = inject('emitter');
 const categories = ref([]);
 const additionals = ref([]);
 const newProduct = ref({
-  id: -1,
+  id: '',
   name: '',
   description: '',
   category_id: -1,

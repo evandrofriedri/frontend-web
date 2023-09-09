@@ -23,8 +23,6 @@
               Celular
             </th>
             <th scope="col" class="px-2 py-2">
-              <!-- talvez um status Pago|nao pago pode ser necessario ser criado e retirado
-                 botao Ações -->
               Status
             </th>
             <th scope="col" class="px-2 py-2">

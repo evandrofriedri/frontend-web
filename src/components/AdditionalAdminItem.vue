@@ -9,24 +9,22 @@
     <button type="button" title="Excluir Adicional" @click="addDelete(additional)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
-    <button type="button" title="Editar Adicional" @click="isModaltemOpen = true">
+    <button type="button" title="Editar Adicional" @click="isModalItemOpen = true">
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModaltemOpen">
+  <ModalWrapper :modal-open="isModalItemOpen">
     <FormAdditional label-form="Editar Adicional" label-btn="Salvar" :additional="additional" />
   </ModalWrapper>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { onClickOutside } from '@vueuse/core';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormAdditional from './FormAdditional.vue';
 
-const isModaltemOpen = ref(false);
-const modal = ref(null);
+const isModalItemOpen = ref(false);
 
 defineProps({
   additional: {
@@ -35,10 +33,6 @@ defineProps({
       return { msg: 0 };
     },
   },
-});
-
-onClickOutside(modal, () => {
-  isModaltemOpen.value = false;
 });
 
 function addDelete(additional) {

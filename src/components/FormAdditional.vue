@@ -41,7 +41,7 @@ import ReturnButton from './ReturnButton.vue';
 
 const emitter = inject('emitter');
 const newAdditional = ref({
-  id: -1,
+  id: '',
   name: '',
 });
 
