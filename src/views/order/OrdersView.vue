@@ -1,11 +1,11 @@
 <template>
   <div class="flex w-full h-48" />
   <div class="flex flex-col container mx-auto py-10 px-4 sm:px-6 lg:px-20">
-    <h1 class="mb-5 text-xl font-semibold text-gray-700">
+    <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Acompanhar Pedidos
     </h1>
     <div v-for="(item, index) in statusPedido" :key="index" class="p-5 bg-white shadow-md rounded mb-3">
-      <h1 class="mb-3 text-lg font-semibold text-gray-700">
+      <h1 class="mb-3 text-lg font-semibold text-gray-800">
         Pedido #{{ item.pedido_id }}
       </h1>
       <div class="container">

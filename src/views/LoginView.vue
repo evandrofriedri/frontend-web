@@ -9,11 +9,11 @@
       <div class="mx-auto w-full max-w-sm">
         <div class="p-5 bg-white sm:shadow-2xl sm:rounded">
           <img src="../assets/login.svg" alt="" class="lg:hidden h-20 w-auto">
-          <h2 class="mt-6 lg:mt-0 text-3xl font-semibold text-gray-700">
+          <h2 class="mt-6 lg:mt-0 text-3xl font-semibold text-gray-800">
             Entrar
           </h2>
           <div class="mt-4 mb-4">
-            <button class="inline-block w-full p-3.5 leading-none text-gray-700 bg-gray-50 border hover:bg-gray-200 font-semibold rounded" type="submit">
+            <button class="inline-block w-full p-3.5 leading-none text-gray-800 bg-gray-50 border hover:bg-gray-200 font-semibold rounded" type="submit">
               <font-awesome-icon icon="fa-brands fa-google" /> Fazer login com o Google
             </button>
           </div>
@@ -39,7 +39,7 @@
               <div class="flex-grow border-t border-gray-200" />
             </div>
             <div class="mb-4">
-              <span class="text-sm text-gray-700 max-w">
+              <span class="text-sm text-gray-800 max-w">
                 Primeiro acesso?
               </span>
               <router-link class="font-semibold text-gray-900" to="/create-account">

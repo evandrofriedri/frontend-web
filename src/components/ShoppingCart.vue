@@ -47,7 +47,7 @@
             </p>
           </div>
         </div>
-        <p v-if="item.observation !== ''" class="text-base pl-4">
+        <p v-if="item.observation !== ''" class="text-base pl-5">
           Observações: {{ item.observation }}
         </p>
         <div class="flex justify-between text-base font-medium text-right">
@@ -60,14 +60,14 @@
       <p>Subtotal</p> <p>{{ subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
     </div>
     <div v-if="market.length > 0" class="flex justify-between items-center p-2 border rounded">
-      <div class="flex flex-col items-baseline">
+      <div class="flex flex-col items-baseline text-gray-800">
         <div class="flex items-center">
-          <input id="delivery-radio-1" :checked="forDelivery" type="radio" value="" name="delivery-radio" class="w-4 h-4 text-gray-800 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('deliver')">
-          <label for="delivery-radio-1" :checked="!forDelivery" class="w-full ml-2 text-base font-medium text-gray-900">Para entregar</label>
+          <input id="delivery-radio-1" :checked="forDelivery" type="radio" value="" name="delivery-radio" class="w-4 h-4 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('deliver')">
+          <label for="delivery-radio-1" :checked="!forDelivery" class="w-full ml-2 text-base font-medium">Para entregar</label>
         </div>
         <div class="flex items-center">
-          <input id="delivery-radio-2" type="radio" value="" name="delivery-radio" class="w-4 h-4 text-gray-800 border-gray-300 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('local')">
-          <label for="delivery-radio-2" class="w-full ml-2 text-base font-medium text-gray-900">Buscar na loja</label>
+          <input id="delivery-radio-2" type="radio" value="" name="delivery-radio" class="w-4 h-4 border-gray-300 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('local')">
+          <label for="delivery-radio-2" class="w-full ml-2 text-base font-medium">Buscar na loja</label>
         </div>
       </div>
       <LayoutItem icon="fa-solid fa-map-location-dot" :label="address.label" :description="address.description" />
@@ -87,7 +87,7 @@
       <p>Total</p> <p>{{ total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
     </div>
     <div class="grid grid-cols-12 text-justify items-center">
-      <div v-if="market.length > 0" class="col-start-6 md:col-start-10 col-end-13">
+      <div v-if="market.length > 0" class="col-start-6 md:col-start-8 col-end-13">
         <FormButton
           icon="fa-solid fa-check"
           description="Confirmar Pedido"

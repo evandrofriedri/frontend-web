@@ -9,7 +9,7 @@
       <div class="mx-auto w-full max-w-sm">
         <div class="p-5 bg-white sm:shadow-2xl sm:rounded">
           <img src="../../assets/sign.svg" alt="" class="lg:hidden h-20 w-auto">
-          <h2 class="mt-6 mb-6 text-3xl font-semibold text-gray-700">
+          <h2 class="mt-6 mb-6 text-3xl font-semibold text-gray-800">
             Criar seu cadastro
           </h2>
           <form action="" @submit.prevent="submitForm">

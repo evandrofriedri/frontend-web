@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-full h-48" />
   <div class="flex flex-col container mx-auto py-10 px-4 sm:px-6 lg:px-20">
-    <h1 class="mb-5 text-xl font-semibold text-gray-700">
+    <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Pedidos Recebidos
     </h1>
     <div class="grid grid-cols-12">
@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-show="foundOrder !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
-      <table class="w-full text-sm text-left text-gray-700">
+      <table class="w-full text-sm text-left text-gray-800">
         <thead class="text-xs text-gray-900 uppercase bg-gray-50">
           <tr>
             <th scope="col" class="px-2 py-2">

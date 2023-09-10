@@ -2,7 +2,7 @@
   <div :id="`search-input-${id}`">
     <label :for="id">
       <input
-        class="appearance-none block w-full py-1.5 px-2 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 shadow-md rounded focus:border-gray-500 focus:outline-none"
+        class="appearance-none block w-full py-1.5 px-2 leading-tight text-gray-800 bg-gray-50 focus:bg-white border border-gray-200 shadow-md rounded focus:border-gray-500 focus:outline-none"
         :value="modelValue"
         :placeholder="placeholder"
         type="text"

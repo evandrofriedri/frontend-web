@@ -1,10 +1,10 @@
 <template>
   <div class="flex">
-    <label class="text-base text-gray-700 max-w">
+    <label class="text-base text-gray-800 max-w">
       <input
         v-model="checked"
         :value="item.id"
-        class="text-gray-700 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
+        class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
         type="checkbox"
         v-bind="$attrs"
         @input="$emit('updateCheckbox', $event.target.value)"

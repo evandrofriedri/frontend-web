@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-full h-48" />
   <div class="flex flex-col container mx-auto py-10 px-4 sm:px-6 lg:px-20">
-    <h1 class="mb-5 text-xl font-semibold text-gray-700">
+    <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Dados da Conta
     </h1>
     <div class="p-5 bg-white shadow-md rounded mb-3">
@@ -24,11 +24,11 @@
         </div>
       </form>
     </div>
-    <h1 class="mb-5 text-xl font-semibold text-gray-700">
+    <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Apagar Conta
     </h1>
-    <div class="p-5 bg-white shadow-md rounded">
-      <h1 class="text-gray-700">
+    <div class="p-5 bg-white shadow-md rounded mb-3">
+      <h1 class="text-gray-800">
         Apaga todos os dados e histórico da conta.
       </h1>
       <div class="grid grid-cols-12">

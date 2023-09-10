@@ -11,12 +11,12 @@
         <BaseInput id="name" v-model="newProduct.name" label="Nome Produto" type="text" placeholder="Nome Produto" :errors="v$.name.$errors" />
         <BaseInput id="description" v-model="newProduct.description" label="Descrição" type="text" placeholder="Descrição" :errors="v$.description.$errors" />
         <SelectInput id="category_id" v-model="newProduct.category_id" name="category" :items="categories" label="Categoria" :errors="v$.category_id.$errors" />
-        <div class="text-base text-gray-700">
+        <div class="text-base text-gray-800">
           Adicionais
         </div>
         <div class="max-h-[200px] overflow-auto rounded mb-4">
           <div v-for="(item, index) in additionals" :key="index">
-            <div class="flex justify-between pt-2 text-gray-700">
+            <div class="flex justify-between pt-2 text-gray-800">
               <CheckboxInput
                 :item="item"
                 @update-checkbox="updateAdditional"

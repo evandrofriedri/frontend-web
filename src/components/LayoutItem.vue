@@ -4,7 +4,7 @@
       <font-awesome-icon :icon="icon" size="xl" class="basis-1/12 w-5" />
       <div class="basis-11/12 ml-2">
         <div> {{ label }} </div>
-        <div v-if="description != ''" class="text-xs text-gray-700">
+        <div v-if="description != ''" class="text-xs text-gray-800">
           {{ description }}
         </div>
       </div>

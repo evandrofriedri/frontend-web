@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 flex rounded bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
+  <div class="p-2 flex rounded bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
     <div class="flex flex-col pr-5">
       <p class="mb-2 text-lg font-medium text-gray-900">
         {{ props.product.name }}
@@ -26,16 +26,13 @@
       <img :src="props.product.image" class="object-cover h-48 w-full rounded-t" alt="" />
     </div>
     <div class="flex flex-col">
-      <h1 class="text-lg text-gray-800 font-medium text-justify mt-2">
-        {{ props.product.name }}
-      </h1>
       <p class="text-sm font-light text-gray-800 text-justify mt-2">
         {{ props.product.description }}
       </p>
       <p class="text-base text-gray-800 font-semibold text-right mt-2">
         {{ props.product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
       </p>
-      <div v-if="props.product.additional" class="w-full mt-4">
+      <div v-if="props.product.additional" class="w-full mt-2">
         <div class="text-base text-gray-800">
           Adicionais
         </div>
