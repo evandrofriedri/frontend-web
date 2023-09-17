@@ -2,12 +2,12 @@ import Api from './Api';
 
 export default {
   /**
-   * Metodo para listar todos as contas
+   * Metodo para listar todos os usuários
    * GET
    */
-  async getAccounts() {
+  async getUsers() {
     try {
-      const response = await Api().get('/accounts');
+      const response = await Api().get('/users');
       return response.data;
     } catch (error) {
       console.log(error);
@@ -16,12 +16,13 @@ export default {
   },
 
   /**
-   * Metodo para criar nova conta
+   * Metodo para criar nova usuário
    * POST
    */
-  async createAccount(account) {
+  async createUser(user) {
     try {
-      const response = await Api().post('/accounts', account);
+      const response = await Api().post('/users', user);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -30,12 +31,12 @@ export default {
   },
 
   /**
-   * Metodo para listar conta por ID
+   * Metodo para listar usuário por ID
    * GET
    */
-  async getAccountID(id) {
+  async getUserID(id) {
     try {
-      const response = await Api().get(`/accounts/${id}`);
+      const response = await Api().get(`/users/${id}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -44,12 +45,12 @@ export default {
   },
 
   /**
-   * Metodo para atualizar conta por ID
+   * Metodo para atualizar usuário por ID
    * PUT
    */
-  async updateAccount(id) {
+  async updateUser(id) {
     try {
-      const response = await Api().put(`/accounts/${id}`);
+      const response = await Api().put(`/users/${id}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -57,12 +58,12 @@ export default {
     }
   },
   /**
-   * Metodo para excluir conta por ID
+   * Metodo para excluir usuário por ID
    * DELETE
    */
-  async deleteAccount(id) {
+  async deleteUser(id) {
     try {
-      const response = await Api().delete(`/accounts/${id}`);
+      const response = await Api().delete(`/users/${id}`);
       return response.data;
     } catch (error) {
       console.log(error);

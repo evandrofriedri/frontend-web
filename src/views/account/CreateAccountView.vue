@@ -13,8 +13,8 @@
             Criar seu cadastro
           </h2>
           <form action="" @submit.prevent="submitForm">
-            <BaseInput id="username" v-model="formData.userName" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.userName.$errors" />
-            <BaseInput id="userEmail" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
+            <BaseInput id="name" v-model="formData.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
+            <BaseInput id="email" v-model="formData.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
             <BaseInput id="cellphone" v-model="formData.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
             <BaseInput id="password" v-model="formData.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
             <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
@@ -43,15 +43,16 @@ import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
-import AccountService from '../../services/AccountService';
+import UserService from '../../services/UserService';
 
 const router = useRouter();
 
 const formData = reactive({
-  userName: null,
-  userEmail: null,
+  name: null,
+  email: null,
   cellphone: null,
   password: null,
+  active: true,
   confirmPassword: null,
 });
 
@@ -68,8 +69,8 @@ useEventListener(document, 'input', (evt) => {
 });
 
 const rules = computed(() => ({
-  userName: { required: helpers.withMessage('Campo obrigatório', required) },
-  userEmail: {
+  name: { required: helpers.withMessage('Campo obrigatório', required) },
+  email: {
     required: helpers.withMessage('Campo obrigatório', required),
     email: helpers.withMessage('Insira um email válido', email),
   },
@@ -94,7 +95,7 @@ const submitForm = async () => {
 
   if (validated) {
     try {
-      await AccountService.createAccount(formData);
+      await UserService.createUser(formData);
       await Swal.fire({
         icon: 'success',
         title: 'Cadastro realizado com sucesso!',
@@ -106,7 +107,7 @@ const submitForm = async () => {
     } catch (error) {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao cadastrar nova conta, tente mais tarde!',
+        title: 'Erro ao cadastrar novo usuário, tente mais tarde!',
         showConfirmButton: true,
         confirmButtonColor: '#374151',
       });
