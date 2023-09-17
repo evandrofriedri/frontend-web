@@ -4,7 +4,7 @@
       <BaseButton icon="fa-solid fa-file-circle-plus" description="" @click="isModalAdditionalOpen = true" />
     </div>
     <div class="col-start-6 md:col-start-10 col-end-13">
-      <SearchInput id="accountAdminSearch" v-model="search" placeholder="Digite o nome do adicional" />
+      <SearchInput id="userAdminSearch" v-model="search" placeholder="Digite o nome do adicional" />
     </div>
   </div>
   <div v-show="foundAdditional !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">

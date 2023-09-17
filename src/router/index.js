@@ -18,14 +18,14 @@ const routes = [
     meta: { layout: 'empty-layout' },
   },
   {
-    path: '/account',
-    name: 'ListAccount',
-    component: lazyLoad('account/ListAccountView'),
+    path: '/user',
+    name: 'ListUser',
+    component: lazyLoad('user/ListUserView'),
   },
   {
-    path: '/create-account',
-    name: 'CreateAccount',
-    component: lazyLoad('account/CreateAccountView'),
+    path: '/createUser',
+    name: 'CreateUser',
+    component: lazyLoad('user/CreateUserView'),
     meta: { layout: 'empty-layout' },
   },
   {
@@ -44,9 +44,9 @@ const routes = [
     component: lazyLoad('order/OrderAdminView'),
   },
   {
-    path: '/accountAdmin',
-    name: 'AccountAdmin',
-    component: lazyLoad('account/AccountAdminView'),
+    path: '/userAdmin',
+    name: 'userAdmin',
+    component: lazyLoad('user/UserAdminView'),
   },
   {
     path: '/menuAdmin',

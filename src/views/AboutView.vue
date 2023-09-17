@@ -7,7 +7,7 @@
     <div class="p-5 bg-white shadow-md rounded mb-3">
       Projeto simples de Delivery.
       Desenvolvido aplicação Web completa com módulo servidor e módulo cliente.
-      Utilização de frameworks javascripts, css e persistencia em Banco de dados Relacional
+      Utilização de frameworks javascript, css e persistencia em Banco de dados Relacional
     </div>
   </div>
 </template>

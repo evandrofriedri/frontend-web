@@ -6,10 +6,10 @@
     </h1>
     <div class="grid grid-cols-12">
       <div class="col-start-6 md:col-start-10 col-end-13 mb-2">
-        <SearchInput id="accountAdminSearch" v-model="search" placeholder="Digite o nome da conta" />
+        <SearchInput id="userAdminSearch" v-model="search" placeholder="Digite o nome da conta" />
       </div>
     </div>
-    <div v-show="foundAccount !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
+    <div v-show="foundUser !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
       <table class="w-full text-sm text-left text-gray-800">
         <thead class="text-xs text-gray-900 uppercase bg-gray-50">
           <tr>
@@ -32,12 +32,12 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
-            <AccountAdminItem :account="item" />
+            <UserAdminItem :user="item" />
           </tr>
         </tbody>
       </table>
     </div>
-    <CardNotFound :found="foundAccount" label="Conta não encontrada!" />
+    <CardNotFound :found="foundUser" label="Conta não encontrada!" />
   </div>
 </template>
 
@@ -45,23 +45,23 @@
 import { ref } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
-import AccountAdminItem from '../../components/AccountAdminItem.vue';
+import UserAdminItem from '../../components/UserAdminItem.vue';
 
 const search = ref('');
-let accounts = [];
-const foundAccount = ref(0);
+let users = [];
+const foundUser = ref(0);
 
 function loadData() {
   const data = [
     {
-      account_id: '01',
+      user_id: '01',
       name: 'Evandro Mathias',
       email: 'evandrofriedri@gmail.com',
       cellphone: '(44) 99900-9626',
       status_id: 1,
     },
     {
-      account_id: '02',
+      user_id: '02',
       name: 'Karla Gabriela',
       email: 'gabrielamanzatti@gmail.com',
       cellphone: '(45) 99954-0472',
@@ -72,15 +72,15 @@ function loadData() {
   return data;
 }
 
-function thereIsAccount(obj) {
-  foundAccount.value = Object.values(obj).length;
+function thereIsUser(obj) {
+  foundUser.value = Object.values(obj).length;
 }
 
 function filteredList() {
-  accounts = loadData();
+  users = loadData();
   // eslint-disable-next-line vue/max-len
-  const filtData = accounts.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
-  thereIsAccount(filtData);
+  const filtData = users.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  thereIsUser(filtData);
   return filtData;
 }
 

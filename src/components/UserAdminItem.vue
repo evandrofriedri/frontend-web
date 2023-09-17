@@ -1,21 +1,21 @@
 <template>
   <td class="px-2 py-2">
-    {{ account.name }}
+    {{ user.name }}
   </td>
   <td class="px-2 py-2">
-    {{ account.email }}
+    {{ user.email }}
   </td>
   <td class="px-2 py-2">
-    {{ account.cellphone }}
+    {{ user.cellphone }}
   </td>
   <td class="px-2 py-2">
-    {{ account.status_id }}
+    {{ user.status_id }}
   </td>
   <td class="px-2 py-2 ">
-    <button type="button" title="Desativar Conta" @click="accountDeactivate(account)">
+    <button type="button" title="Desativar Conta" @click="userDeactivate(user)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
-    <button type="button" title="Ativar Conta" @click="accountActivate(account)">
+    <button type="button" title="Ativar Conta" @click="userActivate(user)">
       <font-awesome-icon icon="fa-regular fa-square-caret-right" />
     </button>
   </td>
@@ -25,7 +25,7 @@
 import Swal from 'sweetalert2';
 
 defineProps({
-  account: {
+  user: {
     type: Object,
     default() {
       return { msg: 0 };
@@ -33,9 +33,9 @@ defineProps({
   },
 });
 
-function accountDeactivate(account) {
+function userDeactivate(user) {
   Swal.fire({
-    title: `Deseja desativar conta ${account.name}?`,
+    title: `Deseja desativar conta ${user.name}?`,
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#374151',
@@ -47,7 +47,7 @@ function accountDeactivate(account) {
       Swal.fire({
         icon: 'success',
         title: 'Conta desativada!',
-        text: `Conta ${account.name} desativada.`,
+        text: `Conta ${user.name} desativada.`,
         confirmButtonColor: '#374151',
       });
     }
@@ -55,9 +55,9 @@ function accountDeactivate(account) {
   // chamar api para excluir o pedido, no caso fazer update para ativo = 0
 }
 
-function accountActivate(account) {
+function userActivate(user) {
   Swal.fire({
-    title: `Deseja ativar conta ${account.name}?`,
+    title: `Deseja ativar conta ${user.name}?`,
     icon: 'question',
     showCancelButton: true,
     confirmButtonColor: '#374151',
@@ -69,7 +69,7 @@ function accountActivate(account) {
       Swal.fire({
         icon: 'success',
         title: 'Conta ativada!',
-        text: `Conta ${account.name} ativada.`,
+        text: `Conta ${user.name} ativada.`,
         confirmButtonColor: '#374151',
       });
     }
