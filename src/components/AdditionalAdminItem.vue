@@ -19,12 +19,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormAdditional from './FormAdditional.vue';
 
 const isModalItemOpen = ref(false);
+const emitter = inject('emitter');
 
 defineProps({
   additional: {
@@ -33,6 +34,10 @@ defineProps({
       return { msg: 0 };
     },
   },
+});
+
+emitter.on('setModalFalse', () => {
+  isModalItemOpen.value = false;
 });
 
 function addDelete(additional) {

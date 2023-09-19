@@ -6,22 +6,23 @@
     <button type="button" title="Excluir Categoria" @click="ctgDelete(category)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
-    <button type="button" title="Editar Categoria" @click="isModaltemOpen = true">
+    <button type="button" title="Editar Categoria" @click="isModalItemOpen = true">
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModaltemOpen">
+  <ModalWrapper :modal-open="isModalItemOpen">
     <FormCategory label-form="Editar Categoria" label-btn="Salvar" :category="category" />
   </ModalWrapper>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormCategory from './FormCategory.vue';
 
-const isModaltemOpen = ref(false);
+const isModalItemOpen = ref(false);
+const emitter = inject('emitter');
 
 defineProps({
   category: {
@@ -30,6 +31,10 @@ defineProps({
       return { msg: 0 };
     },
   },
+});
+
+emitter.on('setModalFalse', () => {
+  isModalItemOpen.value = false;
 });
 
 function ctgDelete(category) {
