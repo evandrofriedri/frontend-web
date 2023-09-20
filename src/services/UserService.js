@@ -48,9 +48,10 @@ export default {
    * Metodo para atualizar usuário por ID
    * PUT
    */
-  async updateUser(id) {
+  async updateUser(user) {
     try {
-      const response = await Api().put(`/users/${id}`);
+      const id = user.user_id;
+      const response = await Api().put(`/users/${id}`, user);
       return response.data;
     } catch (error) {
       console.log(error);

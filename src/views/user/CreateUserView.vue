@@ -37,7 +37,7 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, email, sameAs, minLength, helpers,
 } from '@vuelidate/validators';
-import { reactive, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
@@ -47,12 +47,11 @@ import UserService from '../../services/UserService';
 
 const router = useRouter();
 
-const formData = reactive({
+const formData = ref({
   name: null,
   email: null,
   cellphone: null,
   password: null,
-  active: true,
   confirmPassword: null,
 });
 
@@ -84,7 +83,7 @@ const rules = computed(() => ({
   },
   confirmPassword: {
     required: helpers.withMessage('Campo obrigatório ', required),
-    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(formData.password)),
+    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(formData.value.password)),
   },
 }));
 
@@ -93,26 +92,28 @@ const v$ = useVuelidate(rules, formData);
 const submitForm = async () => {
   const validated = await v$.value.$validate();
 
-  if (validated) {
-    try {
-      await UserService.createUser(formData);
-      await Swal.fire({
-        icon: 'success',
-        title: 'Cadastro realizado com sucesso!',
-        showConfirmButton: true,
-        confirmButtonColor: '#374151',
-      }).then(() => {
-        router.push({ name: 'Login' });
-      });
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Erro ao cadastrar novo usuário, tente mais tarde!',
-        showConfirmButton: true,
-        confirmButtonColor: '#374151',
-      });
-    }
+  if (!validated) {
+    return false;
   }
+  const response = await UserService.createUser(formData.value);
+  if (response) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Cadastro realizado com sucesso!',
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    }).then(() => {
+      router.push({ name: 'Login' });
+    });
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro ao cadastrar novo usuário, tente mais tarde!',
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    });
+  }
+  return true;
 };
 
 </script>
