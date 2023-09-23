@@ -4,7 +4,7 @@
       <BaseButton icon="fa-solid fa-file-circle-plus" description="" @click="isModalAdditionalOpen = true" />
     </div>
     <div class="col-start-6 md:col-start-10 col-end-13">
-      <SearchInput id="userAdminSearch" v-model="search" placeholder="Digite o nome do adicional" />
+      <SearchInput id="additionalAdminSearch" v-model="search" placeholder="Digite o nome do adicional" />
     </div>
   </div>
   <div v-show="foundAdditional !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -23,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
+        <tr v-for="(item, index) in filteredList(additionalList)" :key="index" class="bg-white border-b">
           <AdditionalAdminItem :additional="item" />
         </tr>
       </tbody>
@@ -35,84 +35,51 @@
   </ModalWrapper>
 </template>
 <script setup>
-import { ref, inject } from 'vue';
+import { onMounted, ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import AdditionalAdminItem from '../../components/AdditionalAdminItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
 import FormAdditional from '../../components/FormAdditional.vue';
 import ModalWrapper from '../../components/ModalWrapper.vue';
+import AdditionalService from '../../services/AdditionalService';
 
 const search = ref('');
-let additionals = [];
+const additionalList = ref([]);
 const isModalAdditionalOpen = ref(false);
 const foundAdditional = ref(0);
 const newAdditional = ref({
-  id: '',
-  name: '',
+  name: null,
+  price: null,
 });
 
 const emitter = inject('emitter');
-
 emitter.on('setModalFalse', () => {
   newAdditional.value = {
-    id: '',
     name: '',
+    price: '',
   };
   isModalAdditionalOpen.value = false;
 });
 
-function loadAdditionals() {
-  const data = [
-    {
-      id: 1,
-      name: 'Rúcula',
-      price: 2.00,
-    },
-    {
-      id: 2,
-      name: 'Bacon',
-      price: 2.00,
-    },
-    {
-      id: 3,
-      name: 'Tomate',
-      price: 2.00,
-    },
-    {
-      id: 4,
-      name: 'Ovo',
-      price: 2.00,
-    },
-    {
-      id: 5,
-      name: 'Alface',
-      price: 2.00,
-    },
-    {
-      id: 6,
-      name: 'Queijo',
-      price: 2.00,
-    },
-    {
-      id: 7,
-      name: 'Cebola',
-      price: 2.00,
-    }];
-
-  return data;
+async function loadData() {
+  const response = await AdditionalService.getAdditionals();
+  return response;
 }
 
 function thereIsAdditional(obj) {
   foundAdditional.value = Object.values(obj).length;
 }
 
-function filteredList() {
-  additionals = loadAdditionals();
-
+function filteredList(data) {
   // eslint-disable-next-line vue/max-len
-  const filtData = additionals.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
   thereIsAdditional(filtData);
   return filtData;
 }
+
+onMounted(async () => {
+  additionalList.value = await loadData();
+  additionalList.value = await filteredList(additionalList.value);
+});
 </script>

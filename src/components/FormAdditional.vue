@@ -8,8 +8,8 @@
         </h1>
       </div>
       <div class="flex flex-col">
-        <BaseInput id="name" v-model="newAdditional.name" label="Nome Adicional" type="text" placeholder="Nome Adicional" :errors="v$.name.$errors" />
-        <BaseInput id="price" v-model="newAdditional.price" label="Preço" type="number" placeholder="Preço do Adicional" :errors="v$.price.$errors" />
+        <BaseInput id="name" v-model="additional.name" label="Nome Adicional" type="text" placeholder="Nome Adicional" :errors="v$.name.$errors" />
+        <BaseInput id="price" v-model="additional.price" label="Preço" type="number" placeholder="Preço do Adicional" :errors="v$.price.$errors" />
       </div>
     </div>
     <div class="grid grid-cols-12">
@@ -34,13 +34,17 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers, between,
 } from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
+import AdditionalService from '../services/AdditionalService';
 
+const router = useRouter();
 const emitter = inject('emitter');
-const newAdditional = ref({
+
+const additional = ref({
   id: '',
   name: '',
 });
@@ -62,43 +66,74 @@ const props = defineProps({
   },
 });
 
+function closeModal() {
+  emitter.emit('closeModal');
+}
+
+onMounted(async () => {
+  additional.value = await props.additional;
+});
+
 const rules = computed(() => ({
   name: {
     required: helpers.withMessage('Campo obrigatório', required),
   },
   price: {
     required: helpers.withMessage('Campo obrigatório', required),
-    betweenValue: helpers.withMessage('Valor deverá estar entre 5 e 100', between(5, 100)),
+    betweenValue: helpers.withMessage('Valor deverá estar entre 5 e 999', between(5, 999)),
   },
 }));
 
-const v$ = useVuelidate(rules, newAdditional);
-
-function closeModal() {
-  emitter.emit('closeModal');
-}
-
-onMounted(async () => {
-  newAdditional.value = await props.additional;
-});
+const v$ = useVuelidate(rules, additional);
 
 const submitForm = async () => {
-  const result = await v$.value.$validate();
+  const validated = await v$.value.$validate();
 
-  if (result) {
-    console.log('fomr enviado!');
-    console.log(newAdditional.value);
-    Swal.fire({
-      icon: 'success',
-      title: 'Adicional salvo com sucesso!',
-      text: `Adicional ${newAdditional.value.name} salvo.`,
-      confirmButtonColor: '#374151',
-    }).then(() => {
-      closeModal();
-    });
-  } else {
-    console.log('nao enviado!');
+  if (!validated) {
+    return false;
   }
+
+  if (additional.value.additional_id === undefined) {
+    const response = await AdditionalService.createAdditional(additional.value);
+    if (response) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Cadastro realizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      }).then(() => {
+        router.go(0);
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao cadastrar novo adicional, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+    }
+  } else {
+    const response = await AdditionalService.updateAdditional(additional.value);
+    if (response) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Alteração realizada com sucesso!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      }).then(() => {
+        router.go(0);
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao editar adicional, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+    }
+  }
+
+  return true;
 };
 
 </script>

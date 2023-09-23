@@ -20,10 +20,13 @@
 
 <script setup>
 import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormAdditional from './FormAdditional.vue';
+import AdditionalService from '../services/AdditionalService';
 
+const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
@@ -40,9 +43,9 @@ emitter.on('setModalFalse', () => {
   isModalItemOpen.value = false;
 });
 
-function addDelete(additional) {
+const addDelete = (additional) => {
   Swal.fire({
-    title: `Deseja excluir o adicional ${additional.name}?`,
+    title: `Deseja excluir adicional ${additional.name}?`,
     text: 'Não poderá reverter após confirmação!',
     icon: 'warning',
     showCancelButton: true,
@@ -52,15 +55,27 @@ function addDelete(additional) {
     cancelButtonText: 'Voltar',
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Adicional Excluído!',
-        text: `Adicional ${additional.name} excluído.`,
-        confirmButtonColor: '#374151',
-      });
+      const response = AdditionalService.deleteAdditional(additional.additional_id);
+      if (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Adicional excluído com sucesso!',
+          text: `Adicional ${additional.name} excluído.`,
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        }).then(() => {
+          router.go(0);
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao excluir adicional, tente mais tarde!',
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        });
+      }
     }
   });
-  // chamar api para excluir o pedido, no caso fazer update para ativo = 0
-}
+};
 
 </script>
