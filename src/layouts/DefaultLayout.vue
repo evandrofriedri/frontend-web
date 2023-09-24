@@ -3,22 +3,20 @@
     <MenuBar />
   </header>
   <main>
-    <slot />
+    <Suspense>
+      <slot />
+      <template #fallback>
+        <CardLoading />
+      </template>
+    </Suspense>
   </main>
   <footer>
     <FooterBar />
   </footer>
 </template>
 
-<script>
+<script setup>
 import FooterBar from '../components/FooterBar.vue';
 import MenuBar from '../components/MenuBar.vue';
-
-export default {
-  components: { MenuBar, FooterBar },
-  data() {
-    return {};
-  },
-};
-
+import CardLoading from '../components/CardLoading.vue';
 </script>

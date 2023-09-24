@@ -5,7 +5,7 @@
   <td class="px-2 py-2">
     {{ additional.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
   </td>
-  <td class="px-2 py-2 ">
+  <td class="px-2 py-2">
     <button type="button" title="Excluir Adicional" @click="addDelete(additional)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
