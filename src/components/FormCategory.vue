@@ -8,7 +8,7 @@
         </h1>
       </div>
       <div class="flex flex-col">
-        <BaseInput id="name" v-model="newCategory.name" label="Nome Categoria" type="text" placeholder="Nome Categoria" :errors="v$.name.$errors" />
+        <BaseInput id="name" v-model="category.name" label="Nome Categoria" type="text" placeholder="Nome Categoria" :errors="v$.name.$errors" />
       </div>
     </div>
     <div class="grid grid-cols-12">
@@ -33,14 +33,18 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers,
 } from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
+import CategoryService from '../services/CategoryService';
 
+const router = useRouter();
 const emitter = inject('emitter');
-const newCategory = ref({
-  id: -1,
+
+const category = ref({
+  id: '',
   name: '',
 });
 
@@ -61,39 +65,70 @@ const props = defineProps({
   },
 });
 
+function closeModal() {
+  emitter.emit('closeModal');
+}
+
+onMounted(async () => {
+  category.value = await props.category;
+});
+
 const rules = computed(() => ({
   name: {
     required: helpers.withMessage('Campo obrigatório', required),
   },
 }));
 
-const v$ = useVuelidate(rules, newCategory);
-
-function closeModal() {
-  emitter.emit('closeModal');
-}
-
-onMounted(async () => {
-  newCategory.value = await props.category;
-});
+const v$ = useVuelidate(rules, category);
 
 const submitForm = async () => {
-  const result = await v$.value.$validate();
+  const validated = await v$.value.$validate();
 
-  if (result) {
-    console.log('fomr enviado!');
-    console.log(newCategory.value);
-    Swal.fire({
-      icon: 'success',
-      title: 'Categoria salva com sucesso!',
-      text: `Categoria ${newCategory.value.name} salva.`,
-      confirmButtonColor: '#374151',
-    }).then(() => {
-      closeModal();
-    });
-  } else {
-    console.log('nao enviado!');
+  if (!validated) {
+    return false;
   }
+
+  if (category.value.category_id === undefined) {
+    const response = await CategoryService.createCategory(category.value);
+    if (response) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Cadastro realizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      }).then(() => {
+        router.go(0);
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao cadastrar nova categoria, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+    }
+  } else {
+    const response = await CategoryService.updateCategory(category.value);
+    if (response) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Alteração realizada com sucesso!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      }).then(() => {
+        router.go(0);
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao editar adicional, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+    }
+  }
+
+  return true;
 };
 
 </script>

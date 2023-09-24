@@ -2,7 +2,7 @@
   <td class="px-2 py-2">
     {{ category.name }}
   </td>
-  <td class="px-2 py-2 ">
+  <td class="px-2 py-2">
     <button type="button" title="Excluir Categoria" @click="ctgDelete(category)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
@@ -17,10 +17,13 @@
 
 <script setup>
 import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormCategory from './FormCategory.vue';
+import CategoryService from '../services/CategoryService';
 
+const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
@@ -39,7 +42,7 @@ emitter.on('setModalFalse', () => {
 
 function ctgDelete(category) {
   Swal.fire({
-    title: `Deseja excluir a categoria ${category.name}?`,
+    title: `Deseja excluir categoria ${category.name}?`,
     text: 'Não poderá reverter após confirmação!',
     icon: 'warning',
     showCancelButton: true,
@@ -49,15 +52,27 @@ function ctgDelete(category) {
     cancelButtonText: 'Voltar',
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Categoria Excluída!',
-        text: `Categoria ${category.name} excluída.`,
-        confirmButtonColor: '#374151',
-      });
+      const response = CategoryService.deleteCategory(category.category_id);
+      if (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Categoria excluída com sucesso!',
+          text: `Categoria ${category.name} excluída.`,
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        }).then(() => {
+          router.go(0);
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao excluir categoria, tente mais tarde!',
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        });
+      }
     }
   });
-  // chamar api para excluir o pedido, no caso fazer update para ativo = 0
 }
 
 </script>

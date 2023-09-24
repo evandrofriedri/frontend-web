@@ -20,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
+        <tr v-for="(item, index) in filteredList(categoryList)" :key="index" class="bg-white border-b">
           <CategoryAdminItem :category="item" />
         </tr>
       </tbody>
@@ -32,74 +32,49 @@
   </ModalWrapper>
 </template>
 <script setup>
-import { ref, inject } from 'vue';
+import { onMounted, ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import CategoryAdminItem from '../../components/CategoryAdminItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
 import FormCategory from '../../components/FormCategory.vue';
 import ModalWrapper from '../../components/ModalWrapper.vue';
+import CategoryService from '../../services/CategoryService';
 
 const search = ref('');
-let categories = [];
+const categoryList = ref([]);
 const isModalCategoryOpen = ref(false);
 const foundCategory = ref(0);
 const newCategory = ref({
-  id: -1,
-  name: '',
+  name: null,
 });
 
 const emitter = inject('emitter');
-
 emitter.on('setModalFalse', () => {
   newCategory.value = {
-    id: -1,
-    name: '',
+    name: null,
   };
   isModalCategoryOpen.value = false;
 });
 
-function loadCategories() {
-  const data = [
-    {
-      id: '',
-      name: 'Selecione',
-    },
-    {
-      id: 1,
-      name: 'Promoções',
-    },
-    {
-      id: 2,
-      name: 'Combos',
-    },
-    {
-      id: 3,
-      name: 'Clássicos',
-    },
-    {
-      id: 4,
-      name: 'Cervejas',
-    },
-    {
-      id: 5,
-      name: 'Refrigerantes',
-    },
-  ];
-
-  return data;
+async function loadData() {
+  const response = await CategoryService.getCategories();
+  return response;
 }
 
 function thereIsCategory(obj) {
   foundCategory.value = Object.values(obj).length;
 }
 
-function filteredList() {
-  categories = loadCategories();
-
+function filteredList(data) {
   // eslint-disable-next-line vue/max-len
-  const filtData = categories.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
   thereIsCategory(filtData);
   return filtData;
 }
+
+onMounted(async () => {
+  categoryList.value = await loadData();
+  categoryList.value = await filteredList(categoryList.value);
+});
 </script>
