@@ -45,8 +45,8 @@ const router = useRouter();
 const emitter = inject('emitter');
 
 const additional = ref({
-  id: '',
-  name: '',
+  id: null,
+  name: null,
 });
 
 const props = defineProps({

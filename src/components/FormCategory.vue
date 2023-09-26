@@ -44,8 +44,8 @@ const router = useRouter();
 const emitter = inject('emitter');
 
 const category = ref({
-  id: '',
-  name: '',
+  id: null,
+  name: null,
 });
 
 const props = defineProps({
