@@ -53,9 +53,9 @@ const addDelete = (additional) => {
     cancelButtonColor: '#EF4444',
     confirmButtonText: 'Confirmar',
     cancelButtonText: 'Voltar',
-  }).then((result) => {
+  }).then(async (result) => {
     if (result.isConfirmed) {
-      const response = AdditionalService.deleteAdditional(additional.additional_id);
+      const response = await AdditionalService.deleteAdditional(additional.additional_id);
       if (response) {
         Swal.fire({
           icon: 'success',

@@ -50,9 +50,9 @@ function ctgDelete(category) {
     cancelButtonColor: '#EF4444',
     confirmButtonText: 'Confirmar',
     cancelButtonText: 'Voltar',
-  }).then((result) => {
+  }).then(async (result) => {
     if (result.isConfirmed) {
-      const response = CategoryService.deleteCategory(category.category_id);
+      const response = await CategoryService.deleteCategory(category.category_id);
       if (response) {
         Swal.fire({
           icon: 'success',
