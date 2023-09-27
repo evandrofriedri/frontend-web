@@ -219,7 +219,6 @@ const submitForm = async () => {
       return false;
     }
 
-    // const result = await ProductService.getProductAdditionals(product.value.product_id);
     await ProductService.deleteProductAdditionals(product.value.product_id);
     await product.value.additionals.forEach(async (element) => {
       await ProductService.createProductAdditional(product.value.product_id, element);
