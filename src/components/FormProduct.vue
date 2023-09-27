@@ -8,9 +8,9 @@
         </h1>
       </div>
       <div class="flex flex-col">
-        <BaseInput id="name" v-model="newProduct.name" label="Nome Produto" type="text" placeholder="Nome Produto" :errors="v$.name.$errors" />
-        <BaseInput id="description" v-model="newProduct.description" label="Descrição" type="text" placeholder="Descrição" :errors="v$.description.$errors" />
-        <SelectInput id="category_id" v-model="newProduct.category_id" name="category" :items="categories" label="Categoria" :errors="v$.category_id.$errors" />
+        <BaseInput id="name" v-model="product.name" label="Nome Produto" type="text" placeholder="Nome Produto" :errors="v$.name.$errors" />
+        <BaseInput id="description" v-model="product.description" label="Descrição" type="text" placeholder="Descrição" :errors="v$.description.$errors" />
+        <SelectInput id="category_id" v-model="product.category_id" name="category" :items="categories" label="Categoria" :errors="v$.category_id.$errors" />
         <div class="text-base text-gray-800">
           Adicionais
         </div>
@@ -24,8 +24,8 @@
             </div>
           </div>
         </div>
-        <BaseInput id="imageUrl" v-model="newProduct.imageUrl" label="Url da Imagem" type="text" placeholder="Url da Imagem" :errors="v$.imageUrl.$errors" />
-        <BaseInput id="price" v-model="newProduct.price" label="Preço" type="number" placeholder="Preço do Produto" :errors="v$.price.$errors" />
+        <BaseInput id="image_url" v-model="product.image_url" label="Url da Imagem" type="text" placeholder="Url da Imagem" :errors="v$.image_url.$errors" />
+        <BaseInput id="price" v-model="product.price" label="Preço" type="number" placeholder="Preço do Produto" :errors="v$.price.$errors" />
       </div>
     </div>
     <div class="grid grid-cols-12">
@@ -50,24 +50,30 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers, between,
 } from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import CheckboxInput from './CheckboxInput.vue';
 import BaseInput from './BaseInput.vue';
 import SelectInput from './SelectInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
+import CategoryService from '../services/CategoryService';
+import AdditionalService from '../services/AdditionalService';
+import ProductService from '../services/ProductService';
 
+const router = useRouter();
 const emitter = inject('emitter');
 const categories = ref([]);
 const additionals = ref([]);
-const newProduct = ref({
-  id: '',
-  name: '',
-  description: '',
-  category_id: -1,
+
+const product = ref({
+  id: null,
+  name: null,
+  description: null,
+  category_id: null,
   additionals: [],
-  imageUrl: '',
-  price: 0,
+  image_url: null,
+  price: null,
 });
 
 const props = defineProps({
@@ -87,6 +93,56 @@ const props = defineProps({
   },
 });
 
+function closeModal() {
+  emitter.emit('closeModal');
+}
+
+async function loadCategories() {
+  const response = await CategoryService.getCategories();
+  return response;
+}
+
+async function loadAdditionals() {
+  const responseAdd = await AdditionalService.getAdditionals();
+
+  let responsePrdAdd = [];
+  const result = [];
+  if (product.value.product_id !== undefined) {
+    responsePrdAdd = await ProductService.getProductAdditionals(product.value.product_id);
+    console.log(responsePrdAdd);
+    responsePrdAdd.forEach((element) => {
+      // eslint-disable-next-line dot-notation
+      result.push(element['additional_id']);
+    });
+  }
+  responseAdd.forEach((element) => {
+    if (result.includes(element.additional_id)) {
+      // eslint-disable-next-line no-param-reassign
+      element.checked = true;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      element.checked = false;
+    }
+  });
+
+  return responseAdd;
+}
+
+function updateAdditional(data) {
+  const searchIndex = product.value.additionals.indexOf(parseInt(data, 10));
+  if (searchIndex === -1) {
+    product.value.additionals.push(parseInt(data, 10));
+  } else {
+    product.value.additionals.splice(searchIndex, 1);
+  }
+}
+
+onMounted(async () => {
+  product.value = await props.product;
+  categories.value = await loadCategories();
+  additionals.value = await loadAdditionals();
+});
+
 const rules = computed(() => ({
   name: {
     required: helpers.withMessage('Campo obrigatório', required),
@@ -101,130 +157,85 @@ const rules = computed(() => ({
   category_id: {
     required: helpers.withMessage('Campo obrigatório', required),
   },
-  imageUrl: {
+  image_url: {
     required: helpers.withMessage('Campo obrigatório ', required),
   },
 }));
 
-const v$ = useVuelidate(rules, newProduct);
-
-function closeModal() {
-  emitter.emit('closeModal');
-}
-
-function updateAdditional(data) {
-  const searchIndex = newProduct.value.additionals.indexOf(parseInt(data, 10));
-  if (searchIndex === -1) {
-    newProduct.value.additionals.push(parseInt(data, 10));
-  } else {
-    newProduct.value.additionals.splice(searchIndex, 1);
-  }
-}
-function loadCategories() {
-  const data = [
-    {
-      id: '',
-      name: '--- Selecione uma Categoria ---',
-    },
-    {
-      id: 1,
-      name: 'Promoções',
-    },
-    {
-      id: 2,
-      name: 'Combos',
-    },
-    {
-      id: 3,
-      name: 'Clássicos',
-    },
-    {
-      id: 4,
-      name: 'Cervejas',
-    },
-    {
-      id: 5,
-      name: 'Refrigerantes',
-    },
-  ];
-
-  return data;
-}
-
-function loadAdditionals() {
-  const data = [
-    {
-      id: 1,
-      name: 'Rúcula',
-      price: 2.00,
-    },
-    {
-      id: 2,
-      name: 'Bacon',
-      price: 2.00,
-    },
-    {
-      id: 3,
-      name: 'Tomate',
-      price: 2.00,
-    },
-    {
-      id: 4,
-      name: 'Ovo',
-      price: 2.00,
-    },
-    {
-      id: 5,
-      name: 'Alface',
-      price: 2.00,
-    },
-    {
-      id: 6,
-      name: 'Queijo',
-      price: 2.00,
-    },
-    {
-      id: 7,
-      name: 'Cebola',
-      price: 2.00,
-    }];
-
-  data.forEach((element) => {
-    if (newProduct.value.additionals.includes(element.id)) {
-      // eslint-disable-next-line no-param-reassign
-      element.checked = true;
-    } else {
-      // eslint-disable-next-line no-param-reassign
-      element.checked = false;
-    }
-  });
-
-  return data;
-}
-
-onMounted(async () => {
-  newProduct.value = await props.product;
-  categories.value = await loadCategories();
-  additionals.value = await loadAdditionals();
-});
+const v$ = useVuelidate(rules, product);
 
 const submitForm = async () => {
-  const result = await v$.value.$validate();
+  const validated = await v$.value.$validate();
 
-  if (result) {
-    console.log('fomr enviado!');
-    console.log(newProduct.value);
+  if (!validated) {
+    return false;
+  }
+
+  if (product.value.product_id === undefined) {
+    const response = await ProductService.createProduct(product.value);
+    if (!response) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao cadastrar novo produto, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+      return false;
+    }
+
+    if (product.value.additionals.length > 0) {
+      product.value.additionals.forEach(async (element) => {
+        // eslint-disable-next-line vue/max-len
+        const result = await ProductService.createProductAdditional(response.return[0].product_id, element);
+
+        if (!result) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao cadastrar adicional no produto, tente mais tarde!',
+            showConfirmButton: true,
+            confirmButtonColor: '#374151',
+          });
+        }
+      });
+    }
+
     Swal.fire({
       icon: 'success',
-      title: 'Produto salvo com sucesso!',
-      text: `Produto ${newProduct.value.name} salvo.`,
+      title: 'Cadastro realizado com sucesso!',
+      showConfirmButton: true,
       confirmButtonColor: '#374151',
     }).then(() => {
-      closeModal();
+      router.go(0);
     });
   } else {
-    console.log('nao enviado!');
+    const response = await ProductService.updateProduct(product.value);
+    if (!response) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao editar produto, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+      return false;
+    }
+
+    // const result = await ProductService.getProductAdditionals(product.value.product_id);
+    await ProductService.deleteProductAdditionals(product.value.product_id);
+    await product.value.additionals.forEach(async (element) => {
+      await ProductService.createProductAdditional(product.value.product_id, element);
+    });
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Alteração realizada com sucesso!',
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    }).then(() => {
+      router.go(0);
+    });
   }
+
+  return true;
 };
 
 </script>

@@ -3,7 +3,7 @@
     <label class="text-base text-gray-800 max-w">
       <input
         v-model="checked"
-        :value="item.id"
+        :value="item.additional_id"
         class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
         type="checkbox"
         v-bind="$attrs"

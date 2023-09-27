@@ -29,7 +29,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
+        <tr v-for="(item, index) in filteredList(productList)" :key="index" class="bg-white border-b">
           <ProductAdminItem :product="item" />
         </tr>
       </tbody>
@@ -41,30 +41,29 @@
   </ModalWrapper>
 </template>
 <script setup>
-import { ref, inject } from 'vue';
+import { onMounted, ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import ProductAdminItem from '../../components/ProductAdminItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
 import FormProduct from '../../components/FormProduct.vue';
 import ModalWrapper from '../../components/ModalWrapper.vue';
+import ProductService from '../../services/ProductService';
 
 const search = ref('');
-let products = [];
+const productList = ref([]);
 const isModalProductOpen = ref(false);
 const foundProduct = ref(0);
 const newProduct = ref({
-  id: '',
-  name: '',
-  description: '',
-  category_id: '',
+  name: null,
+  description: null,
+  category_id: null,
   additionals: [],
-  imageUrl: '',
-  price: 0,
+  imageUrl: null,
+  price: null,
 });
 
 const emitter = inject('emitter');
-
 emitter.on('setModalFalse', () => {
   newProduct.value = {
     id: '',
@@ -78,39 +77,37 @@ emitter.on('setModalFalse', () => {
   isModalProductOpen.value = false;
 });
 
-function loadProduct() {
-  const data = [
-    {
-      product_id: 1,
-      name: 'Hamburguer da casa',
-      description: 'Melhor hamburguer de todos os tempos',
-      category_id: 1,
-      price: 34.9,
-      additionals: [3, 4],
-    },
-    {
-      product_id: 2,
-      name: 'Budweiser',
-      description: 'Cerveja gelada e de qualidade',
-      category_id: 4,
-      price: 32.9,
-      additionals: [],
-    },
-  ];
-  return data;
+async function loadData() {
+  const response = await ProductService.getProducts();
+  response.forEach((element) => {
+    if (element.additionals !== null) {
+      const arr = element.additionals.split(',');
+      const numberArray = arr.map(Number);
+      // eslint-disable-next-line no-param-reassign
+      element.additionals = numberArray;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      element.additionals = [];
+    }
+  });
+
+  return response;
 }
 
 function thereIsProduct(obj) {
   foundProduct.value = Object.values(obj).length;
 }
 
-function filteredList() {
-  products = loadProduct();
-
+function filteredList(data) {
   // eslint-disable-next-line vue/max-len
-  const filtData = products.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
   thereIsProduct(filtData);
   return filtData;
 }
+
+onMounted(async () => {
+  productList.value = await loadData();
+  productList.value = await filteredList(productList.value);
+});
 
 </script>

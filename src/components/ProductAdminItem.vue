@@ -26,10 +26,13 @@
 
 <script setup>
 import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-import FormProduct from './FormProduct.vue';
 import ModalWrapper from './ModalWrapper.vue';
+import FormProduct from './FormProduct.vue';
+import ProductService from '../services/ProductService';
 
+const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
@@ -48,7 +51,7 @@ emitter.on('setModalFalse', () => {
 
 function pdtDelete(product) {
   Swal.fire({
-    title: `Deseja excluir o produto ${product.name}?`,
+    title: `Deseja excluir produto ${product.name}?`,
     text: 'Não poderá reverter após confirmação!',
     icon: 'warning',
     showCancelButton: true,
@@ -56,17 +59,30 @@ function pdtDelete(product) {
     cancelButtonColor: '#EF4444',
     confirmButtonText: 'Confirmar',
     cancelButtonText: 'Voltar',
-  }).then((result) => {
+  }).then(async (result) => {
     if (result.isConfirmed) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Produto Excluído!',
-        text: `Produto ${product.name} excluído.`,
-        confirmButtonColor: '#374151',
-      });
+      let response = await ProductService.deleteProductAdditionals(product.product_id);
+      response = await ProductService.deleteProduct(product.product_id);
+      if (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Produto excluído com sucesso!',
+          text: `Produto ${product.name} excluído.`,
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        }).then(() => {
+          router.go(0);
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao excluir produto, tente mais tarde!',
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        });
+      }
     }
   });
-  // chamar api para excluir o pedido, no caso fazer update para ativo = 0
 }
 
 </script>
