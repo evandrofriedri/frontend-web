@@ -8,13 +8,13 @@
       <form action="" @submit.prevent="submitForm">
         <div class="flex flex-col md:flex-row">
           <div class="basis-1/2 pr-0 md:pr-2">
-            <BaseInput id="username" v-model="formData.userName" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.userName.$errors" />
-            <BaseInput id="userEmail" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
-            <BaseInput id="cellphone" v-model="formData.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
+            <BaseInput id="name" v-model="user.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
+            <BaseInput id="email" v-model="user.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
+            <BaseInput id="cellphone" v-model="user.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
           </div>
           <div class="basis-1/2">
-            <BaseInput id="password" v-model="formData.password" label="Nova senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
-            <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Confirmar senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
+            <BaseInput id="password" v-model="user.password" label="Nova senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
+            <BaseInput id="confirmPassword" v-model="user.confirmPassword" label="Confirmar senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
           </div>
         </div>
         <div class="grid grid-cols-12">
@@ -33,7 +33,11 @@
       </h1>
       <div class="grid grid-cols-12">
         <div class="col-start-6 md:col-start-10 col-end-13">
-          <FormButton btn-type="submit" icon="fa-regular fa-trash-can" description="Apagar" />
+          <FormButton
+            icon="fa-regular fa-trash-can"
+            description="Apagar"
+            @click="deleteUser(user)"
+          />
         </div>
       </div>
     </div>
@@ -46,15 +50,22 @@ import {
   required, email, sameAs, minLength, helpers,
 } from '@vuelidate/validators';
 import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
+import UserService from '../../services/UserService';
 
-const formData = ref({
-  userName: '',
-  userEmail: '',
-  cellphone: '',
-  password: '',
-  confirmPassword: '',
+const router = useRouter();
+
+const user = ref({
+  user_id: null,
+  name: null,
+  email: null,
+  cellphone: null,
+  password: null,
+  active: null,
+  confirmPassword: null,
 });
 
 const number = helpers.regex(
@@ -70,8 +81,8 @@ useEventListener(document, 'input', (evt) => {
 });
 
 const rules = computed(() => ({
-  userName: { required: helpers.withMessage('Campo obrigatório', required) },
-  userEmail: {
+  name: { required: helpers.withMessage('Campo obrigatório', required) },
+  email: {
     required: helpers.withMessage('Campo obrigatório', required),
     email: helpers.withMessage('Insira um email válido', email),
   },
@@ -85,36 +96,86 @@ const rules = computed(() => ({
   },
   confirmPassword: {
     required: helpers.withMessage('Campo obrigatório ', required),
-    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(formData.value.password)),
+    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(user.value.password)),
   },
 }));
 
-const v$ = useVuelidate(rules, formData);
+const v$ = useVuelidate(rules, user);
 
 const submitForm = async () => {
-  const result = await v$.value.$validate();
+  const validated = await v$.value.$validate();
 
-  if (result) {
-    console.log('fomr enviado!');
-  } else {
-    console.log('nao enviado!');
+  if (!validated) {
+    return false;
   }
+
+  const response = await UserService.updateUser(user.value);
+  if (response) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Cadastro alterado com sucesso!',
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    }).then(() => {
+      router.push({ name: 'Home' });
+    });
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro ao editar usuário, tente mais tarde!',
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    });
+  }
+
+  return true;
 };
 
-function loadData() {
-  const data = {
-    userName: 'Evandro Mathias Friedrichsen',
-    userEmail: 'evandrofriedri@gmail.com',
-    cellphone: '(44) 99900-9626',
-    password: '',
-    confirmPassword: '',
-  };
+function deleteUser(User) {
+  Swal.fire({
+    title: 'Deseja apagar sua conta?',
+    text: 'Não poderá reverter após confirmação!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#374151',
+    cancelButtonColor: '#EF4444',
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Voltar',
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      // eslint-disable-next-line no-param-reassign
+      User.active = false;
+      const response = await UserService.updateUser(User);
+      if (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Usuário excluído com sucesso!',
+          text: `Usuário ${User.name} excluído.`,
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        }).then(() => {
+          router.push({ name: 'Home' });
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao excluir produto, tente mais tarde!',
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        });
+      }
+    }
+  });
+  return true;
+}
 
-  return data;
+async function loadData() {
+  const response = await UserService.getUserID(29);
+  return response;
 }
 
 onMounted(async () => {
-  formData.value = await loadData();
+  user.value = await loadData();
 });
 
 </script>
