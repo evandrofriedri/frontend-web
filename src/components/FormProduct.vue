@@ -109,7 +109,6 @@ async function loadAdditionals() {
   const result = [];
   if (product.value.product_id !== undefined) {
     responsePrdAdd = await ProductService.getProductAdditionals(product.value.product_id);
-    console.log(responsePrdAdd);
     responsePrdAdd.forEach((element) => {
       // eslint-disable-next-line dot-notation
       result.push(element['additional_id']);

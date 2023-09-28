@@ -6,7 +6,7 @@
     {{ additional.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
   </td>
   <td class="px-2 py-2">
-    <button type="button" title="Excluir Adicional" @click="addDelete(additional)">
+    <button type="button" title="Excluir Adicional" @click="deleteAdd(additional)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
     <button type="button" title="Editar Adicional" @click="isModalItemOpen = true">
@@ -43,7 +43,7 @@ emitter.on('setModalFalse', () => {
   isModalItemOpen.value = false;
 });
 
-const addDelete = (additional) => {
+function deleteAdd(additional) {
   Swal.fire({
     title: `Deseja excluir adicional ${additional.name}?`,
     text: 'Não poderá reverter após confirmação!',
@@ -76,6 +76,6 @@ const addDelete = (additional) => {
       }
     }
   });
-};
+}
 
 </script>

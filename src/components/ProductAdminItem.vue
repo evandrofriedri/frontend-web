@@ -12,7 +12,7 @@
     {{ product.price }}
   </td>
   <td class="px-2 py-2 ">
-    <button type="button" title="Excluir Produto" @click="pdtDelete(product)">
+    <button type="button" title="Excluir Produto" @click="deletePdt(product)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
     <button type="button" title="Editar Produto" @click="isModalItemOpen = true">
@@ -49,7 +49,7 @@ emitter.on('setModalFalse', () => {
   isModalItemOpen.value = false;
 });
 
-function pdtDelete(product) {
+function deletePdt(product) {
   Swal.fire({
     title: `Deseja excluir produto ${product.name}?`,
     text: 'Não poderá reverter após confirmação!',

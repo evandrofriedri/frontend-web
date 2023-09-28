@@ -13,11 +13,11 @@
             Criar seu cadastro
           </h2>
           <form action="" @submit.prevent="submitForm">
-            <BaseInput id="name" v-model="formData.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
-            <BaseInput id="email" v-model="formData.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
-            <BaseInput id="cellphone" v-model="formData.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
-            <BaseInput id="password" v-model="formData.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
-            <BaseInput id="confirmPassword" v-model="formData.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
+            <BaseInput id="name" v-model="user.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
+            <BaseInput id="email" v-model="user.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
+            <BaseInput id="cellphone" v-model="user.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
+            <BaseInput id="password" v-model="user.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
+            <BaseInput id="confirmPassword" v-model="user.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
             <div class="mb-4">
               <FormButton
                 btn-type="submit"
@@ -47,7 +47,7 @@ import UserService from '../../services/UserService';
 
 const router = useRouter();
 
-const formData = ref({
+const user = ref({
   name: null,
   email: null,
   cellphone: null,
@@ -83,11 +83,11 @@ const rules = computed(() => ({
   },
   confirmPassword: {
     required: helpers.withMessage('Campo obrigatório ', required),
-    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(formData.value.password)),
+    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(user.value.password)),
   },
 }));
 
-const v$ = useVuelidate(rules, formData);
+const v$ = useVuelidate(rules, user);
 
 const submitForm = async () => {
   const validated = await v$.value.$validate();
@@ -95,7 +95,7 @@ const submitForm = async () => {
   if (!validated) {
     return false;
   }
-  const response = await UserService.createUser(formData.value);
+  const response = await UserService.createUser(user.value);
   if (response) {
     Swal.fire({
       icon: 'success',

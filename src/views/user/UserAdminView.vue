@@ -26,6 +26,9 @@
               Celular
             </th>
             <th scope="col" class="px-2 py-2">
+              Status
+            </th>
+            <th scope="col" class="px-2 py-2">
               Ações
             </th>
           </tr>

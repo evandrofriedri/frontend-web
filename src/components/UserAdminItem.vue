@@ -8,8 +8,11 @@
   <td class="px-2 py-2">
     {{ user.cellphone }}
   </td>
+  <td class="px-2 py-2">
+    {{ user.active }}
+  </td>
   <td class="px-2 py-2 ">
-    <button type="button" title="Excluir Conta" @click="userDelete(user)">
+    <button type="button" title="Excluir Conta" @click="deleteUser(user)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
     <button type="button" title="Editar Usuário" @click="isModalItemOpen = true">
@@ -46,7 +49,7 @@ emitter.on('setModalFalse', () => {
   isModalItemOpen.value = false;
 });
 
-const userDelete = (user) => {
+function deleteUser(user) {
   Swal.fire({
     title: `Deseja excluir conta ${user.name}?`,
     text: 'Não poderá reverter após confirmação!',
@@ -56,9 +59,9 @@ const userDelete = (user) => {
     cancelButtonColor: '#EF4444',
     confirmButtonText: 'Confirmar',
     cancelButtonText: 'Voltar',
-  }).then((result) => {
+  }).then(async (result) => {
     if (result.isConfirmed) {
-      const response = UserService.deleteUser(user.user_id);
+      const response = await UserService.deleteUser(user.user_id);
       if (response) {
         Swal.fire({
           icon: 'success',
@@ -79,6 +82,6 @@ const userDelete = (user) => {
       }
     }
   });
-};
+}
 
 </script>
