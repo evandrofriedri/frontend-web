@@ -9,7 +9,7 @@
     {{ user.cellphone }}
   </td>
   <td class="px-2 py-2">
-    {{ user.active }}
+    {{ user.active_name }}
   </td>
   <td class="px-2 py-2 ">
     <button type="button" title="Excluir Conta" @click="deleteUser(user)">

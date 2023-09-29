@@ -13,6 +13,16 @@
         <BaseInput id="cellphone" v-model="user.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
         <BaseInput id="password" v-model="user.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
         <BaseInput id="confirmPassword" v-model="user.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
+        <div class="flex">
+          <label class="text-base text-gray-800 max-w">
+            <input
+              v-model="user.active"
+              class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
+              type="checkbox"
+            />
+          </label>
+          <p>Conta Ativa</p>
+        </div>
       </div>
     </div>
     <div class="grid grid-cols-12">
