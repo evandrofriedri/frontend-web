@@ -8,14 +8,14 @@
         </h1>
       </div>
       <div class="flex flex-col">
-        <BaseInput id="address" v-model="newAddress.address" label="Endereço" type="text" placeholder="Endereço" :errors="v$.address.$errors" />
-        <BaseInput id="number" v-model="newAddress.number" label="Número" type="number" placeholder="Número" :errors="v$.number.$errors" />
-        <BaseInput id="neighborhood" v-model="newAddress.neighborhood" label="Bairro" type="text" placeholder="Bairro" :errors="v$.neighborhood.$errors" />
-        <BaseInput id="city" v-model="newAddress.city" label="Cidade" type="text" placeholder="Cidade" :errors="v$.city.$errors" />
+        <BaseInput id="description" v-model="address.description" label="Endereço" type="text" placeholder="Endereço" :errors="v$.description.$errors" />
+        <BaseInput id="number" v-model="address.number" label="Número" type="number" placeholder="Número" :errors="v$.number.$errors" />
+        <BaseInput id="neighborhood" v-model="address.neighborhood" label="Bairro" type="text" placeholder="Bairro" :errors="v$.neighborhood.$errors" />
+        <BaseInput id="city" v-model="address.city" label="Cidade" type="text" placeholder="Cidade" :errors="v$.city.$errors" />
         <div class="flex">
           <label class="text-base text-gray-800 max-w">
             <input
-              v-model="newAddress.favorite"
+              v-model="address.favorite"
               class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
               type="checkbox"
             />
@@ -46,18 +46,23 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers,
 } from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
+import AddressService from '../services/AddressService';
 
+const router = useRouter();
 const emitter = inject('emitter');
-const newAddress = ref({
-  id: '',
-  address: '',
-  number: '',
-  neighborhood: '',
-  city: '',
+
+const address = ref({
+  id: null,
+  description: null,
+  number: null,
+  neighborhood: null,
+  city: null,
+  user_id: 29, // terá que ser usuario da sessão
   favorite: false,
 });
 
@@ -78,8 +83,16 @@ const props = defineProps({
   },
 });
 
+function closeModal() {
+  emitter.emit('closeModal');
+}
+
+onMounted(async () => {
+  address.value = await props.address;
+});
+
 const rules = computed(() => ({
-  address: {
+  description: {
     required: helpers.withMessage('Campo obrigatório', required),
   },
   number: {
@@ -93,33 +106,57 @@ const rules = computed(() => ({
   },
 }));
 
-const v$ = useVuelidate(rules, newAddress);
-
-function closeModal() {
-  emitter.emit('closeModal');
-}
-
-onMounted(async () => {
-  newAddress.value = await props.address;
-});
+const v$ = useVuelidate(rules, address);
 
 const submitForm = async () => {
-  const result = await v$.value.$validate();
+  const validated = await v$.value.$validate();
 
-  if (result) {
-    console.log('fomr enviado!');
-    console.log(newAddress.value);
-    Swal.fire({
-      icon: 'success',
-      title: 'Endereço salvo com sucesso!',
-      text: `Endereço ${newAddress.value.address} salvo.`,
-      confirmButtonColor: '#374151',
-    }).then(() => {
-      closeModal();
-    });
-  } else {
-    console.log('nao enviado!');
+  if (!validated) {
+    return false;
   }
+
+  if (address.value.address_id === undefined) {
+    console.log(address.value);
+    const response = await AddressService.createAddress(address.value);
+    if (response) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Cadastro realizado com sucesso!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      }).then(() => {
+        router.go(0);
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao cadastrar novo endereço, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+    }
+  } else {
+    const response = await AddressService.updateAddress(address.value);
+    if (response) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Alteração realizada com sucesso!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      }).then(() => {
+        router.go(0);
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao editar endereço, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+    }
+  }
+
+  return true;
 };
 
 </script>

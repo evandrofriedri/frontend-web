@@ -37,7 +37,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
+          <tr v-for="(item, index) in filteredList(addressList)" :key="index" class="bg-white border-b">
             <AddressItem :address="item" />
           </tr>
         </tbody>
@@ -51,79 +51,59 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
+import { onMounted, ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import AddressItem from '../../components/AddressItem.vue';
 import BaseButton from '../../components/BaseButton.vue';
 import FormAddress from '../../components/FormAddress.vue';
 import ModalWrapper from '../../components/ModalWrapper.vue';
+import AddressService from '../../services/AddressService';
 
 const search = ref('');
-let addresses = [];
+const addressList = ref([]);
 const isModalAddressOpen = ref(false);
-const foundAddress = ref(0);
+const foundAddress = ref(1);
 const newAddress = ref({
-  id: '',
-  address: '',
-  number: '',
-  neighborhood: '',
-  city: '',
+  description: null,
+  number: null,
+  neighborhood: null,
+  city: null,
   favorite: false,
+  user_id: 29, // terá que ser usuario da sessão
 });
 
 const emitter = inject('emitter');
 emitter.on('setModalFalse', () => {
   newAddress.value = {
-    address: '',
-    number: '',
+    description: null,
+    number: null,
     neighborhood: '',
-    city: '',
+    city: null,
     favorite: false,
+    user_id: 29, // terá que ser usuario da sessão
   };
   isModalAddressOpen.value = false;
 });
 
-function loadData() {
-  const data = [
-    {
-      address: 'Rua Dona Lucia',
-      number: 145,
-      neighborhood: 'Jardim Porto Alegre',
-      city: 'Toledo - PR',
-      favorite: true,
-    },
-    {
-      address: 'Rua Erechim',
-      number: 624,
-      neighborhood: 'Jardim Porto Alegre',
-      city: 'Toledo - PR',
-      favorite: false,
-    },
-  ];
-
-  return data;
+async function loadData() {
+  const response = await AddressService.getAddressID(29);
+  return response;
 }
+
 function thereIsAdress(obj) {
   foundAddress.value = Object.values(obj).length;
 }
 
-function filteredList() {
-  addresses = loadData();
+function filteredList(data) {
   // eslint-disable-next-line vue/max-len
-  const filtData = addresses.filter((d) => d.address.toLowerCase().includes(search.value.toLowerCase()));
+  const filtData = data.filter((d) => d.description.toLowerCase().includes(search.value.toLowerCase()));
   thereIsAdress(filtData);
   return filtData;
 }
 
-// onServerPrefetch(async () => { // talvez usará esse qdo tiver conexão com banco
-//   // https://vuejs.org/api/composition-api-lifecycle.html#onserverprefetch
-//   // https://stackoverflow.com/questions/14234646/adding-elements-to-object
-//   console.log('onServerPrefetch');
-//   addresses.value = await loadData();
-// });
-
-// onMounted(async () => {
-//   addresses.value = await loadData();
-// });
+onMounted(async () => {
+  addressList.value = await loadData();
+  addressList.value = await filteredList(addressList.value);
+});
 </script>

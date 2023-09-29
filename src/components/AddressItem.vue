@@ -1,6 +1,6 @@
 <template>
   <td class="px-2 py-2">
-    {{ address.address }}
+    {{ address.description }}
   </td>
   <td class="px-2 py-2">
     {{ address.number }}
@@ -15,7 +15,7 @@
     <font-awesome-icon :icon="`${ address.favorite == true ? 'fa-solid' : 'fa-regular'} fa-star`" :class="`${ address.favorite == true ? 'text-yellow-500' : ''}`" size="lg" />
   </td>
   <td class="px-2 py-2 ">
-    <button type="button" title="Excluir Endereço" @click="addressDeactivate(address)">
+    <button type="button" title="Excluir Endereço" @click="DeleteAddress(address)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
     <button type="button" title="Editar Endereço" @click="isModalItemOpen = true">
@@ -29,10 +29,13 @@
 
 <script setup>
 import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import FormAddress from './FormAddress.vue';
 import ModalWrapper from './ModalWrapper.vue';
+import AddressService from '../services/AddressService';
 
+const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
@@ -49,26 +52,39 @@ emitter.on('setModalFalse', () => {
   isModalItemOpen.value = false;
 });
 
-function addressDeactivate(address) {
+function DeleteAddress(address) {
   Swal.fire({
-    title: `Deseja excluir endereço ${address.address}?`,
+    title: `Deseja excluir endereço ${address.description}?`,
+    text: 'Não poderá reverter após confirmação!',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#374151',
     cancelButtonColor: '#EF4444',
     confirmButtonText: 'Confirmar',
     cancelButtonText: 'Voltar',
-  }).then((result) => {
+  }).then(async (result) => {
     if (result.isConfirmed) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Endereço excluído!',
-        text: `Endereço ${address.address} excluído.`,
-        confirmButtonColor: '#374151',
-      });
+      const response = await AddressService.deleteAddress(address.address_id);
+      if (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Endereço excluído com sucesso!',
+          text: `Endereço ${address.description} excluído.`,
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        }).then(() => {
+          router.go(0);
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao excluir endereço, tente mais tarde!',
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        });
+      }
     }
   });
-  // chamar api para excluir o pedido, no caso fazer update para ativo = 0
 }
 
 </script>
