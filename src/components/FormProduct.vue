@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>
-        <BaseInput id="image_url" v-model="product.image_url" label="Url da Imagem" type="text" placeholder="Url da Imagem" :errors="v$.image_url.$errors" />
+        <BaseInput id="image_url" v-model="product.image_url" label="Url da Imagem" type="text" placeholder="Url da Imagem" maxlength="300" :errors="v$.image_url.$errors" />
         <BaseInput id="price" v-model="product.price" label="Preço" type="number" placeholder="Preço do Produto" :errors="v$.price.$errors" />
       </div>
     </div>

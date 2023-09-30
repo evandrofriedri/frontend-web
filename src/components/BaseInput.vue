@@ -7,7 +7,7 @@
         :placeholder="placeholder"
         v-bind="$attrs"
         autocomplete="on"
-        maxlength="80"
+        :maxlength="maxlength"
         @input="$emit('update:modelValue', $event.target.value)"
       />
     </label>
@@ -44,6 +44,10 @@ defineProps({
     default() {
       return { $message: '' };
     },
+  },
+  maxlength: {
+    type: Number,
+    default: 80,
   },
 });
 </script>

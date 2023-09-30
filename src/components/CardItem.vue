@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2 flex rounded bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
+  <div class="p-2 flex justify-between rounded bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
     <div class="flex flex-col pr-5">
       <p class="mb-2 text-lg font-medium text-gray-900">
         {{ props.product.name }}
@@ -12,7 +12,7 @@
       </p>
     </div>
     <div class="min-w-fit rounded">
-      <img :src="props.product.image" class="object-cover h-24 w-24 rounded" alt="" />
+      <img :src="props.product.image_url" class="object-cover h-24 w-24 rounded" alt="" />
     </div>
   </div>
   <ModalWrapper :modal-open="isModalCardItemOpen">
@@ -23,7 +23,7 @@
       </h1>
     </div>
     <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
-      <img :src="props.product.image" class="object-cover h-48 w-full rounded-t" alt="" />
+      <img :src="props.product.image_url" class="object-cover h-48 w-full rounded-t" alt="" />
     </div>
     <div class="flex flex-col">
       <p class="text-sm font-light text-gray-800 text-justify mt-2">

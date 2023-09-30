@@ -31,7 +31,7 @@ export default {
   },
 
   /**
-   * Metodo para listar produto por ID
+   * Metodo para listar produto por categoriaID
    * GET
    */
   async getProductID(id) {
