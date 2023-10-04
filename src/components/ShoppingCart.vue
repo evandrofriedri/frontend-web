@@ -67,10 +67,10 @@
         </div>
         <div class="flex items-center">
           <input id="delivery-radio-2" type="radio" value="" name="delivery-radio" class="w-4 h-4 border-gray-300 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('local')">
-          <label for="delivery-radio-2" class="w-full ml-2 text-base font-medium">Buscar na loja</label>
+          <label for="delivery-radio-2" class="w-full ml-2 text-base font-medium">Retirar na loja</label>
         </div>
       </div>
-      <LayoutItem icon="fa-solid fa-map-location-dot" :label="address.label" :description="address.description" />
+      <AddressLayout icon="fa-solid fa-map-location-dot" :item="deliveryAddress" />
     </div>
     <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold text-right pb-4">
       <p>Entrega</p><p> {{ delivery.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
@@ -102,24 +102,30 @@
 import {
   ref,
   inject,
-  reactive,
   onMounted,
 } from 'vue';
-import LayoutItem from './LayoutItem.vue';
+import AddressLayout from './AddressLayout.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
 import CardNotFound from './CardNotFound.vue';
 import ModalWrapper from './ModalWrapper.vue';
+import AddressService from '../services/AddressService';
+import ConfigurationService from '../services/ConfigurationService';
 
 const market = ref([]);
 const subTotal = ref(0);
 const total = ref(0);
 const delivery = ref(0);
-const forDelivery = ref(true);
-const address = reactive({
-  label: '',
-  description: '',
+const deliveryAddress = ref({
+  label: null,
+  description: null,
 });
+const forDelivery = ref(true);
+const systemParams = ref({
+  storeAddress: null,
+  deliveryValue: null,
+});
+const userAddress = ref({});
 const isModalCartOpen = ref(false);
 const animationBtn = ref(false);
 const emitter = inject('emitter');
@@ -127,12 +133,6 @@ const emitter = inject('emitter');
 emitter.on('setModalFalse', () => {
   isModalCartOpen.value = false;
 });
-
-function loadData() {
-  address.label = 'Rua Dona Lucia, 145';
-  address.description = 'Jardim Porto Alegre';
-  delivery.value = 14.9;
-}
 
 function warnDisabled() {
   animationBtn.value = true;
@@ -157,6 +157,31 @@ function updateCart() {
   warnDisabled();
 }
 
+async function loadData() {
+  systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
+  systemParams.value.deliveryValue = await ConfigurationService.getConfigurationID('deliveryValue');
+
+  const response = await AddressService.getAddressID(29); // usuario logado ou passar -1
+  if (response.length === 0) {
+    userAddress.value = response;
+  }
+
+  const filterResponse = response.filter((element) => element.favorite === true);
+  if (filterResponse.length === 0) {
+    // eslint-disable-next-line prefer-destructuring
+    userAddress.value = response[0];
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    userAddress.value = filterResponse[0];
+  }
+
+  deliveryAddress.value = userAddress.value;
+  delivery.value = systemParams.value.deliveryValue;
+  updateCart();
+
+  return userAddress;
+}
+
 function deleteItemCart(index) {
   const itemsCart = JSON.parse(localStorage.getItem('itemsCart'));
   itemsCart.splice(index, 1);
@@ -176,26 +201,23 @@ function cleanCart() {
   }
   localStorage.setItem('itemsCart', JSON.stringify(itemsCart));
   updateCart();
-  console.log('carrinho limpo');
 }
 
 function updateDelivery(option) {
   if (option === 'deliver') {
-    address.label = 'Rua Dona Lucia, 145';
-    address.description = 'Jardim Porto Alegre';
-    delivery.value = 14.90;
+    deliveryAddress.value = userAddress.value;
+    delivery.value = systemParams.value.deliveryValue;
     forDelivery.value = true;
   } else {
-    address.label = 'Rua Santo Dumont, 1234';
-    address.description = 'Centro';
+    deliveryAddress.value = systemParams.value.storeAddress;
     delivery.value = 0;
     forDelivery.value = false;
   }
   updateCart();
 }
 
-onMounted(() => {
-  loadData();
+onMounted(async () => {
+  await loadData();
 });
 
 emitter.on('update', () => {

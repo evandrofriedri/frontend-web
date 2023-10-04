@@ -23,27 +23,27 @@
 <script setup>
 import {
   ref,
-  inject,
+  // inject,
+  // onUpdated,
 } from 'vue';
 import CardItem from './CardItem.vue';
 import SectionTitle from './SectionTitle.vue';
 import CardNotFound from './CardNotFound.vue';
-import CategoryService from '../services/CategoryService';
-import ProductService from '../services/ProductService';
 import MenuItemSticky from './MenuItemSticky.vue';
 import SearchInput from './SearchInput.vue';
+import CategoryService from '../services/CategoryService';
+import ProductService from '../services/ProductService';
 
 const currentSection = ref('');
 const search = ref('');
-const emitter = inject('emitter');
+// const emitter = inject('emitter');
 const foundProduct = ref(0);
 const menuList = ref(null);
 const productList = ref([]);
 
-function updateCart() {
-  console.log('updateCart');
-  emitter.emit('update');
-}
+// function updateCart() {
+//   emitter.emit('update');
+// }
 
 function sortFunction(a, b) {
   if (a[0] === b[0]) {
@@ -132,25 +132,29 @@ function filteredList(data) {
 // });
 
 await filteredList(loadData());
-await updateCart();
+// await updateCart();
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.intersectionRatio > 0) {
-        currentSection.value = entry.target.getAttribute('id');
+// onUpdated(() => {
+//   console.log('updated');
+//   const observer = new IntersectionObserver(
+//     (entries) => {
+//       entries.forEach((entry) => {
+//         if (entry.intersectionRatio > 0) {
+//           currentSection.value = entry.target.getAttribute('id');
 
-        // document.querySelector('#sticky').scrollLeft = 100, 0);
-      }
-    });
-  },
-  {
-    rootMargin: '0px 0px -85% 0px',
-  },
-);
-document.querySelectorAll('h2').forEach((section) => {
-  observer.observe(section);
-});
+//           // document.querySelector('#sticky').scrollLeft = 100, 0);
+//         }
+//       });
+//     },
+//     {
+//       rootMargin: '0px 0px -85% 0px',
+//     },
+//   );
+//   document.querySelectorAll('h2').forEach((section) => {
+//     console.log(section);
+//     observer.observe(section);
+//   });
+// });
 
 </script>
 
