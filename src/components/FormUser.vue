@@ -13,7 +13,7 @@
         <BaseInput id="cellphone" v-model="user.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
         <BaseInput id="password" v-model="user.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
         <BaseInput id="confirmPassword" v-model="user.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
-        <div class="flex">
+        <div class="flex mb-4">
           <label class="text-base text-gray-800 max-w">
             <input
               v-model="user.active"

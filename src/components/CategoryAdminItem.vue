@@ -3,7 +3,7 @@
     {{ category.name }}
   </td>
   <td class="px-2 py-2">
-    <button type="button" title="Excluir Categoria" @click="ctgDelete(category)">
+    <button type="button" title="Excluir Categoria" @click="deleteCtg(category)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
     <button type="button" title="Editar Categoria" @click="isModalItemOpen = true">
@@ -40,7 +40,7 @@ emitter.on('setModalFalse', () => {
   isModalItemOpen.value = false;
 });
 
-function ctgDelete(category) {
+function deleteCtg(category) {
   Swal.fire({
     title: `Deseja excluir categoria ${category.name}?`,
     text: 'Não poderá reverter após confirmação!',
