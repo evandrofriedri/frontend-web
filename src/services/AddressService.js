@@ -44,6 +44,20 @@ export default {
   },
 
   /**
+   * Metodo para listar endereço padrão por usuarioID
+   * GET
+   */
+  async getFavoriteAddressID(id) {
+    try {
+      const response = await Api().get(`/addresses/unique/${id}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
+  /**
    * Metodo para atualizar endereço por ID
    * PUT
    */

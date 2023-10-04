@@ -12,15 +12,21 @@
         <BaseInput id="number" v-model="address.number" label="Número" type="number" placeholder="Número" :errors="v$.number.$errors" />
         <BaseInput id="neighborhood" v-model="address.neighborhood" label="Bairro" type="text" placeholder="Bairro" :errors="v$.neighborhood.$errors" />
         <BaseInput id="city" v-model="address.city" label="Cidade" type="text" placeholder="Cidade" :errors="v$.city.$errors" />
-        <div class="flex">
-          <label class="text-base text-gray-800 max-w">
-            <input
-              v-model="address.favorite"
-              class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
-              type="checkbox"
-            />
-          </label>
-          <p>Endereço Padrão</p>
+        <div class="mb-4">
+          <div class="flex">
+            <label class="text-base text-gray-800 max-w">
+              <input
+                v-model="address.favorite"
+                class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
+                type="checkbox"
+              />
+            </label>
+            <p>Endereço Padrão</p>
+          </div>
+          <span v-if="v$.favorite.$error" class="text-sm text-red-600">
+            <font-awesome-icon icon="fa-solid fa-triangle-exclamation" class="pl-1" />
+            Endereço padrão já definido
+          </span>
         </div>
       </div>
     </div>
@@ -91,6 +97,20 @@ onMounted(async () => {
   address.value = await props.address;
 });
 
+const isAddressTaken = async (value) => {
+  if (value) {
+    const response = await AddressService.getFavoriteAddressID(29); // usuario logado
+    if (response.length === 0) {
+      return true;
+    }
+    const result = response[0].address_id;
+    if (result !== address.value.address_id) {
+      return false;
+    }
+  }
+  return true;
+};
+
 const rules = computed(() => ({
   description: {
     required: helpers.withMessage('Campo obrigatório', required),
@@ -104,6 +124,10 @@ const rules = computed(() => ({
   city: {
     required: helpers.withMessage('Campo obrigatório', required),
   },
+  favorite: {
+    isUnique: helpers.withAsync(isAddressTaken),
+    // isUnique: helpers.withMessage('Endereço Padrão já definido', isAddressTaken),
+  },
 }));
 
 const v$ = useVuelidate(rules, address);
@@ -116,7 +140,6 @@ const submitForm = async () => {
   }
 
   if (address.value.address_id === undefined) {
-    console.log(address.value);
     const response = await AddressService.createAddress(address.value);
     if (response) {
       Swal.fire({

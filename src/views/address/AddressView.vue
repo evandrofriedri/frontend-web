@@ -87,7 +87,7 @@ emitter.on('setModalFalse', () => {
 });
 
 async function loadData() {
-  const response = await AddressService.getAddressID(29);
+  const response = await AddressService.getAddressID(29); // usuário logado
   return response;
 }
 
