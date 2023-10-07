@@ -18,45 +18,45 @@ const routes = [
     meta: { layout: 'empty-layout' },
   },
   {
-    path: '/user',
-    name: 'ListUser',
-    component: lazyLoad('user/ListUserView'),
-  },
-  {
-    path: '/createUser',
-    name: 'CreateUser',
-    component: lazyLoad('user/CreateUserView'),
-    meta: { layout: 'empty-layout' },
-  },
-  {
-    path: '/orders',
-    name: 'Orders',
-    component: lazyLoad('order/OrdersView'),
-  },
-  {
-    path: '/address',
-    name: 'Address',
-    component: lazyLoad('address/AddressView'),
-  },
-  {
-    path: '/orderAdmin',
-    name: 'OrderAdmin',
-    component: lazyLoad('order/OrderAdminView'),
-  },
-  {
-    path: '/userAdmin',
-    name: 'userAdmin',
-    component: lazyLoad('user/UserAdminView'),
-  },
-  {
-    path: '/menuAdmin',
-    name: 'MenuAdmin',
-    component: lazyLoad('menu/MenuAdminView'),
-  },
-  {
     path: '/about',
     name: 'About',
     component: lazyLoad('AboutView'),
+  },
+  {
+    path: '/account',
+    name: 'ListAccount',
+    component: lazyLoad('account/ListAccountView'),
+  },
+  {
+    path: '/account/createAccount',
+    name: 'CreateAccount',
+    component: lazyLoad('account/CreateAccountView'),
+    meta: { layout: 'empty-layout' },
+  },
+  {
+    path: '/account/order',
+    name: 'Order',
+    component: lazyLoad('account/OrdersView'),
+  },
+  {
+    path: '/account/address',
+    name: 'Address',
+    component: lazyLoad('account/AddressView'),
+  },
+  {
+    path: '/admin/order',
+    name: 'OrderAdmin',
+    component: lazyLoad('admin/OrderAdminView'),
+  },
+  {
+    path: '/admin/user',
+    name: 'userAdmin',
+    component: lazyLoad('admin/UserAdminView'),
+  },
+  {
+    path: '/admin/menu',
+    name: 'MenuAdmin',
+    component: lazyLoad('admin/MenuAdminView'),
   },
   {
     path: '/:patchMatch(.*)',

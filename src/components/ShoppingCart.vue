@@ -26,9 +26,9 @@
             <button type="button" @click="deleteItemCart(index)">
               <font-awesome-icon icon="fa-regular fa-trash-can" />
             </button> &nbsp;
-            <button type="button">
+            <!-- <button type="button">
               <font-awesome-icon icon="fa-regular fa-pen-to-square" />
-            </button>
+            </button> -->
           </p>
           <p class="font-medium">
             {{ item.totalProduct.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}

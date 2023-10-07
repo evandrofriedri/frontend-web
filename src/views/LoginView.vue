@@ -42,7 +42,7 @@
               <span class="text-sm text-gray-800 max-w">
                 Primeiro acesso?
               </span>
-              <router-link class="font-semibold text-gray-900" to="/createUser">
+              <router-link class="font-semibold text-gray-900" to="/account/createAccount">
                 Cadastre-se
               </router-link>
             </div>
