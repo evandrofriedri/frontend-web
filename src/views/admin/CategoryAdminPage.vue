@@ -4,7 +4,7 @@
       <BaseButton icon="fa-solid fa-file-circle-plus" description="" @click="isModalCategoryOpen = true" />
     </div>
     <div class="col-start-6 md:col-start-10 col-end-13">
-      <SearchInput id="userAdminSearch" v-model="search" placeholder="Digite o nome da categoria" />
+      <SearchInput id="categoryAdminSearch" v-model="search" placeholder="Digite o nome da categoria" />
     </div>
   </div>
   <div v-show="foundCategory !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">

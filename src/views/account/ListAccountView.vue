@@ -8,13 +8,13 @@
       <form action="" @submit.prevent="submitForm">
         <div class="flex flex-col md:flex-row">
           <div class="basis-1/2 pr-0 md:pr-2">
-            <BaseInput id="name" v-model="user.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
-            <BaseInput id="email" v-model="user.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
-            <BaseInput id="cellphone" v-model="user.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
+            <BaseInput id="name" v-model="account.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
+            <BaseInput id="email" v-model="account.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
+            <BaseInput id="cellphone" v-model="account.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
           </div>
           <div class="basis-1/2">
-            <BaseInput id="password" v-model="user.password" label="Nova senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
-            <BaseInput id="confirmPassword" v-model="user.confirmPassword" label="Confirmar senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
+            <BaseInput id="password" v-model="account.password" label="Nova senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
+            <BaseInput id="confirmPassword" v-model="account.confirmPassword" label="Confirmar senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
           </div>
         </div>
         <div class="grid grid-cols-12">
@@ -36,7 +36,7 @@
           <FormButton
             icon="fa-regular fa-trash-can"
             description="Apagar"
-            @click="deleteUser(user)"
+            @click="deleteAccount(account)"
           />
         </div>
       </div>
@@ -54,12 +54,12 @@ import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
-import UserService from '../../services/UserService';
+import AccountService from '../../services/AccountService';
 
 const router = useRouter();
 
-const user = ref({
-  user_id: null,
+const account = ref({
+  account_id: null,
   name: null,
   email: null,
   cellphone: null,
@@ -96,11 +96,11 @@ const rules = computed(() => ({
   },
   confirmPassword: {
     required: helpers.withMessage('Campo obrigatório ', required),
-    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(user.value.password)),
+    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(account.value.password)),
   },
 }));
 
-const v$ = useVuelidate(rules, user);
+const v$ = useVuelidate(rules, account);
 
 const submitForm = async () => {
   const validated = await v$.value.$validate();
@@ -109,7 +109,7 @@ const submitForm = async () => {
     return false;
   }
 
-  const response = await UserService.updateUser(user.value);
+  const response = await AccountService.updateAccount(account.value);
   if (response) {
     Swal.fire({
       icon: 'success',
@@ -131,7 +131,7 @@ const submitForm = async () => {
   return true;
 };
 
-function deleteUser(User) {
+function deleteAccount(Account) {
   Swal.fire({
     title: 'Deseja apagar sua conta?',
     text: 'Não poderá reverter após confirmação!',
@@ -144,13 +144,13 @@ function deleteUser(User) {
   }).then(async (result) => {
     if (result.isConfirmed) {
       // eslint-disable-next-line no-param-reassign
-      User.active = false;
-      const response = await UserService.updateUser(User);
+      Account.active = false;
+      const response = await AccountService.updateAccount(Account);
       if (response) {
         Swal.fire({
           icon: 'success',
           title: 'Usuário excluído com sucesso!',
-          text: `Usuário ${User.name} excluído.`,
+          text: `Usuário ${Account.name} excluído.`,
           showConfirmButton: true,
           confirmButtonColor: '#374151',
         }).then(() => {
@@ -170,12 +170,12 @@ function deleteUser(User) {
 }
 
 async function loadData() {
-  const response = await UserService.getUserID(29);
+  const response = await AccountService.getAccountID(1);
   return response;
 }
 
 onMounted(async () => {
-  user.value = await loadData();
+  account.value = await loadData();
 });
 
 </script>

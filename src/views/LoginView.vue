@@ -23,7 +23,7 @@
             <div class="flex-grow border-t border-gray-200" />
           </div>
           <form action="" @submit.prevent="submitForm">
-            <BaseInput id="email" v-model="formData.userEmail" label="E-mail" type="email" placeholder="E-mail" :errors="v$.userEmail.$errors" />
+            <BaseInput id="email" v-model="formData.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
             <BaseInput id="senha" v-model="formData.password" label="Senha" type="password" placeholder="Senha" :errors="v$.password.$errors" />
             <div class="mb-4">
               <FormButton
@@ -63,12 +63,12 @@ import BaseInput from '../components/BaseInput.vue';
 import FormButton from '../components/FormButton.vue';
 
 const formData = reactive({
-  userEmail: '',
+  email: '',
   password: '',
 });
 
 const rules = computed(() => ({
-  userEmail: {
+  email: {
     required: helpers.withMessage('Campo obrigatório', required),
     email: helpers.withMessage('Insira um email válido', email),
   },

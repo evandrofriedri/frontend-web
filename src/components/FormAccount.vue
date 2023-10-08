@@ -8,15 +8,15 @@
         </h1>
       </div>
       <div class="flex flex-col">
-        <BaseInput id="name" v-model="user.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
-        <BaseInput id="email" v-model="user.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
-        <BaseInput id="cellphone" v-model="user.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
-        <BaseInput id="password" v-model="user.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
-        <BaseInput id="confirmPassword" v-model="user.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
+        <BaseInput id="name" v-model="account.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
+        <BaseInput id="email" v-model="account.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
+        <BaseInput id="cellphone" v-model="account.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
+        <BaseInput id="password" v-model="account.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
+        <BaseInput id="confirmPassword" v-model="account.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
         <div class="flex mb-4">
           <label class="text-base text-gray-800 max-w">
             <input
-              v-model="user.active"
+              v-model="account.active"
               class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
               type="checkbox"
             />
@@ -53,12 +53,12 @@ import Swal from 'sweetalert2';
 import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
-import UserService from '../services/UserService';
+import AccountService from '../services/AccountService';
 
 const router = useRouter();
 const emitter = inject('emitter');
 
-const user = ref({
+const account = ref({
   name: null,
   email: null,
   cellphone: null,
@@ -67,7 +67,7 @@ const user = ref({
 });
 
 const props = defineProps({
-  user: {
+  account: {
     type: Object,
     default() {
       return { msg: 0 };
@@ -88,7 +88,7 @@ function closeModal() {
 }
 
 onMounted(async () => {
-  user.value = await props.user;
+  account.value = await props.account;
 });
 
 const number = helpers.regex(
@@ -119,11 +119,11 @@ const rules = computed(() => ({
   },
   confirmPassword: {
     required: helpers.withMessage('Campo obrigatório ', required),
-    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(user.value.password)),
+    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(account.value.password)),
   },
 }));
 
-const v$ = useVuelidate(rules, user);
+const v$ = useVuelidate(rules, account);
 
 const submitForm = async () => {
   const validated = await v$.value.$validate();
@@ -132,8 +132,8 @@ const submitForm = async () => {
     return false;
   }
 
-  if (user.value.user_id === undefined) {
-    const response = await UserService.createUser(user.value);
+  if (account.value.account_id === undefined) {
+    const response = await AccountService.createAccount(account.value);
     if (response) {
       Swal.fire({
         icon: 'success',
@@ -152,7 +152,7 @@ const submitForm = async () => {
       });
     }
   } else {
-    const response = await UserService.updateUser(user.value);
+    const response = await AccountService.updateAccount(account.value);
     if (response) {
       Swal.fire({
         icon: 'success',

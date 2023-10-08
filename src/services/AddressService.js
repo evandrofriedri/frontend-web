@@ -30,7 +30,7 @@ export default {
   },
 
   /**
-   * Metodo para listar endereço por usuarioID
+   * Metodo para listar endereço por contaID
    * GET
    */
   async getAddressID(id) {
@@ -44,7 +44,7 @@ export default {
   },
 
   /**
-   * Metodo para listar endereço padrão por usuarioID
+   * Metodo para listar endereço padrão por contaID
    * GET
    */
   async getFavoriteAddressID(id) {

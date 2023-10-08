@@ -125,7 +125,7 @@ const systemParams = ref({
   storeAddress: null,
   deliveryValue: null,
 });
-const userAddress = ref({});
+const accountAddress = ref({});
 const isModalCartOpen = ref(false);
 const animationBtn = ref(false);
 const emitter = inject('emitter');
@@ -161,25 +161,25 @@ async function loadData() {
   systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
   systemParams.value.deliveryValue = await ConfigurationService.getConfigurationID('deliveryValue');
 
-  const response = await AddressService.getAddressID(29); // usuario logado ou passar -1
+  const response = await AddressService.getAddressID(1); // conta logada ou passar -1
   if (response.length === 0) {
-    userAddress.value = response;
+    accountAddress.value = response;
   }
 
   const filterResponse = response.filter((element) => element.favorite === true);
   if (filterResponse.length === 0) {
     // eslint-disable-next-line prefer-destructuring
-    userAddress.value = response[0];
+    accountAddress.value = response[0];
   } else {
     // eslint-disable-next-line prefer-destructuring
-    userAddress.value = filterResponse[0];
+    accountAddress.value = filterResponse[0];
   }
 
-  deliveryAddress.value = userAddress.value;
+  deliveryAddress.value = accountAddress.value;
   delivery.value = systemParams.value.deliveryValue;
   updateCart();
 
-  return userAddress;
+  return accountAddress;
 }
 
 function deleteItemCart(index) {
@@ -205,7 +205,7 @@ function cleanCart() {
 
 function updateDelivery(option) {
   if (option === 'deliver') {
-    deliveryAddress.value = userAddress.value;
+    deliveryAddress.value = accountAddress.value;
     delivery.value = systemParams.value.deliveryValue;
     forDelivery.value = true;
   } else {

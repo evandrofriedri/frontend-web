@@ -13,11 +13,11 @@
             Criar seu cadastro
           </h2>
           <form action="" @submit.prevent="submitForm">
-            <BaseInput id="name" v-model="user.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
-            <BaseInput id="email" v-model="user.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
-            <BaseInput id="cellphone" v-model="user.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
-            <BaseInput id="password" v-model="user.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
-            <BaseInput id="confirmPassword" v-model="user.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
+            <BaseInput id="name" v-model="account.name" label="Nome Completo" type="text" placeholder="Nome Completo" :errors="v$.name.$errors" />
+            <BaseInput id="email" v-model="account.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
+            <BaseInput id="cellphone" v-model="account.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
+            <BaseInput id="password" v-model="account.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
+            <BaseInput id="confirmPassword" v-model="account.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
             <div class="mb-4">
               <FormButton
                 btn-type="submit"
@@ -43,11 +43,11 @@ import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
-import UserService from '../../services/UserService';
+import AccountService from '../../services/AccountService';
 
 const router = useRouter();
 
-const user = ref({
+const account = ref({
   name: null,
   email: null,
   cellphone: null,
@@ -83,11 +83,11 @@ const rules = computed(() => ({
   },
   confirmPassword: {
     required: helpers.withMessage('Campo obrigatório ', required),
-    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(user.value.password)),
+    sameAs: helpers.withMessage('As senhas não são iguais', sameAs(account.value.password)),
   },
 }));
 
-const v$ = useVuelidate(rules, user);
+const v$ = useVuelidate(rules, account);
 
 const submitForm = async () => {
   const validated = await v$.value.$validate();
@@ -95,7 +95,7 @@ const submitForm = async () => {
   if (!validated) {
     return false;
   }
-  const response = await UserService.createUser(user.value);
+  const response = await AccountService.createAccount(account.value);
   if (response) {
     Swal.fire({
       icon: 'success',

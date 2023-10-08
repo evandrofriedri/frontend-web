@@ -70,7 +70,7 @@ const newAddress = ref({
   neighborhood: null,
   city: null,
   favorite: false,
-  user_id: 29, // terá que ser usuario da sessão
+  account_id: 1, // terá que ser conta da sessão
 });
 
 const emitter = inject('emitter');
@@ -81,13 +81,13 @@ emitter.on('setModalFalse', () => {
     neighborhood: '',
     city: null,
     favorite: false,
-    user_id: 29, // terá que ser usuario da sessão
+    account_id: 1, // terá que ser conta da sessão
   };
   isModalAddressOpen.value = false;
 });
 
 async function loadData() {
-  const response = await AddressService.getAddressID(29); // usuário logado
+  const response = await AddressService.getAddressID(1); // usuário logado
   return response;
 }
 

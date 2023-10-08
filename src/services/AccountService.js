@@ -2,12 +2,12 @@ import Api from './Api';
 
 export default {
   /**
-   * Metodo para listar todos os usuários
+   * Metodo para listar todas as contas
    * GET
    */
-  async getUsers() {
+  async getAccounts() {
     try {
-      const response = await Api().get('/users');
+      const response = await Api().get('/accounts');
       return response.data;
     } catch (error) {
       console.log(error);
@@ -16,12 +16,12 @@ export default {
   },
 
   /**
-   * Metodo para criar nova usuário
+   * Metodo para criar nova conta
    * POST
    */
-  async createUser(user) {
+  async createAccount(account) {
     try {
-      const response = await Api().post('/users', user);
+      const response = await Api().post('/accounts', account);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -31,12 +31,12 @@ export default {
   },
 
   /**
-   * Metodo para listar usuário por ID
+   * Metodo para listar conta por ID
    * GET
    */
-  async getUserID(id) {
+  async getAccountID(id) {
     try {
-      const response = await Api().get(`/users/${id}`);
+      const response = await Api().get(`/accounts/${id}`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -45,13 +45,13 @@ export default {
   },
 
   /**
-   * Metodo para atualizar usuário por ID
+   * Metodo para atualizar conta por ID
    * PUT
    */
-  async updateUser(user) {
+  async updateAccount(account) {
     try {
-      const id = user.user_id;
-      const response = await Api().put(`/users/${id}`, user);
+      const id = account.account_id;
+      const response = await Api().put(`/accounts/${id}`, account);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -59,12 +59,12 @@ export default {
     }
   },
   /**
-   * Metodo para excluir usuário por ID
+   * Metodo para excluir conta por ID
    * DELETE
    */
-  async deleteUser(id) {
+  async deleteAccount(id) {
     try {
-      const response = await Api().delete(`/users/${id}`);
+      const response = await Api().delete(`/accounts/${id}`);
       return response.data;
     } catch (error) {
       console.log(error);

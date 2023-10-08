@@ -1,18 +1,18 @@
 <template>
   <td class="px-2 py-2">
-    {{ user.name }}
+    {{ account.name }}
   </td>
   <td class="px-2 py-2">
-    {{ user.email }}
+    {{ account.email }}
   </td>
   <td class="px-2 py-2">
-    {{ user.cellphone }}
+    {{ account.cellphone }}
   </td>
   <td class="px-2 py-2">
-    {{ user.active_name }}
+    {{ account.active_name }}
   </td>
   <td class="px-2 py-2 ">
-    <button type="button" title="Excluir Conta" @click="deleteUser(user)">
+    <button type="button" title="Excluir Conta" @click="deleteAccount(account)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
     <button type="button" title="Editar Usuário" @click="isModalItemOpen = true">
@@ -20,7 +20,7 @@
     </button>
   </td>
   <ModalWrapper :modal-open="isModalItemOpen">
-    <FormUser label-form="Editar Usuário" label-btn="Salvar" :user="user" />
+    <FormAccount label-form="Editar Usuário" label-btn="Salvar" :account="account" />
   </ModalWrapper>
 </template>
 
@@ -29,15 +29,15 @@ import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
-import FormUser from './FormUser.vue';
-import UserService from '../services/UserService';
+import FormAccount from './FormAccount.vue';
+import AccountService from '../services/AccountService';
 
 const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
 defineProps({
-  user: {
+  account: {
     type: Object,
     default() {
       return { msg: 0 };
@@ -49,9 +49,9 @@ emitter.on('setModalFalse', () => {
   isModalItemOpen.value = false;
 });
 
-function deleteUser(user) {
+function deleteAccount(account) {
   Swal.fire({
-    title: `Deseja excluir conta ${user.name}?`,
+    title: `Deseja excluir conta ${account.name}?`,
     text: 'Não poderá reverter após confirmação!',
     icon: 'warning',
     showCancelButton: true,
@@ -61,12 +61,12 @@ function deleteUser(user) {
     cancelButtonText: 'Voltar',
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const response = await UserService.deleteUser(user.user_id);
+      const response = await AccountService.deleteAccount(account.account_id);
       if (response) {
         Swal.fire({
           icon: 'success',
           title: 'Conta excluída com sucesso!',
-          text: `Conta ${user.name} excluida.`,
+          text: `Conta ${account.name} excluida.`,
           showConfirmButton: true,
           confirmButtonColor: '#374151',
         }).then(() => {
