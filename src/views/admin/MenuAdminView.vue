@@ -11,6 +11,9 @@
       <PageTab title="Adicionais">
         <AdditionalAdminPage />
       </PageTab>
+      <PageTab title="Status do Pedido">
+        <StatusAdminPage />
+      </PageTab>
     </TabWrapper>
   </div>
 </template>
@@ -20,4 +23,5 @@ import PageTab from '../../components/PageTab.vue';
 import ProductAdminPage from './ProductAdminPage.vue';
 import CategoryAdminPage from './CategoryAdminPage.vue';
 import AdditionalAdminPage from './AdditionalAdminPage.vue';
+import StatusAdminPage from './StatusAdminPage.vue';
 </script>

@@ -46,8 +46,8 @@ defineProps({
     },
   },
   maxlength: {
-    type: Number,
-    default: 80,
+    type: String,
+    default: '80',
   },
 });
 </script>
