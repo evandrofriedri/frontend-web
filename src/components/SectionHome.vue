@@ -95,6 +95,7 @@ function thereIsProduct(obj) {
     foundProduct.value = 1;
   }
 }
+
 function filteredList(data) {
   let filtData = [];
   const arrSearch = {
