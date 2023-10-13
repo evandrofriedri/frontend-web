@@ -3,6 +3,9 @@
     {{ category.name }}
   </td>
   <td class="px-2 py-2">
+    {{ category.sequence }}
+  </td>
+  <td class="px-2 py-2">
     <button type="button" title="Excluir Categoria" @click="deleteCtg(category)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;

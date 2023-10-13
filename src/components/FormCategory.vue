@@ -9,6 +9,7 @@
       </div>
       <div class="flex flex-col">
         <BaseInput id="name" v-model="category.name" label="Nome Categoria" type="text" placeholder="Nome Categoria" :errors="v$.name.$errors" />
+        <BaseInput id="sequence" v-model="category.sequence" label="Ordem" type="number" placeholder="Ordem" :errors="v$.sequence.$errors" />
       </div>
     </div>
     <div class="grid grid-cols-12">
@@ -46,6 +47,7 @@ const emitter = inject('emitter');
 const category = ref({
   id: null,
   name: null,
+  sequence: null,
 });
 
 const props = defineProps({
@@ -75,6 +77,9 @@ onMounted(async () => {
 
 const rules = computed(() => ({
   name: {
+    required: helpers.withMessage('Campo obrigatório', required),
+  },
+  sequence: {
     required: helpers.withMessage('Campo obrigatório', required),
   },
 }));
