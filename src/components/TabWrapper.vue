@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="flex items-center mb-5 text-lg text-gray-800 bg-gray-50 shadow-md rounded">
+    <ul class="flex items-center mb-5 text-lg text-gray-800 bg-gray-50 shadow-md rounded overflow-x-auto">
       <li
         v-for="(item) in tabTitles"
         :key="item"

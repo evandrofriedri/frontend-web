@@ -98,9 +98,10 @@ const totalProduct = ref(qtdeProduct.value * props.product.price);
 const totalItemCart = ref(qtdeProduct.value * props.product.price);
 
 const itemCart = reactive({
-  id: props.product.id,
+  product_id: props.product.product_id,
   qtde: qtdeProduct.value,
   name: props.product.name,
+  unit_value: props.product.price,
   additionals: [],
   observation: '',
   totalProduct: totalProduct.value,
@@ -115,10 +116,10 @@ function updateTotal() {
   itemCart.additionals.forEach((item) => {
     let countTemp = 0;
     let totalTemp = 0;
-    countTemp = item.count * qtdeProduct.value;
-    totalTemp = countTemp * item.price;
+    countTemp = item.qtde * qtdeProduct.value;
+    totalTemp = countTemp * item.unit_value;
     // eslint-disable-next-line no-param-reassign
-    item.multCount = countTemp;
+    item.mult_qtde = countTemp;
     // eslint-disable-next-line no-param-reassign
     item.total = totalTemp;
   });
@@ -144,9 +145,9 @@ function decrementAdditional(data) {
 
   if (searchIndex !== -1) {
     if (data.count !== 0) {
-      itemCart.additionals[searchIndex].count = data.count;
-      itemCart.additionals[searchIndex].multCount = data.count;
-      itemCart.additionals[searchIndex].price = data.additional.price;
+      itemCart.additionals[searchIndex].qtde = data.count;
+      itemCart.additionals[searchIndex].mult_qtde = data.count;
+      itemCart.additionals[searchIndex].unit_value = data.additional.price;
       // eslint-disable-next-line vue/max-len
       itemCart.additionals[searchIndex].total = data.count * data.additional.price;
     } else {
@@ -160,18 +161,18 @@ function incrementAdditional(data) {
   const searchIndex = itemCart.additionals.findIndex((s) => s.name === data.additional.name);
   if (searchIndex !== -1) {
     if (data.count !== 0) {
-      itemCart.additionals[searchIndex].count = data.count;
-      itemCart.additionals[searchIndex].multCount = data.count;
-      itemCart.additionals[searchIndex].price = data.additional.price;
+      itemCart.additionals[searchIndex].qtde = data.count;
+      itemCart.additionals[searchIndex].mult_qtde = data.count;
+      itemCart.additionals[searchIndex].unit_value = data.additional.price;
       // eslint-disable-next-line vue/max-len
       itemCart.additionals[searchIndex].total = data.count * data.additional.price;
     }
   } else {
     itemCart.additionals.push({
-      id: data.additional.id,
-      count: 1,
-      multCount: 1,
-      price: data.additional.price,
+      additional_id: data.additional.additional_id,
+      qtde: 1,
+      mult_qtde: 1,
+      unit_value: data.additional.price,
       name: data.additional.name,
       total: data.additional.price,
     });

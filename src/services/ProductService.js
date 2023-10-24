@@ -102,7 +102,7 @@ export default {
   },
 
   /**
-   * Metodo para excluir produto por produtoId
+   * Metodo para excluir produto_adicional por produtoId
    * DELETE
    */
   async deleteProductAdditionals(productId) {
