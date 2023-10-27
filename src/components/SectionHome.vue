@@ -45,13 +45,6 @@ const productList = ref([]);
 //   emitter.emit('update');
 // }
 
-function sortFunction(a, b) {
-  if (a[0] === b[0]) {
-    return 0;
-  }
-  return (a[0] < b[0]) ? -1 : 1;
-}
-
 const loadDataProduct = async (category) => {
   const objCategory = category;
   const response = await ProductService.getProductID(category.category_id);
@@ -75,7 +68,6 @@ const loadDataProduct = async (category) => {
   });
   objCategory.products = response;
   productList.value.push(objCategory);
-  productList.value.sort(sortFunction);
 };
 
 const loadData = async () => {

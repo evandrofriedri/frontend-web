@@ -1,14 +1,16 @@
 <template>
-  <div class="p-2 flex justify-between rounded bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
-    <div class="flex flex-col pr-5">
-      <p class="mb-2 text-lg font-medium text-gray-900">
-        {{ props.product.name }}
-      </p>
-      <p class="mb-2 text-sm text-gray-600">
-        {{ props.product.description }}
-      </p>
-      <p class="text-base font-semibold text-gray-900">
-        {{ props.product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
+  <div class="p-2 flex justify-between rounded max-h-28 bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
+    <div class="flex flex-col justify-between pr-5">
+      <div>
+        <p class="mb-2 text-base font-medium text-gray-900">
+          {{ props.product.name }}
+        </p>
+        <p class="mb-2 text-xs text-gray-600">
+          {{ props.product.description }}
+        </p>
+      </div>
+      <p class="text-sm font-semibold text-gray-900">
+        {{ parseFloat(props.product.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
       </p>
     </div>
     <div class="min-w-fit rounded">

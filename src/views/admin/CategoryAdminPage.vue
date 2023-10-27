@@ -15,6 +15,9 @@
             Categoria
           </th>
           <th scope="col" class="px-2 py-2">
+            Ordem
+          </th>
+          <th scope="col" class="px-2 py-2">
             Ações
           </th>
         </tr>

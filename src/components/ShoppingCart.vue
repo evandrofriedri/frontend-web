@@ -19,7 +19,7 @@
       </h1>
     </div>
     <div class="flex flex-col max-h-72 md:max-h-[400px] overflow-auto border rounded p-2">
-      <div v-for="(item, index) in market" :key="index" class="text-base text-gray-800 border rounded p-2 mt-1">
+      <div v-for="(item, index) in market" :key="index" class="text-sm text-gray-800 border rounded p-2 mt-1">
         <div class="flex justify-between text-justify">
           <p class="font-medium">
             {{ item.qtde }}x {{ item.name }}&nbsp;&nbsp;
@@ -34,56 +34,56 @@
             {{ item.totalProduct.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
           </p>
         </div>
-        <p v-if="item.additionals.length !== 0" class="text-base pl-5">
+        <p v-if="item.additionals.length !== 0" class="text-sm pl-5">
           Adicionais:
         </p>
         <div v-for="(add, idx) in item.additionals" :key="idx">
-          <div class="flex justify-between text-base text-justify pl-5">
+          <div class="flex justify-between text-sm text-justify pl-5">
             <p class="font-light">
-              {{ add.multCount }}x {{ add.name }}
+              {{ add.mult_qtde }}x {{ add.name }}
             </p>
             <p class="font-medium">
               {{ add.total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
             </p>
           </div>
         </div>
-        <p v-if="item.observation !== ''" class="text-base pl-5">
+        <p v-if="item.observation !== ''" class="text-sm pl-5">
           Observações: {{ item.observation }}
         </p>
-        <div class="flex justify-between text-base font-medium text-right">
+        <div class="flex justify-between text-sm font-medium text-right">
           <p>Total Item</p> <p>{{ item.totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
         </div>
       </div>
       <CardNotFound :found="market.length" label="Nenhum item no carrinho, retorne ao cardápio para adicionar seu produto!" />
     </div>
-    <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold pb-4">
+    <div v-if="market.length > 0" class="flex justify-between text-base text-gray-800 font-semibold pb-2">
       <p>Subtotal</p> <p>{{ subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
     </div>
     <div v-if="market.length > 0" class="flex justify-between items-center p-2 border rounded">
       <div class="flex flex-col items-baseline text-gray-800">
         <div class="flex items-center">
           <input id="delivery-radio-1" :checked="forDelivery" type="radio" value="" name="delivery-radio" class="w-4 h-4 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('deliver')">
-          <label for="delivery-radio-1" :checked="!forDelivery" class="w-full ml-2 text-base font-medium">Para entregar</label>
+          <label for="delivery-radio-1" :checked="!forDelivery" class="w-full ml-2 text-sm font-medium">Para entregar</label>
         </div>
         <div class="flex items-center">
           <input id="delivery-radio-2" type="radio" value="" name="delivery-radio" class="w-4 h-4 border-gray-300 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('local')">
-          <label for="delivery-radio-2" class="w-full ml-2 text-base font-medium">Retirar na loja</label>
+          <label for="delivery-radio-2" class="w-full ml-2 text-sm font-medium">Retirar na loja</label>
         </div>
       </div>
       <AddressLayout icon="fa-solid fa-map-location-dot" :item="deliveryAddress" />
     </div>
-    <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold text-right pb-4">
+    <div v-if="market.length > 0" class="flex justify-between text-base text-gray-800 font-semibold text-right pb-2">
       <p>Entrega</p><p> {{ delivery.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
     </div>
-    <div v-if="market.length > 0" class="flex justify-between items-center text-gray-800 pb-4">
-      <p class="text-lg font-semibold">
+    <div v-if="market.length > 0" class="flex justify-between items-center text-gray-800 pb-2">
+      <p class="text-base font-semibold">
         Forma de Pagamento
       </p>
       <p class="italic">
         Na entrega do pedido
       </p>
     </div>
-    <div v-if="market.length > 0" class="flex justify-between text-lg text-gray-800 font-semibold pb-4">
+    <div v-if="market.length > 0" class="flex justify-between text-base text-gray-800 font-semibold pb-2">
       <p>Total</p> <p>{{ total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
     </div>
     <div class="grid grid-cols-12 text-justify items-center">
@@ -104,6 +104,7 @@ import {
   inject,
   onMounted,
 } from 'vue';
+import Swal from 'sweetalert2';
 import AddressLayout from './AddressLayout.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
@@ -111,6 +112,8 @@ import CardNotFound from './CardNotFound.vue';
 import ModalWrapper from './ModalWrapper.vue';
 import AddressService from '../services/AddressService';
 import ConfigurationService from '../services/ConfigurationService';
+import OrderService from '../services/OrderService';
+import StatusService from '../services/StatusService';
 
 const market = ref([]);
 const subTotal = ref(0);
@@ -189,9 +192,114 @@ function deleteItemCart(index) {
   updateCart();
 }
 
-function confirmOrder() {
-  console.log('pedido confirmado');
+async function orderStatus(orderId) {
+  const statusResponse = await StatusService.getStatuses();
+  // eslint-disable-next-line vue/max-len
+  const createOrderStatusresponse = await OrderService.createOrderStatus(orderId, statusResponse[0].status_id);
+  if (!createOrderStatusresponse) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro ao cadastrar novo Pedido, tente mais tarde!',
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    });
+    return false;
+  }
+  return true;
 }
+
+async function orderProductAdditional(product, orderProductId) {
+  product.additionals.forEach(async (additional) => {
+    const additionalId = additional.additional_id;
+    // eslint-disable-next-line vue/max-len
+    const orderProductAdditionalResponse = await OrderService.createOrderProductAdditional(orderProductId, additionalId, additional);
+    if (!orderProductAdditionalResponse) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao cadastrar novo Pedido, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+      return false;
+    }
+    return true;
+  });
+}
+
+async function orderProduct(itemsCart, orderId) {
+  itemsCart.forEach(async (product) => {
+    const productId = product.product_id;
+    const orderProductResponse = await OrderService.createOrderProduct(orderId, productId, product);
+    if (!orderProductResponse) {
+      // deletar o pedido e pedido produto se houver
+      await OrderService.deleteOrderProducts(orderId);
+      await OrderService.deleteOrder(orderId);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro ao cadastrar novo Pedido, tente mais tarde!',
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      });
+      return false;
+    }
+    const orderProductId = orderProductResponse.return[0].order_product_id;
+    await orderProductAdditional(product, orderProductId);
+    return true;
+  });
+  return true;
+}
+
+const confirmOrder = async () => {
+  // validar usuario logado e endereço
+  const validated = true;
+
+  if (!validated) {
+    return false;
+  }
+
+  const itemsCart = JSON.parse(localStorage.getItem('itemsCart'));
+
+  const order = {
+    account_id: 1, // usuario logado
+    observation: '',
+    delivery: delivery.value,
+    total_value: total.value,
+  };
+
+  const orderResponse = await OrderService.createOrder(order);
+  if (!orderResponse) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro ao cadastrar novo Pedido, tente mais tarde!',
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    });
+    return false;
+  }
+
+  const orderId = orderResponse.return[0].order_id;
+
+  const orderProductResponse = orderProduct(itemsCart, orderId);
+
+  if (!orderProductResponse) {
+    return false;
+  }
+
+  const orderStatusResponse = await orderStatus(orderId);
+  if (!orderStatusResponse) {
+    return false;
+  }
+
+  Swal.fire({
+    icon: 'success',
+    title: 'Pedido realizado com sucesso!',
+    text: `Pedido #${orderId} criado.`,
+    showConfirmButton: true,
+    confirmButtonColor: '#374151',
+  });
+
+  return true;
+};
 
 function cleanCart() {
   const itemsCart = JSON.parse(localStorage.getItem('itemsCart'));

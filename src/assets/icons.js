@@ -47,6 +47,8 @@ const icons = {
   faPenToSquare: freeRegularSvgIcons.faPenToSquare,
   faFloppyDisk: freeRegularSvgIcons.faFloppyDisk,
   faSquareCaretRight: freeRegularSvgIcons.faSquareCaretRight,
+  faCircleCheck: freeRegularSvgIcons.faCircleCheck,
+  faHourglassHalf: freeRegularSvgIcons.faHourglassHalf,
 };
 
 export default icons;
