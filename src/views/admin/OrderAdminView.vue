@@ -20,7 +20,7 @@
               Data Pedido
             </th>
             <th scope="col" class="px-2 py-2">
-              Descrição
+              Conta
             </th>
             <th scope="col" class="px-2 py-2">
               Observação
@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in filteredList()" :key="index" class="bg-white border-b">
+          <tr v-for="(item, index) in filteredList(orderList)" :key="index" class="bg-white border-b">
             <OrderAdminItem :order="item" />
           </tr>
         </tbody>
@@ -50,46 +50,39 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import OrderAdminItem from '../../components/OrderAdminItem.vue';
+import OrderService from '../../services/OrderService';
 
 const search = ref('');
-let orders = [];
+const orderList = ref([]);
 const foundOrder = ref(0);
 
-function loadData() {
-  const data = [
-    {
-      pedido_id: '01',
-      data_pedido: '28-08-2023 14:46',
-      descricao: '2x Hamburguer da casa',
-      total: '68',
-      status_id: 1,
-    },
-    {
-      pedido_id: '02',
-      data_pedido: '28-08-2023 16:46',
-      descricao: '2x Hamburguer da casa heineken asjhasjdhasdhasuidhoishad',
-      total: '63',
-      status_id: 1,
-    },
-  ];
-
-  return data;
+async function loadData() {
+  const params = {
+    limit: 10,
+    offset: 0,
+  };
+  orderList.value = await OrderService.getOrders(JSON.stringify(params));
+  return orderList.value;
 }
 
 function thereIsOrder(obj) {
   foundOrder.value = Object.values(obj).length;
 }
 
-function filteredList() {
-  orders = loadData();
+function filteredList(data) {
   // eslint-disable-next-line vue/max-len
-  const filtData = orders.filter((d) => d.descricao.toLowerCase().includes(search.value.toLowerCase()));
+  const filtData = data.filter((d) => d.order_id.toString().toLowerCase().includes(search.value.toLowerCase()));
   thereIsOrder(filtData);
   return filtData;
 }
+
+onMounted(async () => {
+  orderList.value = await loadData();
+  orderList.value = await filteredList(orderList.value);
+});
 
 </script>

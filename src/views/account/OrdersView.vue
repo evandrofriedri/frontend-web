@@ -9,7 +9,7 @@
         <SearchInput id="OrdersSearch" v-model="search" placeholder="Digite o número do pedido" />
       </div>
     </div>
-    <div v-show="foundOrders !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
+    <div v-show="foundOrder !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
       <div v-for="(item, index) in filteredList(orderList)" :key="index" class="p-5 bg-white shadow-md rounded mb-3">
         <h1 class="mb-3 text-base font-semibold text-gray-800">
           Pedido #{{ item.order_id }}, feito no dia {{ item.date }}
@@ -81,7 +81,7 @@
         </div>
       </div>
     </div>
-    <CardNotFound :found="foundOrders" label="Nenhum pedido encontrado!" />
+    <CardNotFound :found="foundOrder" label="Nenhum pedido encontrado!" />
   </div>
 </template>
 
@@ -93,11 +93,10 @@ import SearchInput from '../../components/SearchInput.vue';
 
 const search = ref('');
 const orderList = ref([]);
-const foundOrders = ref(1);
+const foundOrder = ref(1);
 
 async function loadData() {
   orderList.value = await OrderService.getOrderID(1); // usuario logado
-  console.log(orderList.value);
 
   orderList.value.forEach(async (order) => {
     // eslint-disable-next-line no-param-reassign
@@ -119,12 +118,11 @@ async function loadData() {
     });
   });
 
-  console.log(orderList.value);
   return orderList.value;
 }
 
 function thereIsOrders(obj) {
-  foundOrders.value = Object.values(obj).length;
+  foundOrder.value = Object.values(obj).length;
 }
 
 function filteredList(data) {

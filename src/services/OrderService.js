@@ -5,9 +5,9 @@ export default {
    * Metodo para listar todos os pedidos
    * GET
    */
-  async getOrders() {
+  async getOrders(params) {
     try {
-      const response = await Api().get('/orders');
+      const response = await Api().get(`/orders/${params}`);
       return response.data;
     } catch (error) {
       console.log(error);
