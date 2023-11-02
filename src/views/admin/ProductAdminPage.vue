@@ -7,7 +7,7 @@
       <SearchInput id="ProductAdminSearch" v-model="search" placeholder="Digite o nome do produto" />
     </div>
   </div>
-  <div v-show="foundProduct !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
+  <div v-show="foundProduct !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-800">
       <thead class="text-xs text-gray-900 uppercase bg-gray-50">
         <tr>
@@ -42,6 +42,7 @@
 </template>
 <script setup>
 import { onMounted, ref, inject } from 'vue';
+import { useInfiniteScroll } from '@vueuse/core';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import ProductAdminItem from '../../components/ProductAdminItem.vue';
@@ -62,6 +63,10 @@ const newProduct = ref({
   imageUrl: null,
   price: null,
 });
+const listEl = ref(null);
+const itemsToShow = ref(10);
+const page = ref(0);
+const stopQuery = ref(false);
 
 const emitter = inject('emitter');
 emitter.on('setModalFalse', () => {
@@ -78,7 +83,9 @@ emitter.on('setModalFalse', () => {
 });
 
 async function loadData() {
-  const response = await ProductService.getProducts();
+  const response = await ProductService.getProducts(JSON.stringify({
+    limit: itemsToShow.value, offset: page.value,
+  }));
   response.forEach((element) => {
     if (element.additionals !== null) {
       const arr = element.additionals.split(',');
@@ -93,6 +100,39 @@ async function loadData() {
 
   return response;
 }
+
+const getDataOnScroll = async () => {
+  if (!stopQuery.value) {
+    page.value += itemsToShow.value;
+    const newData = await ProductService.getProducts(JSON.stringify({
+      limit: itemsToShow.value, offset: page.value,
+    }));
+    newData.forEach((element) => {
+      if (element.additionals !== null) {
+        const arr = element.additionals.split(',');
+        const numberArray = arr.map(Number);
+        // eslint-disable-next-line no-param-reassign
+        element.additionals = numberArray;
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        element.additionals = [];
+      }
+    });
+
+    if (newData.length === 0) {
+      stopQuery.value = true;
+    }
+    productList.value.push(...newData);
+  }
+};
+
+useInfiniteScroll(
+  listEl,
+  async () => {
+    await getDataOnScroll();
+  },
+  { distance: 10 },
+);
 
 function thereIsProduct(obj) {
   foundProduct.value = Object.values(obj).length;

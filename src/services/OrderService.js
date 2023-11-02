@@ -7,7 +7,7 @@ export default {
    */
   async getOrders(params) {
     try {
-      const response = await Api().get(`/orders/${params}`);
+      const response = await Api().get(`/orders/all/${params}`);
       return response.data;
     } catch (error) {
       console.log(error);

@@ -9,7 +9,7 @@
         <SearchInput id="OrdersSearch" v-model="search" placeholder="Digite o número do pedido" />
       </div>
     </div>
-    <div v-show="foundOrder !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
+    <div v-show="foundOrder !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
       <div v-for="(item, index) in filteredList(orderList)" :key="index" class="p-5 bg-white shadow-md rounded mb-3">
         <h1 class="mb-3 text-base font-semibold text-gray-800">
           Pedido #{{ item.order_id }}, feito no dia {{ item.date }}
@@ -87,6 +87,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useInfiniteScroll } from '@vueuse/core';
 import OrderService from '../../services/OrderService';
 import CardNotFound from '../../components/CardNotFound.vue';
 import SearchInput from '../../components/SearchInput.vue';
@@ -94,9 +95,15 @@ import SearchInput from '../../components/SearchInput.vue';
 const search = ref('');
 const orderList = ref([]);
 const foundOrder = ref(1);
+const listEl = ref(null);
+const itemsToShow = ref(10);
+const page = ref(0);
+const stopQuery = ref(false);
 
 async function loadData() {
-  orderList.value = await OrderService.getOrderID(1); // usuario logado
+  orderList.value = await OrderService.getOrderID(JSON.stringify({
+    id: 1, limit: itemsToShow.value, offset: page.value,
+  })); // usuario logado
 
   orderList.value.forEach(async (order) => {
     // eslint-disable-next-line no-param-reassign
@@ -120,6 +127,48 @@ async function loadData() {
 
   return orderList.value;
 }
+
+const getDataOnScroll = async () => {
+  if (!stopQuery.value) {
+    page.value += itemsToShow.value;
+    const newData = ref(await OrderService.getOrderID(JSON.stringify({
+      id: 1, limit: itemsToShow.value, offset: page.value,
+    })));
+
+    newData.value.forEach(async (order) => {
+      // eslint-disable-next-line no-param-reassign
+      order.statuses = [];
+      const statusResponse = await OrderService.getOrderStatuses(order.order_id);
+      statusResponse.map((element) => order.statuses.push(element));
+
+      // eslint-disable-next-line no-param-reassign
+      order.products = [];
+      const orderProductResponse = await OrderService.getOrderProducts(order.order_id);
+      orderProductResponse.map((element) => order.products.push(element));
+
+      order.products.forEach(async (product) => {
+        // eslint-disable-next-line no-param-reassign
+        product.additionals = [];
+        // eslint-disable-next-line vue/max-len
+        const orderProductAdditional = await OrderService.getOrderProductAdditionals(product.order_product_id);
+        orderProductAdditional.map((element) => product.additionals.push(element));
+      });
+    });
+
+    if (newData.value.length === 0) {
+      stopQuery.value = true;
+    }
+    orderList.value.push(...newData.value);
+  }
+};
+
+useInfiniteScroll(
+  listEl,
+  async () => {
+    await getDataOnScroll();
+  },
+  { distance: 10 },
+);
 
 function thereIsOrders(obj) {
   foundOrder.value = Object.values(obj).length;

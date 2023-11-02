@@ -9,7 +9,7 @@
         <SearchInput id="orderAdminSearch" v-model="search" placeholder="Digite a descrição do pedido" />
       </div>
     </div>
-    <div v-show="foundOrder !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
+    <div v-show="foundOrder !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
       <table class="w-full text-sm text-left text-gray-800">
         <thead class="text-xs text-gray-900 uppercase bg-gray-50">
           <tr>
@@ -51,6 +51,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { useInfiniteScroll } from '@vueuse/core';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import OrderAdminItem from '../../components/OrderAdminItem.vue';
@@ -59,15 +60,39 @@ import OrderService from '../../services/OrderService';
 const search = ref('');
 const orderList = ref([]);
 const foundOrder = ref(0);
+const listEl = ref(null);
+const itemsToShow = ref(10);
+const page = ref(0);
+const stopQuery = ref(false);
 
 async function loadData() {
-  const params = {
-    limit: 10,
-    offset: 0,
-  };
-  orderList.value = await OrderService.getOrders(JSON.stringify(params));
+  orderList.value = await OrderService.getOrders(JSON.stringify({
+    limit: itemsToShow.value, offset: page.value,
+  }));
   return orderList.value;
 }
+
+const getDataOnScroll = async () => {
+  if (!stopQuery.value) {
+    page.value += itemsToShow.value;
+    const newData = ref(await OrderService.getOrders(JSON.stringify({
+      limit: itemsToShow.value, offset: page.value,
+    })));
+
+    if (newData.value.length === 0) {
+      stopQuery.value = true;
+    }
+    orderList.value.push(...newData.value);
+  }
+};
+
+useInfiniteScroll(
+  listEl,
+  async () => {
+    await getDataOnScroll();
+  },
+  { distance: 10 },
+);
 
 function thereIsOrder(obj) {
   foundOrder.value = Object.values(obj).length;

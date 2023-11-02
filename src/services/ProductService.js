@@ -5,9 +5,9 @@ export default {
    * Metodo para listar todos os produtos
    * GET
    */
-  async getProducts() {
+  async getProducts(params) {
     try {
-      const response = await Api().get('/products');
+      const response = await Api().get(`/products/all/${params}`);
       return response.data;
     } catch (error) {
       console.log(error);
