@@ -9,7 +9,7 @@
   </div>
   <div v-show="foundStatus !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-800">
-      <thead class="text-xs text-gray-900 uppercase bg-gray-50">
+      <thead class="text-xs text-gray-900 uppercase bg-gray-200">
         <tr>
           <th scope="col" class="px-2 py-2">
             Status
@@ -23,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList(statusList)" :key="index" class="bg-white border-b">
+        <tr v-for="(item, index) in filteredList(statusList)" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
           <StatusAdminItem :status="item" />
         </tr>
       </tbody>
