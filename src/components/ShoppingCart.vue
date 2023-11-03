@@ -6,7 +6,7 @@
         description="Carrinho"
         @click="isModalCartOpen = true"
       />
-      <div class="absolute leading-none text-white font-semibold top-0 right-0 -mt-2 -mr-2 px-2 py-1 bg-red-500 rounded-full">
+      <div class="absolute leading-none text-white font-semibold top-0 right-0 -mt-2 -mr-2 px-2 py-1 bg-red-600 rounded-full">
         {{ market.length }}
       </div>
     </div>

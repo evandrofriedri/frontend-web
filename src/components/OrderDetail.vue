@@ -16,7 +16,7 @@
             <span class="mr-2 text-base text-gray-800 font-semibold text-justify">Status</span>
             <div class="flex-grow border-t border-gray-200" />
           </div>
-          <div class="container mb-2">
+          <div v-if="order.active == 1" class="container mb-2">
             <ol class="grid grid-cols-1 sm:grid-cols-4 divide-x divide-gray-300 overflow-hidden rounded-lg border text-sm text-gray-500">
               <div v-for="(data, idx) in order.statuses" :key="idx">
                 <li :class="`relative flex items-center justify-center h-full gap-2 p-4 ${data.date == null ? 'text-gray-300' : 'text-gray-800'} `">
@@ -31,6 +31,20 @@
                   </p>
                 </li>
               </div>
+            </ol>
+          </div>
+          <div v-else>
+            <ol class="grid grid-cols-1 divide-x divide-gray-300 overflow-hidden rounded-lg border text-sm text-gray-500">
+              <li class="relative flex items-center justify-center h-full gap-2 p-4 text-gray-800">
+                <span class="absolute -right-2 top-1/2 hidden h-4 w-4 -translate-y-1/2 rotate-45 border border-gray-300 border-b-0 border-s-0 bg-white sm:block" />
+                <font-awesome-icon
+                  class="h-6 w-6 shrink-0 text-red-600"
+                  icon="fa-solid fa-ban"
+                />
+                <p class="leading-none w-1/3 sm:w-auto">
+                  <strong class="block font-medium"> Pedido Cancelado </strong>
+                </p>
+              </li>
             </ol>
           </div>
           <div class="flex items-center">

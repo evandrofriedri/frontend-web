@@ -40,7 +40,7 @@
           <tr
             v-for="(item, index) in filteredList(orderList)"
             :key="index"
-            :class="`bg-white border-b hover:bg-gray-200 cursor-pointer duration-300 ${item.active == false ? 'text-red-500' : 'text-gray-800'}`"
+            :class="`bg-white border-b hover:bg-gray-200 cursor-pointer duration-300 ${item.active == false ? 'text-red-600' : 'text-gray-800'}`"
           >
             <OrderAdminItem :order="item" />
           </tr>
