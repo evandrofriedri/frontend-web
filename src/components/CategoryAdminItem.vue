@@ -40,7 +40,6 @@ const props = defineProps({
 });
 
 emitter.on(`setModalFalse-FormCategory-${props.category.category_id}`, () => {
-  console.log('chegou setModalFalse CategoryAdminItem');
   isModalItemOpen.value = false;
 });
 

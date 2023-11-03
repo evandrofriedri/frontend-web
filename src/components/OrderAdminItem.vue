@@ -1,22 +1,26 @@
 <template>
-  <td class="px-2 py-2">
-    {{ order.order_id }} colocar um 'click' na celula para mostrar detalhes do pedido
+  <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
+    {{ order.order_id }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.date }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.account.split(' ')[0] }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.observation }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.total_value }}
   </td>
-  <td :class="`px-2 py-2 font-medium ${order.active == false ? 'text-red-500' : 'text-gray-800'}`">
-    {{ order.status.split('-')[1] }} // colocar um 'cancelado'
-    // talvez uma div com if order.active = !false
+  <td class="px-2 py-2 font-medium" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
+    <div v-if="order.active == 1">
+      {{ order.status.split('-')[1] }}
+    </div>
+    <div v-else>
+      Cancelado
+    </div>
   </td>
   <td :class="`px-2 py-2 ${order.active == 0 ? 'text-gray-300' : 'text-gray-800'}`">
     <button type="button" :disabled="order.active === false" title="Cancelar Pedido" @click="cancelOrder(order)">
@@ -29,7 +33,10 @@
       <font-awesome-icon icon="fa-regular fa-square-caret-right" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModalItemOpen">
+  <ModalWrapper :modal-open="isModalDetailItemOpen" :screen="`OrderDetail-${order.order_id}`">
+    <OrderDetail label-form="Detalhes do Pedido" :order="order" />
+  </ModalWrapper>
+  <ModalWrapper :modal-open="isModalItemOpen" :screen="`FormOrder-${order.order_id}`">
     <FormOrder label-form="Editar Pedido" label-btn="Salvar" :order="order" />
   </ModalWrapper>
 </template>
@@ -40,14 +47,16 @@ import { ref, inject } from 'vue';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormOrder from './FormOrder.vue';
+import OrderDetail from './OrderDetail.vue';
 import OrderService from '../services/OrderService';
 import StatusService from '../services/StatusService';
 
 const router = useRouter();
+const isModalDetailItemOpen = ref(false);
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
-defineProps({
+const props = defineProps({
   order: {
     type: Object,
     default() {
@@ -56,12 +65,15 @@ defineProps({
   },
 });
 
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-OrderDetail-${props.order.order_id}`, () => {
+  isModalDetailItemOpen.value = false;
+});
+
+emitter.on(`setModalFalse-FormOrder-${props.order.order_id}`, () => {
   isModalItemOpen.value = false;
 });
 
 function cancelOrder(order) {
-  console.log(order.id);
   Swal.fire({
     title: `Deseja cancelar pedido nº ${order.order_id}?`,
     text: 'Não poderá reverter após confirmação!',
@@ -82,6 +94,8 @@ function cancelOrder(order) {
           title: 'Pedido Cancelado!',
           text: `Pedido nº ${order.order_id} cancelado.`,
           confirmButtonColor: '#374151',
+        }).then(() => {
+          router.go(0);
         });
       } else {
         Swal.fire({
