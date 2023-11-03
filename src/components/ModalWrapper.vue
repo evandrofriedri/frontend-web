@@ -18,6 +18,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  screen: {
+    type: String,
+    default: '',
+  },
 });
 
 const isModalOpen = ref(false);
@@ -26,17 +30,19 @@ const emitter = inject('emitter');
 
 onClickOutside(modal, () => {
   isModalOpen.value = false;
-  emitter.emit('setModalFalse');
+  emitter.emit(`setModalFalse-${props.screen}`);
   console.log('clicouu');
 });
 
-emitter.on('closeModal', () => {
-  console.log('chegou no closemodal');
+emitter.on(`closeModal-${props.screen}`, () => {
+  console.log('chegou no closemodal Wrapper');
+  console.log(props.screen);
   isModalOpen.value = false;
-  emitter.emit('setModalFalse');
+  emitter.emit(`setModalFalse-${props.screen}`);
 });
 
 onUpdated(async () => {
+  console.log(props.screen);
   console.log(props.modalOpen);
   console.log(isModalOpen.value);
   isModalOpen.value = await props.modalOpen;

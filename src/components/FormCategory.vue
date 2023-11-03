@@ -68,7 +68,7 @@ const props = defineProps({
 });
 
 function closeModal() {
-  emitter.emit('closeModal');
+  emitter.emit(`closeModal-FormCategory-${props.category.category_id}`);
 }
 
 onMounted(async () => {

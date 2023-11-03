@@ -68,7 +68,7 @@ const props = defineProps({
 });
 
 function closeModal() {
-  emitter.emit('closeModal');
+  emitter.emit(`closeModal-FormStatus-${props.status.status_id}`);
 }
 
 onMounted(async () => {

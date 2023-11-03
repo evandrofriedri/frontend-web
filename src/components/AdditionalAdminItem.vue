@@ -13,7 +13,7 @@
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModalItemOpen">
+  <ModalWrapper :modal-open="isModalItemOpen" :screen="`FormAdditional-${additional.additional_id}`">
     <FormAdditional label-form="Editar Adicional" label-btn="Salvar" :additional="additional" />
   </ModalWrapper>
 </template>
@@ -30,7 +30,7 @@ const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
-defineProps({
+const props = defineProps({
   additional: {
     type: Object,
     default() {
@@ -39,7 +39,7 @@ defineProps({
   },
 });
 
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormAdditional-${props.additional.additional_id}`, () => {
   isModalItemOpen.value = false;
 });
 

@@ -11,7 +11,7 @@
       </div>
     </div>
   </div>
-  <ModalWrapper :modal-open="isModalCartOpen">
+  <ModalWrapper :modal-open="isModalCartOpen" screen="ShoppingCart-0">
     <div class="flex mb-2">
       <ReturnButton @click="isModalCartOpen = false" />
       <h1 class="text-lg text-gray-800 font-semibold text-justify">
@@ -133,7 +133,7 @@ const isModalCartOpen = ref(false);
 const animationBtn = ref(false);
 const emitter = inject('emitter');
 
-emitter.on('setModalFalse', () => {
+emitter.on('setModalFalse-ShoppingCart-0', () => {
   isModalCartOpen.value = false;
 });
 

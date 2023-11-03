@@ -13,7 +13,7 @@
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModalItemOpen">
+  <ModalWrapper :modal-open="isModalItemOpen" :screen="`FormCategory-${category.category_id}`">
     <FormCategory label-form="Editar Categoria" label-btn="Salvar" :category="category" />
   </ModalWrapper>
 </template>
@@ -30,7 +30,7 @@ const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
-defineProps({
+const props = defineProps({
   category: {
     type: Object,
     default() {
@@ -39,7 +39,8 @@ defineProps({
   },
 });
 
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormCategory-${props.category.category_id}`, () => {
+  console.log('chegou setModalFalse CategoryAdminItem');
   isModalItemOpen.value = false;
 });
 

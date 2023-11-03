@@ -30,7 +30,7 @@
     </table>
   </div>
   <CardNotFound :found="foundStatus" label="Status não encontrado!" />
-  <ModalWrapper :modal-open="isModalStatusOpen">
+  <ModalWrapper :modal-open="isModalStatusOpen" screen="FormStatus-0">
     <FormStatus label-form="Novo Status" label-btn="Cadastrar" :status="newStatus" />
   </ModalWrapper>
 </template>
@@ -49,12 +49,14 @@ const statusList = ref([]);
 const isModalStatusOpen = ref(false);
 const foundStatus = ref(0);
 const newStatus = ref({
+  status_id: 0,
   name: null,
 });
 
 const emitter = inject('emitter');
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormStatus-${newStatus.value.status_id}`, () => {
   newStatus.value = {
+    status_id: 0,
     name: null,
   };
   isModalStatusOpen.value = false;

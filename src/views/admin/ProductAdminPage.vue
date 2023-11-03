@@ -36,7 +36,7 @@
     </table>
   </div>
   <CardNotFound :found="foundProduct" label="Produto não encontrado!" />
-  <ModalWrapper :modal-open="isModalProductOpen">
+  <ModalWrapper :modal-open="isModalProductOpen" screen="FormProduct-0">
     <FormProduct label-form="Novo Produto" label-btn="Cadastrar" :product="newProduct" />
   </ModalWrapper>
 </template>
@@ -56,6 +56,7 @@ const productList = ref([]);
 const isModalProductOpen = ref(false);
 const foundProduct = ref(0);
 const newProduct = ref({
+  product_id: 0,
   name: null,
   description: null,
   category_id: null,
@@ -69,9 +70,9 @@ const page = ref(0);
 const stopQuery = ref(false);
 
 const emitter = inject('emitter');
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormProduct-${newProduct.value.product_id}`, () => {
   newProduct.value = {
-    id: '',
+    product_id: 0,
     name: '',
     description: '',
     category_id: '',

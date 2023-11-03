@@ -90,7 +90,7 @@ const props = defineProps({
 });
 
 function closeModal() {
-  emitter.emit('closeModal');
+  emitter.emit(`closeModal-FormAddress-${props.address.address_id}`);
 }
 
 onMounted(async () => {

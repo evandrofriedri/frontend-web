@@ -84,7 +84,7 @@ const props = defineProps({
 });
 
 function closeModal() {
-  emitter.emit('closeModal');
+  emitter.emit(`closeModal-FormAccount-${props.account.account_id}`);
 }
 
 onMounted(async () => {

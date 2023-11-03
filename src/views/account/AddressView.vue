@@ -44,7 +44,7 @@
       </table>
     </div>
     <CardNotFound :found="foundAddress" label="Endereço não encontrado!" />
-    <ModalWrapper :modal-open="isModalAddressOpen">
+    <ModalWrapper :modal-open="isModalAddressOpen" screen="FormAddress-0">
       <FormAddress label-form="Novo Endereço" label-btn="Cadastrar" :address="newAddress" />
     </ModalWrapper>
   </div>
@@ -65,6 +65,7 @@ const addressList = ref([]);
 const isModalAddressOpen = ref(false);
 const foundAddress = ref(1);
 const newAddress = ref({
+  address_id: 0,
   description: null,
   number: null,
   neighborhood: null,
@@ -74,8 +75,9 @@ const newAddress = ref({
 });
 
 const emitter = inject('emitter');
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormAddress-${newAddress.value.address_id}`, () => {
   newAddress.value = {
+    address_id: 0,
     description: null,
     number: null,
     neighborhood: '',

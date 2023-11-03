@@ -67,7 +67,7 @@ const props = defineProps({
 });
 
 function closeModal() {
-  emitter.emit('closeModal');
+  emitter.emit(`closeModal-FormAdditional-${props.additional.additional_id}`);
 }
 
 onMounted(async () => {

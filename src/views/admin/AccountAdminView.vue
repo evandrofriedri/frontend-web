@@ -41,7 +41,7 @@
       </table>
     </div>
     <CardNotFound :found="foundAccount" label="Conta não encontrada!" />
-    <ModalWrapper :modal-open="isModalAccountOpen">
+    <ModalWrapper :modal-open="isModalAccountOpen" screen="FormAccount-0">
       <FormAccount label-form="Nova Conta" label-btn="Cadastrar" :account="newAccount" />
     </ModalWrapper>
   </div>
@@ -66,6 +66,7 @@ const accountList = ref([]);
 const isModalAccountOpen = ref(false);
 const foundAccount = ref(0);
 const newAccount = ref({
+  account_id: 0,
   name: null,
   email: null,
   cellphone: null,
@@ -74,8 +75,9 @@ const newAccount = ref({
 });
 
 const emitter = inject('emitter');
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormAccount-${newAccount.value.account_id}`, () => {
   newAccount.value = {
+    account_id: 0,
     address: '',
     number: '',
     neighborhood: '',

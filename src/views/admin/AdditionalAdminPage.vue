@@ -30,7 +30,7 @@
     </table>
   </div>
   <CardNotFound :found="foundAdditional" label="Adicional não encontrado!" />
-  <ModalWrapper :modal-open="isModalAdditionalOpen">
+  <ModalWrapper :modal-open="isModalAdditionalOpen" screen="FormAdditional-0">
     <FormAdditional label-form="Novo Adicional" label-btn="Cadastrar" :additional="newAdditional" />
   </ModalWrapper>
 </template>
@@ -49,13 +49,15 @@ const additionalList = ref([]);
 const isModalAdditionalOpen = ref(false);
 const foundAdditional = ref(0);
 const newAdditional = ref({
+  additional_id: 0,
   name: null,
   price: null,
 });
 
 const emitter = inject('emitter');
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormAdditional-${newAdditional.value.additional_id}`, () => {
   newAdditional.value = {
+    additional_id: 0,
     name: '',
     price: '',
   };

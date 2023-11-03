@@ -30,7 +30,7 @@
     </table>
   </div>
   <CardNotFound :found="foundCategory" label="Categoria não encontrada!" />
-  <ModalWrapper :modal-open="isModalCategoryOpen">
+  <ModalWrapper :modal-open="isModalCategoryOpen" screen="FormCategory-0">
     <FormCategory label-form="Nova Categoria" label-btn="Cadastrar" :category="newCategory" />
   </ModalWrapper>
 </template>
@@ -49,12 +49,14 @@ const categoryList = ref([]);
 const isModalCategoryOpen = ref(false);
 const foundCategory = ref(0);
 const newCategory = ref({
+  category_id: 0,
   name: null,
 });
 
 const emitter = inject('emitter');
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormCategory-${newCategory.value.category_id}`, () => {
   newCategory.value = {
+    category_id: 0,
     name: null,
   };
   isModalCategoryOpen.value = false;

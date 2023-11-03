@@ -13,7 +13,7 @@
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModalItemOpen">
+  <ModalWrapper :modal-open="isModalItemOpen" :screen="`FormStatus-${status.status_id}`">
     <FormStatus label-form="Editar Status" label-btn="Salvar" :status="status" />
   </ModalWrapper>
 </template>
@@ -30,7 +30,7 @@ const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
-defineProps({
+const props = defineProps({
   status: {
     type: Object,
     default() {
@@ -39,7 +39,7 @@ defineProps({
   },
 });
 
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormStatus-${props.status.status_id}`, () => {
   isModalItemOpen.value = false;
 });
 

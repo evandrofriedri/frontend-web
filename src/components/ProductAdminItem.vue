@@ -19,7 +19,7 @@
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModalItemOpen">
+  <ModalWrapper :modal-open="isModalItemOpen" :screen="`FormProduct-${product.product_id}`">
     <FormProduct label-form="Editar Produto" label-btn="Salvar" :product="product" />
   </ModalWrapper>
 </template>
@@ -36,7 +36,7 @@ const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     default() {
@@ -45,7 +45,7 @@ defineProps({
   },
 });
 
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormProduct-${props.product.product_id}`, () => {
   isModalItemOpen.value = false;
 });
 

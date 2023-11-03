@@ -17,7 +17,7 @@
       <img :src="props.product.image_url" class="object-cover h-24 w-24 rounded" alt="" />
     </div>
   </div>
-  <ModalWrapper :modal-open="isModalCardItemOpen">
+  <ModalWrapper :modal-open="isModalCardItemOpen" :screen="`CardItem-${props.product.product_id}`">
     <div class="flex mb-2">
       <ReturnButton @click="isModalCardItemOpen = false" />
       <h1 class="text-lg text-gray-800 font-semibold text-justify">
@@ -110,7 +110,7 @@ const itemCart = reactive({
   totalItemCart: totalItemCart.value,
 });
 
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-CardItem-${props.product.product_id}`, () => {
   isModalCardItemOpen.value = false;
 });
 

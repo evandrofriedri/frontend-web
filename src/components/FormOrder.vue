@@ -70,7 +70,7 @@ const props = defineProps({
 });
 
 function closeModal() {
-  emitter.emit('closeModal');
+  emitter.emit(`closeModal-FormOrder-${props.order.order_id}`);
 }
 
 onMounted(async () => {

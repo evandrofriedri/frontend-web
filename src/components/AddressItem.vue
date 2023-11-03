@@ -22,7 +22,7 @@
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModalItemOpen">
+  <ModalWrapper :modal-open="isModalItemOpen" :screen="`FormAddress-${address.address_id}`">
     <FormAddress label-form="Editar Endereço" label-btn="Salvar" :address="address" />
   </ModalWrapper>
 </template>
@@ -39,7 +39,7 @@ const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
-defineProps({
+const props = defineProps({
   address: {
     type: Object,
     default() {
@@ -48,7 +48,7 @@ defineProps({
   },
 });
 
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormAddress-${props.address.address_id}`, () => {
   isModalItemOpen.value = false;
 });
 

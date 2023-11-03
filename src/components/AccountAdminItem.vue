@@ -19,7 +19,7 @@
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
-  <ModalWrapper :modal-open="isModalItemOpen">
+  <ModalWrapper :modal-open="isModalItemOpen" :screen="`FormAccount-${account.account_id}`">
     <FormAccount label-form="Editar Usuário" label-btn="Salvar" :account="account" />
   </ModalWrapper>
 </template>
@@ -36,7 +36,7 @@ const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
-defineProps({
+const props = defineProps({
   account: {
     type: Object,
     default() {
@@ -45,7 +45,7 @@ defineProps({
   },
 });
 
-emitter.on('setModalFalse', () => {
+emitter.on(`setModalFalse-FormAccount-${props.account.account_id}`, () => {
   isModalItemOpen.value = false;
 });
 
