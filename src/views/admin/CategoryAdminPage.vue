@@ -49,14 +49,12 @@ const categoryList = ref([]);
 const isModalCategoryOpen = ref(false);
 const foundCategory = ref(0);
 const newCategory = ref({
-  category_id: 0,
   name: null,
 });
 
 const emitter = inject('emitter');
-emitter.on(`setModalFalse-FormCategory-${newCategory.value.category_id}`, () => {
+emitter.on('setModalFalse-FormCategory-0', () => {
   newCategory.value = {
-    category_id: 0,
     name: null,
   };
   isModalCategoryOpen.value = false;

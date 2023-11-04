@@ -66,7 +66,6 @@ const accountList = ref([]);
 const isModalAccountOpen = ref(false);
 const foundAccount = ref(0);
 const newAccount = ref({
-  account_id: 0,
   name: null,
   email: null,
   cellphone: null,
@@ -75,9 +74,8 @@ const newAccount = ref({
 });
 
 const emitter = inject('emitter');
-emitter.on(`setModalFalse-FormAccount-${newAccount.value.account_id}`, () => {
+emitter.on('setModalFalse-FormAccount-0', () => {
   newAccount.value = {
-    account_id: 0,
     address: '',
     number: '',
     neighborhood: '',

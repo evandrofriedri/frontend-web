@@ -56,7 +56,6 @@ const productList = ref([]);
 const isModalProductOpen = ref(false);
 const foundProduct = ref(0);
 const newProduct = ref({
-  product_id: 0,
   name: null,
   description: null,
   category_id: null,
@@ -70,9 +69,8 @@ const page = ref(0);
 const stopQuery = ref(false);
 
 const emitter = inject('emitter');
-emitter.on(`setModalFalse-FormProduct-${newProduct.value.product_id}`, () => {
+emitter.on('setModalFalse-FormProduct-0', () => {
   newProduct.value = {
-    product_id: 0,
     name: '',
     description: '',
     category_id: '',

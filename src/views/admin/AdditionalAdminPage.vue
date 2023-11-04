@@ -49,15 +49,13 @@ const additionalList = ref([]);
 const isModalAdditionalOpen = ref(false);
 const foundAdditional = ref(0);
 const newAdditional = ref({
-  additional_id: 0,
   name: null,
   price: null,
 });
 
 const emitter = inject('emitter');
-emitter.on(`setModalFalse-FormAdditional-${newAdditional.value.additional_id}`, () => {
+emitter.on('setModalFalse-FormAdditional-0', () => {
   newAdditional.value = {
-    additional_id: 0,
     name: '',
     price: '',
   };
