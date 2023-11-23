@@ -93,7 +93,7 @@ const submitForm = async () => {
     return false;
   }
 
-  if (category.value.category_id === undefined) {
+  if (category.value.category_id === 0) {
     const response = await CategoryService.createCategory(category.value);
     if (response) {
       Swal.fire({

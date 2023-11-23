@@ -65,6 +65,7 @@ const addressList = ref([]);
 const isModalAddressOpen = ref(false);
 const foundAddress = ref(1);
 const newAddress = ref({
+  address_id: 0,
   description: null,
   number: null,
   neighborhood: null,
@@ -76,6 +77,7 @@ const newAddress = ref({
 const emitter = inject('emitter');
 emitter.on('setModalFalse-FormAddress-0', () => {
   newAddress.value = {
+    address_id: 0,
     description: null,
     number: null,
     neighborhood: '',

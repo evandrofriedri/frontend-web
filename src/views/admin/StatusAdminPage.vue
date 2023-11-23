@@ -49,12 +49,14 @@ const statusList = ref([]);
 const isModalStatusOpen = ref(false);
 const foundStatus = ref(0);
 const newStatus = ref({
+  status_id: 0,
   name: null,
 });
 
 const emitter = inject('emitter');
 emitter.on('setModalFalse-FormStatus-0', () => {
   newStatus.value = {
+    status_id: 0,
     name: null,
   };
   isModalStatusOpen.value = false;

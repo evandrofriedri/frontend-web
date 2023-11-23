@@ -132,7 +132,7 @@ const submitForm = async () => {
     return false;
   }
 
-  if (account.value.account_id === undefined) {
+  if (account.value.account_id === 0) {
     const response = await AccountService.createAccount(account.value);
     if (response) {
       Swal.fire({

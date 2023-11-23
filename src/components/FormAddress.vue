@@ -139,7 +139,7 @@ const submitForm = async () => {
     return false;
   }
 
-  if (address.value.address_id === undefined) {
+  if (address.value.address_id === 0) {
     const response = await AddressService.createAddress(address.value);
     if (response) {
       Swal.fire({

@@ -170,7 +170,7 @@ const submitForm = async () => {
     return false;
   }
 
-  if (product.value.product_id === undefined) {
+  if (product.value.product_id === 0) {
     const response = await ProductService.createProduct(product.value);
     if (!response) {
       Swal.fire({

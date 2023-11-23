@@ -93,7 +93,7 @@ const submitForm = async () => {
     return false;
   }
 
-  if (status.value.status_id === undefined) {
+  if (status.value.status_id === 0) {
     const response = await StatusService.createStatus(status.value);
     if (response) {
       Swal.fire({

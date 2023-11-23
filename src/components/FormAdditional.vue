@@ -93,7 +93,7 @@ const submitForm = async () => {
     return false;
   }
 
-  if (additional.value.additional_id === undefined) {
+  if (additional.value.additional_id === 0) {
     const response = await AdditionalService.createAdditional(additional.value);
     if (response) {
       Swal.fire({
