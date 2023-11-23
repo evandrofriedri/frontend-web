@@ -153,7 +153,7 @@ const submitForm = async () => {
     }
   } else {
     const response = await AccountService.updateAccount(account.value);
-    if (response) {
+    if (response.response.data.message === 'Conta atualizada com sucesso!') {
       Swal.fire({
         icon: 'success',
         title: 'Alteração realizada com sucesso!',
@@ -165,7 +165,8 @@ const submitForm = async () => {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao editar usuário, tente mais tarde!',
+        title: 'Erro ao editar usuário!',
+        text: `${response.response.data.message}`,
         showConfirmButton: true,
         confirmButtonColor: '#374151',
       });

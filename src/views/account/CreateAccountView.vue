@@ -96,7 +96,8 @@ const submitForm = async () => {
     return false;
   }
   const response = await AccountService.createAccount(account.value);
-  if (response) {
+  if (response.response.data.token) {
+    localStorage.setItem('jwt', response.response.data.token);
     Swal.fire({
       icon: 'success',
       title: 'Cadastro realizado com sucesso!',
@@ -108,7 +109,8 @@ const submitForm = async () => {
   } else {
     Swal.fire({
       icon: 'error',
-      title: 'Erro ao cadastrar novo usuário, tente mais tarde!',
+      title: 'Erro ao cadastrar novo usuário!',
+      text: `${response.response.data.message}`,
       showConfirmButton: true,
       confirmButtonColor: '#374151',
     });

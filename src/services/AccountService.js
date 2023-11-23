@@ -1,6 +1,37 @@
 import Api from './Api';
 
 export default {
+
+  /**
+   * Metodo para validar login
+   * POST
+   */
+  async validateLogin(account) {
+    try {
+      const response = await Api().post('/login', account);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  },
+
+  /**
+   * Metodo para atualizar token
+   * GET
+   */
+  async userProfile() {
+    try {
+      const response = await Api().get('/userProfile');
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  },
+
   /**
    * Metodo para listar todas as contas
    * GET
@@ -26,7 +57,7 @@ export default {
       return response.data;
     } catch (error) {
       console.log(error);
-      return false;
+      return error;
     }
   },
 
@@ -55,7 +86,7 @@ export default {
       return response.data;
     } catch (error) {
       console.log(error);
-      return false;
+      return error;
     }
   },
   /**

@@ -6,10 +6,12 @@
   </div>
   <Transition name="slide">
     <div v-if="isOpenMenu" ref="blur" class="fixed p-2 top-0 w-[270px] left-0 h-screen z-50 bg-gray-700 flex-col">
-      <MenuItemBar icon="fa-solid fa-circle-user" :label="firstName[0]" :description="email" route="/login" />
+      <MenuItemBar v-if="user" icon="fa-solid fa-circle-user" :label="user.name" :description="user.email" />
+      <MenuItemBar v-if="!user" icon="fa-solid fa-circle-user" label="Entrar ou Cadastrar" description="" route="/login" />
       <SubMenuItemBar icon="fa-solid fa-user-gear" label="Gerenciar Conta" route="/account" @click="toggleMenu()" />
       <SubMenuItemBar icon="fa-solid fa-list-check" label="Meus Pedidos" route="/account/order" @click="toggleMenu()" />
       <SubMenuItemBar icon="fa-solid fa-address-card" label="Meus Endereços" route="/account/address" @click="toggleMenu()" />
+      <SubMenuItemBar icon="fa-solid fa-arrow-right-from-bracket" label="Sair" description="" @click="logOutUser()" />
       <MenuSeparator />
       <MenuItemBar v-if="admin" icon="fa-solid fa-kitchen-set" label="Gerenciar Pedidos" route="/admin/order" @click="toggleMenu()" />
       <MenuItemBar v-if="admin" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/admin/account" @click="toggleMenu()" />
@@ -29,30 +31,50 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
+import VueJwtDecode from 'vue-jwt-decode';
+import { useRouter } from 'vue-router';
 import LogoApp from './LogoApp.vue';
 import MenuButton from './MenuButton.vue';
 import MenuItemBar from './MenuItemBar.vue';
 import MenuSeparator from './MenuSeparator.vue';
 import SubMenuItemBar from './SubMenuItemBar.vue';
 
+const router = useRouter();
+
+const user = ref(null);
+
 const isOpenMenu = ref(false);
 const blur = ref(null);
 
-const fullName = ref('Evandro Mathias Friedrichsen');
-const firstName = fullName.value.split(' ');
-const email = 'evandrofriedri@gmail.com';
 const admin = ref(true);
 
 onClickOutside(blur, () => {
   isOpenMenu.value = false;
 });
 
+function getUser() {
+  const token = localStorage.getItem('jwt');
+  let tokenDecoded = null;
+  if (token !== null) {
+    tokenDecoded = VueJwtDecode.decode(token);
+  }
+  return tokenDecoded;
+}
+
+function logOutUser() {
+  localStorage.removeItem('jwt');
+  router.go(0);
+}
+
 function toggleMenu() {
   isOpenMenu.value = !isOpenMenu.value;
 }
 
+onMounted(async () => {
+  user.value = getUser();
+});
 </script>
 
 <style scoped>

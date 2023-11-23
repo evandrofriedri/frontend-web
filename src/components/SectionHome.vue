@@ -23,8 +23,7 @@
 <script setup>
 import {
   ref,
-  // inject,
-  // onUpdated,
+  onUpdated,
 } from 'vue';
 import CardItem from './CardItem.vue';
 import SectionTitle from './SectionTitle.vue';
@@ -36,14 +35,9 @@ import ProductService from '../services/ProductService';
 
 const currentSection = ref('');
 const search = ref('');
-// const emitter = inject('emitter');
 const foundProduct = ref(0);
 const menuList = ref(null);
 const productList = ref([]);
-
-// function updateCart() {
-//   emitter.emit('update');
-// }
 
 const loadDataProduct = async (category) => {
   const objCategory = category;
@@ -127,27 +121,27 @@ function filteredList(data) {
 await filteredList(loadData());
 // await updateCart();
 
-// onUpdated(() => {
-//   console.log('updated');
-//   const observer = new IntersectionObserver(
-//     (entries) => {
-//       entries.forEach((entry) => {
-//         if (entry.intersectionRatio > 0) {
-//           currentSection.value = entry.target.getAttribute('id');
+onUpdated(() => {
+  // console.log('updated');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio > 0) {
+          currentSection.value = entry.target.getAttribute('id');
 
-//           // document.querySelector('#sticky').scrollLeft = 100, 0);
-//         }
-//       });
-//     },
-//     {
-//       rootMargin: '0px 0px -85% 0px',
-//     },
-//   );
-//   document.querySelectorAll('h2').forEach((section) => {
-//     console.log(section);
-//     observer.observe(section);
-//   });
-// });
+          // document.querySelector('#sticky').scrollLeft = 100, 0);
+        }
+      });
+    },
+    {
+      rootMargin: '0px 0px -85% 0px',
+    },
+  );
+  document.querySelectorAll('h2').forEach((section) => {
+    // console.log(section);
+    observer.observe(section);
+  });
+});
 
 </script>
 

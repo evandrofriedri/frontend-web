@@ -26,6 +26,7 @@ const routes = [
     path: '/account',
     name: 'ListAccount',
     component: lazyLoad('account/ListAccountView'),
+    meta: { requireAuth: true },
   },
   {
     path: '/account/createAccount',
@@ -37,26 +38,31 @@ const routes = [
     path: '/account/order',
     name: 'Order',
     component: lazyLoad('account/OrdersView'),
+    meta: { requireAuth: true },
   },
   {
     path: '/account/address',
     name: 'Address',
     component: lazyLoad('account/AddressView'),
+    meta: { requireAuth: true },
   },
   {
     path: '/admin/order',
     name: 'OrderAdmin',
     component: lazyLoad('admin/OrderAdminView'),
+    meta: { requireAuth: true },
   },
   {
     path: '/admin/account',
     name: 'accountAdmin',
     component: lazyLoad('admin/AccountAdminView'),
+    meta: { requireAuth: true },
   },
   {
     path: '/admin/menu',
     name: 'MenuAdmin',
     component: lazyLoad('admin/MenuAdminView'),
+    meta: { requireAuth: true },
   },
   {
     path: '/:patchMatch(.*)',
@@ -69,6 +75,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requireAuth)) {
+    if (localStorage.getItem('jwt') == null) {
+      next({
+        path: '/',
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 router.beforeResolve((to, from, next) => {

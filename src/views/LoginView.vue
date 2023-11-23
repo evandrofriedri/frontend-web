@@ -26,6 +26,12 @@
             <BaseInput id="email" v-model="formData.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
             <BaseInput id="senha" v-model="formData.password" label="Senha" type="password" placeholder="Senha" :errors="v$.password.$errors" />
             <div class="mb-4">
+              <span v-if="erroMsg" class="text-sm text-red-600">
+                <font-awesome-icon icon="fa-solid fa-triangle-exclamation" class="pl-1" />
+                {{ erroMsg }}
+              </span>
+            </div>
+            <div class="mb-4">
               <FormButton
                 btn-type="submit"
                 icon="fa-solid fa-arrow-right-to-bracket"
@@ -54,18 +60,25 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
+import Swal from 'sweetalert2';
 import {
   required, email, helpers,
 } from '@vuelidate/validators';
+import { useRouter } from 'vue-router';
 import BaseInput from '../components/BaseInput.vue';
 import FormButton from '../components/FormButton.vue';
+import AccountService from '../services/AccountService';
 
-const formData = reactive({
+const router = useRouter();
+
+const formData = ref({
   email: '',
   password: '',
 });
+
+const erroMsg = ref(false);
 
 const rules = computed(() => ({
   email: {
@@ -80,12 +93,31 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, formData);
 
 const submitForm = async () => {
-  const result = await v$.value.$validate();
+  const validated = await v$.value.$validate();
 
-  if (result) {
-    console.log('fomr enviado!');
-  } else {
-    console.log('nao enviado!');
+  if (validated) {
+    const response = await AccountService.validateLogin({
+      email: formData.value.email,
+      password: formData.value.password,
+    });
+
+    localStorage.setItem('jwt', response.response.data.token);
+
+    console.log(response.response.data.account);
+
+    if (response.response.data.token) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Login realizado com sucesso!',
+        text: `Olá ${response.response.data.account.name}!`,
+        showConfirmButton: true,
+        confirmButtonColor: '#374151',
+      }).then(() => {
+        router.push({ name: 'Home' });
+      });
+    } else {
+      erroMsg.value = response.response.data.message;
+    }
   }
 };
 
