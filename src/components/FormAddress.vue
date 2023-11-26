@@ -68,7 +68,7 @@ const address = ref({
   number: null,
   neighborhood: null,
   city: null,
-  account_id: 1, // terá que ser conta da sessão
+  account_id: null,
   favorite: false,
 });
 
@@ -99,7 +99,9 @@ onMounted(async () => {
 
 const isAddressTaken = async (value) => {
   if (value) {
-    const response = await AddressService.getFavoriteAddressID(1); // conta logada
+    const response = await AddressService.getFavoriteAddressID(
+      address.value.account_id,
+    );
     if (response.length === 0) {
       return true;
     }

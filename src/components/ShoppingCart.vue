@@ -59,41 +59,57 @@
     <div v-if="market.length > 0" class="flex justify-between text-base text-gray-800 font-semibold pb-2">
       <p>Subtotal</p> <p>{{ subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
     </div>
-    <div v-if="market.length > 0" class="flex justify-between items-center p-2 border rounded">
-      <div class="flex flex-col items-baseline text-gray-800">
-        <div class="flex items-center">
-          <input id="delivery-radio-1" :checked="forDelivery" type="radio" value="" name="delivery-radio" class="w-4 h-4 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('deliver')">
-          <label for="delivery-radio-1" :checked="!forDelivery" class="w-full ml-2 text-sm font-medium">Para entregar</label>
+    <div v-if="user">
+      <div v-if="market.length > 0" class="flex justify-between items-center p-2 border rounded">
+        <div v-if="deliveryAddress" class="flex flex-col items-center text-gray-800">
+          <div class="flex items-center">
+            <input id="delivery-radio-1" :checked="forDelivery" type="radio" value="" name="delivery-radio" class="w-4 h-4 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('deliver')">
+            <label for="delivery-radio-1" :checked="!forDelivery" class="w-full ml-2 text-sm font-medium">Para entregar</label>
+          </div>
+          <div class="flex items-center">
+            <input id="delivery-radio-2" type="radio" value="" name="delivery-radio" class="w-4 h-4 border-gray-300 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('local')">
+            <label for="delivery-radio-2" class="w-full ml-2 text-sm font-medium">Retirar na loja</label>
+          </div>
         </div>
-        <div class="flex items-center">
-          <input id="delivery-radio-2" type="radio" value="" name="delivery-radio" class="w-4 h-4 border-gray-300 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('local')">
-          <label for="delivery-radio-2" class="w-full ml-2 text-sm font-medium">Retirar na loja</label>
+        <div v-else class="w-screen">
+          <DescriptionButton icon="fa-solid fa-address-card" description="Cadastre um endereço para confirmar o pedido!" route="/account/address" />
+        </div>
+        <div v-if="deliveryAddress">
+          <AddressLayout icon="fa-solid fa-map-location-dot" :item="deliveryAddress" />
         </div>
       </div>
-      <AddressLayout icon="fa-solid fa-map-location-dot" :item="deliveryAddress" />
-    </div>
-    <div v-if="market.length > 0" class="flex justify-between text-base text-gray-800 font-semibold text-right pb-2">
-      <p>Entrega</p><p> {{ delivery.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
-    </div>
-    <div v-if="market.length > 0" class="flex justify-between items-center text-gray-800 pb-2">
-      <p class="text-base font-semibold">
-        Forma de Pagamento
-      </p>
-      <p class="italic">
-        Na entrega do pedido
-      </p>
-    </div>
-    <div v-if="market.length > 0" class="flex justify-between text-base text-gray-800 font-semibold pb-2">
-      <p>Total</p> <p>{{ total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
-    </div>
-    <div class="grid grid-cols-12 text-justify items-center">
-      <div v-if="market.length > 0" class="col-start-6 md:col-start-8 col-end-13">
-        <FormButton
-          icon="fa-solid fa-check"
-          description="Confirmar Pedido"
-          @click="confirmOrder();cleanCart();isModalCartOpen = false"
-        />
+      <div v-if="market.length > 0">
+        <div v-if="deliveryAddress" class="flex justify-between text-base text-gray-800 font-semibold text-right pb-2">
+          <p>Entrega</p><p> {{ delivery.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
+        </div>
       </div>
+      <div v-if="market.length > 0">
+        <div v-if="deliveryAddress" class="flex justify-between items-center text-gray-800 pb-2">
+          <p class="text-base font-semibold">
+            Forma de Pagamento
+          </p>
+          <p class="italic">
+            Na entrega do pedido
+          </p>
+        </div>
+      </div>
+      <div v-if="market.length > 0">
+        <div v-if="deliveryAddress" class="flex justify-between text-base text-gray-800 font-semibold pb-2">
+          <p>Total</p> <p>{{ total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
+        </div>
+      </div>
+      <div v-if="market.length > 0" class="grid grid-cols-12 text-justify items-center">
+        <div v-if="deliveryAddress" class="col-start-6 md:col-start-8 col-end-13">
+          <FormButton
+            icon="fa-solid fa-check"
+            description="Confirmar Pedido"
+            @click="confirmOrder();cleanCart();isModalCartOpen = false"
+          />
+        </div>
+      </div>
+    </div>
+    <div v-else class="mt-4 mb-4">
+      <DescriptionButton icon="fa-solid fa-arrow-right-to-bracket" description="Faça Login para concluir o pedido" route="/login" />
     </div>
   </ModalWrapper>
 </template>
@@ -105,11 +121,13 @@ import {
   onMounted,
 } from 'vue';
 import Swal from 'sweetalert2';
+import VueJwtDecode from 'vue-jwt-decode';
 import AddressLayout from './AddressLayout.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
 import CardNotFound from './CardNotFound.vue';
 import ModalWrapper from './ModalWrapper.vue';
+import DescriptionButton from './DescriptionButton.vue';
 import AddressService from '../services/AddressService';
 import ConfigurationService from '../services/ConfigurationService';
 import OrderService from '../services/OrderService';
@@ -132,6 +150,7 @@ const accountAddress = ref({});
 const isModalCartOpen = ref(false);
 const animationBtn = ref(false);
 const emitter = inject('emitter');
+const user = ref(null);
 
 emitter.on('setModalFalse-ShoppingCart-0', () => {
   isModalCartOpen.value = false;
@@ -160,29 +179,39 @@ function updateCart() {
   warnDisabled();
 }
 
+function getUser() {
+  const token = localStorage.getItem('jwt');
+  let tokenDecoded = null;
+  if (token !== null) {
+    tokenDecoded = VueJwtDecode.decode(token);
+  }
+  return tokenDecoded;
+}
+
 async function loadData() {
   systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
   systemParams.value.deliveryValue = await ConfigurationService.getConfigurationID('deliveryValue');
 
-  const response = await AddressService.getAddressID(1); // conta logada ou passar -1
-  if (response.length === 0) {
-    accountAddress.value = response;
-  }
+  user.value = getUser();
+  if (user.value !== null) {
+    const response = await AddressService.getAddressID(user.value.account_id);
+    if (response.length === 0) {
+      accountAddress.value = response;
+    }
 
-  const filterResponse = response.filter((element) => element.favorite === true);
-  if (filterResponse.length === 0) {
-    // eslint-disable-next-line prefer-destructuring
-    accountAddress.value = response[0];
-  } else {
-    // eslint-disable-next-line prefer-destructuring
-    accountAddress.value = filterResponse[0];
-  }
+    const filterResponse = response.filter((element) => element.favorite === true);
+    if (filterResponse.length === 0) {
+      // eslint-disable-next-line prefer-destructuring
+      accountAddress.value = response[0];
+    } else {
+      // eslint-disable-next-line prefer-destructuring
+      accountAddress.value = filterResponse[0];
+    }
 
-  deliveryAddress.value = accountAddress.value;
-  delivery.value = systemParams.value.deliveryValue;
+    deliveryAddress.value = accountAddress.value;
+    delivery.value = systemParams.value.deliveryValue;
+  }
   updateCart();
-
-  return accountAddress;
 }
 
 function deleteItemCart(index) {
@@ -250,7 +279,6 @@ async function orderProduct(itemsCart, orderId) {
 }
 
 const confirmOrder = async () => {
-  // validar usuario logado e endereço
   const validated = true;
 
   if (!validated) {
@@ -260,7 +288,7 @@ const confirmOrder = async () => {
   const itemsCart = JSON.parse(localStorage.getItem('itemsCart'));
 
   const order = {
-    account_id: 1, // usuario logado
+    account_id: user.value.account_id,
     observation: '',
     delivery: delivery.value,
     total_value: total.value,
@@ -293,9 +321,12 @@ const confirmOrder = async () => {
   Swal.fire({
     icon: 'success',
     title: 'Pedido realizado com sucesso!',
-    text: `Pedido #${orderId} criado.`,
+    html: `Pedido <b>#${orderId}</b> criado. <br>Acompanhe o pedido em <i>Meus pedidos</i>.`,
     showConfirmButton: true,
+    showCancelButton: true,
     confirmButtonColor: '#374151',
+    confirmButtonText: '<a href="/account/order">Meus Pedidos</a>',
+    cancelButtonText: 'Cardápio',
   });
 
   return true;

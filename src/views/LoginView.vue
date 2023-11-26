@@ -39,6 +39,7 @@
               />
             </div>
             <div class="mb-4">
+              <!-- TODO Criar pagina de esquecer senha -->
               <p><a href="" class="font-semibold text-gray-900">Esqueceu a senha?</a></p>
             </div>
             <div class="py-3 items-center">
@@ -102,8 +103,6 @@ const submitForm = async () => {
     });
 
     localStorage.setItem('jwt', response.response.data.token);
-
-    console.log(response.response.data.account);
 
     if (response.response.data.token) {
       Swal.fire({

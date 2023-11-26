@@ -24,8 +24,8 @@ const routes = [
   },
   {
     path: '/account',
-    name: 'ListAccount',
-    component: lazyLoad('account/ListAccountView'),
+    name: 'Account',
+    component: lazyLoad('account/AccountView'),
     meta: { requireAuth: true },
   },
   {

@@ -51,6 +51,7 @@ import {
 } from '@vuelidate/validators';
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import VueJwtDecode from 'vue-jwt-decode';
 import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
@@ -67,6 +68,7 @@ const account = ref({
   active: null,
   confirmPassword: null,
 });
+const user = ref(null);
 
 const number = helpers.regex(
   /^\([1-9]{2}\) [0-9]{5}-[0-9]{4}$/,
@@ -169,12 +171,22 @@ function deleteAccount(Account) {
   return true;
 }
 
+function getUser() {
+  const token = localStorage.getItem('jwt');
+  let tokenDecoded = null;
+  if (token !== null) {
+    tokenDecoded = VueJwtDecode.decode(token);
+  }
+  return tokenDecoded;
+}
+
 async function loadData() {
-  const response = await AccountService.getAccountID(1);
+  const response = await AccountService.getAccountID(user.value.account_id);
   return response;
 }
 
 onMounted(async () => {
+  user.value = getUser();
   account.value = await loadData();
 });
 

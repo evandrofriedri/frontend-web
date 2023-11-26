@@ -21,6 +21,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useInfiniteScroll } from '@vueuse/core';
+import VueJwtDecode from 'vue-jwt-decode';
 import OrderService from '../../services/OrderService';
 import CardNotFound from '../../components/CardNotFound.vue';
 import SearchInput from '../../components/SearchInput.vue';
@@ -33,11 +34,22 @@ const listEl = ref(null);
 const itemsToShow = ref(10);
 const page = ref(0);
 const stopQuery = ref(false);
+const user = ref(null);
+
+function getUser() {
+  const token = localStorage.getItem('jwt');
+  let tokenDecoded = null;
+  if (token !== null) {
+    tokenDecoded = VueJwtDecode.decode(token);
+  }
+  return tokenDecoded;
+}
 
 async function loadData() {
+  user.value = getUser();
   orderList.value = await OrderService.getOrderID(JSON.stringify({
-    id: 1, limit: itemsToShow.value, offset: page.value,
-  })); // usuario logado
+    account_id: user.value.account_id, limit: itemsToShow.value, offset: page.value,
+  }));
 
   orderList.value.forEach(async (order) => {
     // eslint-disable-next-line no-param-reassign
@@ -66,7 +78,7 @@ const getDataOnScroll = async () => {
   if (!stopQuery.value) {
     page.value += itemsToShow.value;
     const newData = ref(await OrderService.getOrderID(JSON.stringify({
-      id: 1, limit: itemsToShow.value, offset: page.value,
+      account_id: user.value.account_id, limit: itemsToShow.value, offset: page.value,
     })));
 
     newData.value.forEach(async (order) => {

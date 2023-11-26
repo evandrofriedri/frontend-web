@@ -52,6 +52,7 @@
 
 <script setup>
 import { onMounted, ref, inject } from 'vue';
+import VueJwtDecode from 'vue-jwt-decode';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import AddressItem from '../../components/AddressItem.vue';
@@ -64,6 +65,15 @@ const search = ref('');
 const addressList = ref([]);
 const isModalAddressOpen = ref(false);
 const foundAddress = ref(1);
+function getUser() {
+  const token = localStorage.getItem('jwt');
+  let tokenDecoded = null;
+  if (token !== null) {
+    tokenDecoded = VueJwtDecode.decode(token);
+  }
+  return tokenDecoded;
+}
+const user = ref(getUser());
 const newAddress = ref({
   address_id: 0,
   description: null,
@@ -71,7 +81,7 @@ const newAddress = ref({
   neighborhood: null,
   city: null,
   favorite: false,
-  account_id: 1, // terá que ser conta da sessão
+  account_id: user.value.account_id,
 });
 
 const emitter = inject('emitter');
@@ -83,13 +93,13 @@ emitter.on('setModalFalse-FormAddress-0', () => {
     neighborhood: '',
     city: null,
     favorite: false,
-    account_id: 1, // terá que ser conta da sessão
+    account_id: user.value.account_id,
   };
   isModalAddressOpen.value = false;
 });
 
 async function loadData() {
-  const response = await AddressService.getAddressID(1); // usuário logado
+  const response = await AddressService.getAddressID(user.value.account_id);
   return response;
 }
 
