@@ -72,6 +72,7 @@ import { useRouter } from 'vue-router';
 import BaseInput from '../components/BaseInput.vue';
 import FormButton from '../components/FormButton.vue';
 import AccountService from '../services/AccountService';
+import { decodeCredential } from 'vue3-google-login';
 
 const router = useRouter();
 
@@ -85,7 +86,8 @@ const erroMsg = ref(false);
 const callback = (response) => {
   // This callback will be triggered when the user selects or login to
   // his Google account from the popup
-  console.log(response)
+  const decodedCredential = decodeCredential(response.credential);
+  console.log(decodedCredential);
 }
 
 const rules = computed(() => ({
