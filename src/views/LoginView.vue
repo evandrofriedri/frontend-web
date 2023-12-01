@@ -13,9 +13,10 @@
             Entrar
           </h2>
           <div class="mt-4 mb-4">
-            <button class="inline-block w-full p-3.5 leading-none text-gray-800 bg-gray-50 border hover:bg-gray-200 font-semibold rounded" type="submit">
+            <!-- <button class="inline-block w-full p-3.5 leading-none text-gray-800 bg-gray-50 border hover:bg-gray-200 font-semibold rounded" type="submit">
               <font-awesome-icon icon="fa-brands fa-google" /> Fazer login com o Google
-            </button>
+            </button> -->
+            <GoogleLogin class="w-full" :callback="callback" prompt auto-login />
           </div>
           <div class="flex py-3 items-center">
             <div class="flex-grow border-t border-gray-200" />
@@ -80,6 +81,12 @@ const formData = ref({
 });
 
 const erroMsg = ref(false);
+
+const callback = (response) => {
+  // This callback will be triggered when the user selects or login to
+  // his Google account from the popup
+  console.log(response)
+}
 
 const rules = computed(() => ({
   email: {

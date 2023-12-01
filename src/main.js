@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import './index.css';
 import mitt from 'mitt';
+import vue3GoogleLogin from 'vue3-google-login'
+// TODO - COLOCAR NO ENV A COR DO nProgress
 import App from './App.vue';
 import router from './router';
 import icons from './assets/icons';
@@ -20,8 +22,11 @@ library.add({ ...icons });
 
 const emitter = mitt();
 
+const CLIENT_ID = process.env.VUE_APP_CLIENT_ID;
+
 createApp(App)
   .use(router)
+  .use(vue3GoogleLogin, { clientId: CLIENT_ID, })
   .component('font-awesome-icon', FontAwesomeIcon)
   .component('default-layout', DefaultLayout)
   .component('empty-layout', EmptyLayout)
