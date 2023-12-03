@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import './index.css';
 import mitt from 'mitt';
 import vue3GoogleLogin from 'vue3-google-login'
-// TODO - COLOCAR NO ENV A COR DO nProgress
 import App from './App.vue';
 import router from './router';
 import icons from './assets/icons';

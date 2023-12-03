@@ -16,6 +16,7 @@
           <li>FrameWork JavaScript Vue.js</li>
           <li>FrameWork CSS tailwindCss</li>
           <li>Biblioteca VueUse</li>
+          <li>Biblioteca Vue3 Google Login</li>
           <li>Biblioteca VueRouter</li>
           <li>Biblioteca Vuelidate</li>
           <li>Biblioteca Sweetalert</li>
