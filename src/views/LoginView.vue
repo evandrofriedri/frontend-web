@@ -13,10 +13,10 @@
             Entrar
           </h2>
           <div class="mt-4 mb-4">
-            <!-- <button class="inline-block w-full p-3.5 leading-none text-gray-800 bg-gray-50 border hover:bg-gray-200 font-semibold rounded" type="submit">
-              <font-awesome-icon icon="fa-brands fa-google" /> Fazer login com o Google
-            </button> -->
-            <GoogleLogin class="w-full" :callback="callback" prompt auto-login />
+            <div class="flex items-center">
+              <GoogleLogin class="w-full" :callback="callback" prompt auto-login />
+            </div>
+            <!-- <button @click="callback">teste google</button> -->
           </div>
           <div class="flex py-3 items-center">
             <div class="flex-grow border-t border-gray-200" />
@@ -72,7 +72,7 @@ import { useRouter } from 'vue-router';
 import BaseInput from '../components/BaseInput.vue';
 import FormButton from '../components/FormButton.vue';
 import AccountService from '../services/AccountService';
-import { decodeCredential } from 'vue3-google-login';
+import { GoogleLogin, decodeCredential } from 'vue3-google-login';
 
 const router = useRouter();
 
@@ -83,11 +83,28 @@ const formData = ref({
 
 const erroMsg = ref(false);
 
-const callback = (response) => {
-  // This callback will be triggered when the user selects or login to
-  // his Google account from the popup
+const callback = async (response) => {
   const decodedCredential = decodeCredential(response.credential);
-  console.log(decodedCredential);
+  // const decodedCredential = {
+  //   "iss": "https://accounts.google.com",
+  //   "azp": "519751075738-n94t0c9sntjousroj2bl2tejtiktnaju.apps.googleusercontent.com",
+  //   "aud": "519751075738-n94t0c9sntjousroj2bl2tejtiktnaju.apps.googleusercontent.com",
+  //   "sub": "103883578831345354607",
+  //   "email": "evandrofriedri@gmail.com",
+  //   "email_verified": true,
+  //   "nbf": 1701461018,
+  //   "name": "Evandro Friedrichsen",
+  //   "picture": "https://lh3.googleusercontent.com/a/ACg8ocLTB_-KXlYj2GOmzd3zQNhqP45K-zQX0U8_jvwVUlrhAKw=s96-c",
+  //   "given_name": "Evandro",
+  //   "family_name": "Friedrichsen",
+  //   "locale": "pt-BR",
+  //   "iat": 1701461318,
+  //   "exp": 1701464918,
+  //   "jti": "6c9205c570b60e4a2604eb3512ac200a7937081f"
+  // }
+  if (decodedCredential.email_verified) {
+    await loginWithGoogle(decodedCredential);
+  }
 }
 
 const rules = computed(() => ({
@@ -111,9 +128,8 @@ const submitForm = async () => {
       password: formData.value.password,
     });
 
-    localStorage.setItem('jwt', response.response.data.token);
-
     if (response.response.data.token) {
+      localStorage.setItem('jwt', response.response.data.token);
       Swal.fire({
         icon: 'success',
         title: 'Login realizado com sucesso!',
@@ -128,5 +144,36 @@ const submitForm = async () => {
     }
   }
 };
+
+async function loginWithGoogle(user) {
+
+  const response = await AccountService.validateGoogleLogin({
+    name: user.name,
+    email: user.email,
+    password: user.azp,
+    image_url: user.picture,
+  });
+
+  if (response.response.data.token) {
+    localStorage.setItem('jwt', response.response.data.token);
+    Swal.fire({
+      icon: 'success',
+      title: 'Login realizado com sucesso!',
+      text: `Olá ${response.response.data.account.name}!`,
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    }).then(() => {
+      router.push({ name: 'Home' });
+    });
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro ao efetuar login!',
+      text: `${response.response.data.message}`,
+      showConfirmButton: true,
+      confirmButtonColor: '#374151',
+    });
+  }
+}
 
 </script>

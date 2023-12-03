@@ -17,6 +17,21 @@ export default {
     }
   },
 
+    /**
+   * Metodo para validar google login
+   * POST
+   */
+    async validateGoogleLogin(account) {
+      try {
+        const response = await Api().post('/googleLogin', account);
+        console.log(response.data);
+        return response.data;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
+
   /**
    * Metodo para atualizar token
    * GET

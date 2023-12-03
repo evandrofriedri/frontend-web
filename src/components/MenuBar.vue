@@ -6,7 +6,7 @@
   </div>
   <Transition name="slide">
     <div v-if="isOpenMenu" ref="blur" class="fixed p-2 top-0 w-[270px] left-0 h-screen z-50 bg-gray-700 flex-col">
-      <MenuItemBar v-if="user" icon="fa-solid fa-circle-user" :label="user.name.split(' ')[0]" :description="user.email" />
+      <UserMenu v-if="user" :label="user.name.split(' ')[0]" :description="user.email" :image_url="user.image_url" />
       <MenuItemBar v-if="!user" icon="fa-solid fa-circle-user" label="Entrar ou Cadastrar" description="" route="/login" />
       <SubMenuItemBar v-if="user" icon="fa-solid fa-user-gear" label="Gerenciar Conta" route="/account" @click="toggleMenu()" />
       <SubMenuItemBar v-if="user" icon="fa-solid fa-list-check" label="Meus Pedidos" route="/account/order" @click="toggleMenu()" />
@@ -35,11 +35,13 @@ import { onMounted, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import VueJwtDecode from 'vue-jwt-decode';
 import { useRouter } from 'vue-router';
+import { googleLogout } from 'vue3-google-login';
 import LogoApp from './LogoApp.vue';
 import MenuButton from './MenuButton.vue';
 import MenuItemBar from './MenuItemBar.vue';
 import MenuSeparator from './MenuSeparator.vue';
 import SubMenuItemBar from './SubMenuItemBar.vue';
+import UserMenu from './UserMenu.vue';
 
 const router = useRouter();
 
@@ -65,6 +67,7 @@ function getUser() {
 
 function logOutUser() {
   localStorage.removeItem('jwt');
+  googleLogout();
   router.go(0);
 }
 
