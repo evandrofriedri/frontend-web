@@ -108,19 +108,22 @@ const getDataOnScroll = async () => {
     const newData = await ProductService.getProducts(JSON.stringify({
       limit: itemsToShow.value, offset: page.value,
     }));
-    newData.forEach((element) => {
-      if (element.additionals !== null) {
-        const arr = element.additionals.split(',');
-        const numberArray = arr.map(Number);
-        // eslint-disable-next-line no-param-reassign
-        element.additionals = numberArray;
-      } else {
-        // eslint-disable-next-line no-param-reassign
-        element.additionals = [];
-      }
-    });
 
-    if (newData.length === 0) {
+    if (newData) {
+      newData.forEach((element) => {
+        if (element.additionals !== null) {
+          const arr = element.additionals.split(',');
+          const numberArray = arr.map(Number);
+          // eslint-disable-next-line no-param-reassign
+          element.additionals = numberArray;
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          element.additionals = [];
+        }
+      });
+    }
+
+    if (newData.length === 0 || newData === false) {
       stopQuery.value = true;
     }
     productList.value.push(...newData);

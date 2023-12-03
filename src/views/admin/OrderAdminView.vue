@@ -102,27 +102,29 @@ const getDataOnScroll = async () => {
       limit: itemsToShow.value, offset: page.value,
     })));
 
-    newData.value.forEach(async (order) => {
-      // eslint-disable-next-line no-param-reassign
-      order.statuses = [];
-      const statusResponse = await OrderService.getOrderStatuses(order.order_id);
-      statusResponse.map((element) => order.statuses.push(element));
-
-      // eslint-disable-next-line no-param-reassign
-      order.products = [];
-      const orderProductResponse = await OrderService.getOrderProducts(order.order_id);
-      orderProductResponse.map((element) => order.products.push(element));
-
-      order.products.forEach(async (product) => {
+    if (newData.value) {
+      newData.value.forEach(async (order) => {
         // eslint-disable-next-line no-param-reassign
-        product.additionals = [];
-        // eslint-disable-next-line vue/max-len
-        const orderProductAdditional = await OrderService.getOrderProductAdditionals(product.order_product_id);
-        orderProductAdditional.map((element) => product.additionals.push(element));
-      });
-    });
+        order.statuses = [];
+        const statusResponse = await OrderService.getOrderStatuses(order.order_id);
+        statusResponse.map((element) => order.statuses.push(element));
 
-    if (newData.value.length === 0) {
+        // eslint-disable-next-line no-param-reassign
+        order.products = [];
+        const orderProductResponse = await OrderService.getOrderProducts(order.order_id);
+        orderProductResponse.map((element) => order.products.push(element));
+
+        order.products.forEach(async (product) => {
+          // eslint-disable-next-line no-param-reassign
+          product.additionals = [];
+          // eslint-disable-next-line vue/max-len
+          const orderProductAdditional = await OrderService.getOrderProductAdditionals(product.order_product_id);
+          orderProductAdditional.map((element) => product.additionals.push(element));
+        });
+      });
+    }
+
+    if (newData.value.length === 0 || newData.value === false) {
       stopQuery.value = true;
     }
     orderList.value.push(...newData.value);
