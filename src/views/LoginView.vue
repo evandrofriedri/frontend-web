@@ -40,8 +40,7 @@
               />
             </div>
             <div class="mb-4">
-              <!-- TODO Criar pagina de esquecer senha -->
-              <p><a href="" class="font-semibold text-gray-900">Esqueceu a senha?</a></p>
+              <p><router-link class="font-semibold text-gray-900" to="/forgotPass">Esqueceu a senha?</router-link></p>
             </div>
             <div class="py-3 items-center">
               <div class="flex-grow border-t border-gray-200" />
@@ -85,23 +84,6 @@ const erroMsg = ref(false);
 
 const callback = async (response) => {
   const decodedCredential = decodeCredential(response.credential);
-  // const decodedCredential = {
-  //   "iss": "https://accounts.google.com",
-  //   "azp": "519751075738-n94t0c9sntjousroj2bl2tejtiktnaju.apps.googleusercontent.com",
-  //   "aud": "519751075738-n94t0c9sntjousroj2bl2tejtiktnaju.apps.googleusercontent.com",
-  //   "sub": "103883578831345354607",
-  //   "email": "evandrofriedri@gmail.com",
-  //   "email_verified": true,
-  //   "nbf": 1701461018,
-  //   "name": "Evandro Friedrichsen",
-  //   "picture": "https://lh3.googleusercontent.com/a/ACg8ocLTB_-KXlYj2GOmzd3zQNhqP45K-zQX0U8_jvwVUlrhAKw=s96-c",
-  //   "given_name": "Evandro",
-  //   "family_name": "Friedrichsen",
-  //   "locale": "pt-BR",
-  //   "iat": 1701461318,
-  //   "exp": 1701464918,
-  //   "jti": "6c9205c570b60e4a2604eb3512ac200a7937081f"
-  // }
   if (decodedCredential.email_verified) {
     await loginWithGoogle(decodedCredential);
   }
@@ -131,11 +113,11 @@ const submitForm = async () => {
     if (response.response.data.token) {
       localStorage.setItem('jwt', response.response.data.token);
       Swal.fire({
-        icon: 'success',
         title: 'Login realizado com sucesso!',
-        text: `Olá ${response.response.data.account.name}!`,
-        showConfirmButton: true,
-        confirmButtonColor: '#374151',
+        html: `Olá, <b>${response.response.data.account.name}</b>!`,
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
       }).then(() => {
         router.push({ name: 'Home' });
       });
@@ -157,11 +139,11 @@ async function loginWithGoogle(user) {
   if (response.response.data.token) {
     localStorage.setItem('jwt', response.response.data.token);
     Swal.fire({
-      icon: 'success',
       title: 'Login realizado com sucesso!',
-      text: `Olá ${response.response.data.account.name}!`,
-      showConfirmButton: true,
-      confirmButtonColor: '#374151',
+        html: `Olá, <b>${response.response.data.account.name}</b>!`,
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
     }).then(() => {
       router.push({ name: 'Home' });
     });
