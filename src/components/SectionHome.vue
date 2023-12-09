@@ -122,7 +122,6 @@ await filteredList(loadData());
 // await updateCart();
 
 onUpdated(() => {
-  // console.log('updated');
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -138,7 +137,6 @@ onUpdated(() => {
     },
   );
   document.querySelectorAll('h2').forEach((section) => {
-    // console.log(section);
     observer.observe(section);
   });
 });
