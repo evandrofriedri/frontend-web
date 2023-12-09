@@ -12,13 +12,10 @@ import {
 
 import * as freeRegularSvgIcons from '@fortawesome/free-regular-svg-icons';
 
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
-
 const icons = {
   faCircleUser,
   faBars,
   faMagnifyingGlass,
-  faGoogle,
   faList,
   faUtensils,
   faUsersGear,
