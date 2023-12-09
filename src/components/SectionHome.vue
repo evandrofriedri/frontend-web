@@ -108,18 +108,7 @@ function filteredList(data) {
   }
   return filtData;
 }
-// onMounted(async () => {
-//   // await filteredList(loadData());
-//   // await updateCart();
-
-//   document.querySelectorAll('h2').forEach((section) => {
-//     console.log('entrou no document');
-//     observer.observe(section);
-//   });
-// });
-
 await filteredList(loadData());
-// await updateCart();
 
 onUpdated(() => {
   const observer = new IntersectionObserver(
