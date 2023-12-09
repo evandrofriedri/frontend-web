@@ -4,11 +4,14 @@
     <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Meus Endereços
     </h1>
-    <div class="grid grid-cols-12 items-center mb-2">
-      <div class="col-start-1 col-end-2">
-        <BaseButton icon="fa-solid fa-file-circle-plus" description="" @click="isModalAddressOpen = true" />
+    <div class="grid gap-1 grid-cols-12 items-center mb-2">
+      <div class="col-start-1 md:col-end-2 col-end-3">
+        <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar novo endereço" @click="isModalAddressOpen = true" />
       </div>
-      <div class="col-start-6 md:col-start-10 col-end-13">
+      <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
+        <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
+      </div>
+      <div class="col-start-7 md:col-start-10 col-end-13">
         <SearchInput id="AddressSearch" v-model="search" placeholder="Digite o endereço" />
       </div>
     </div>
@@ -97,6 +100,31 @@ emitter.on('setModalFalse-FormAddress-0', () => {
   };
   isModalAddressOpen.value = false;
 });
+
+function validate_characters(str) {
+  if (str) {
+    return str.toString().replace(/[\r\n]+/gm, " ").replace(/,/g, ';');
+  }
+  return str;
+}
+
+function createCsvFile() {
+  const csvContent = convertToCsv(addressList.value);
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'adressList.csv');
+  link.click();
+}
+
+function convertToCsv(data){
+  const headers = Object.keys(data[0]);
+  const rows = data.map(obj => headers.map(header => validate_characters(obj[header])));
+  const headerRow = headers.join(',');
+  const csvRows = [headerRow, ...rows.map(row => row.join(','))];
+  return csvRows.join('\n');
+}
 
 async function loadData() {
   const response = await AddressService.getAddressID(user.value.account_id);

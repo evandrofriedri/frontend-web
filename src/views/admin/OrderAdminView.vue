@@ -4,8 +4,11 @@
     <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Pedidos Recebidos
     </h1>
-    <div class="grid grid-cols-12">
-      <div class="col-start-6 md:col-start-10 col-end-13 mb-2">
+    <div class="grid gap-1 grid-cols-12 items-center mb-2">
+      <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
+        <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
+      </div>
+      <div class="col-start-7 md:col-start-10 col-end-13">
         <SearchInput id="orderAdminSearch" v-model="search" placeholder="Digite a descrição do pedido" />
       </div>
     </div>
@@ -37,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr
+          <tr title="Clique para mais detalhes"
             v-for="(item, index) in filteredList(orderList)"
             :key="index"
             :class="`bg-white border-b hover:bg-gray-200 cursor-pointer duration-300 ${item.active == false ? 'text-red-600' : 'text-gray-800'}`"
@@ -58,6 +61,7 @@ import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import OrderAdminItem from '../../components/OrderAdminItem.vue';
 import OrderService from '../../services/OrderService';
+import BaseButton from '../../components/BaseButton.vue';
 
 const search = ref('');
 const orderList = ref([]);
@@ -66,6 +70,36 @@ const listEl = ref(null);
 const itemsToShow = ref(10);
 const page = ref(0);
 const stopQuery = ref(false);
+
+function validate_characters(str) {
+  if (str) {
+    return str.toString().replace(/[\r\n]+/gm, " ").replace(/,/g, ';');
+  }
+  return str;
+}
+
+function createCsvFile() {
+  const printableList = JSON.parse(JSON.stringify(orderList.value));
+  printableList.forEach(element => {
+    delete element.products;
+    delete element.statuses;
+  });
+  const csvContent = convertToCsv(printableList);
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'orderList.csv');
+  link.click();
+}
+
+function convertToCsv(data){
+  const headers = Object.keys(data[0]);
+  const rows = data.map(obj => headers.map(header => validate_characters(obj[header])));
+  const headerRow = headers.join(',');
+  const csvRows = [headerRow, ...rows.map(row => row.join(','))];
+  return csvRows.join('\n');
+}
 
 async function loadData() {
   orderList.value = await OrderService.getOrders(JSON.stringify({

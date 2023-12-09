@@ -1,9 +1,12 @@
 <template>
-  <div class="grid grid-cols-12 items-center mb-2">
-    <div class="col-start-1 col-end-2">
-      <BaseButton icon="fa-solid fa-file-circle-plus" description="" @click="isModalAdditionalOpen = true" />
+  <div class="grid gap-1 grid-cols-12 items-center mb-2">
+    <div class="col-start-1 md:col-end-2 col-end-3">
+      <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar novo adicional" @click="isModalAdditionalOpen = true" />
     </div>
-    <div class="col-start-6 md:col-start-10 col-end-13">
+    <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
+        <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
+    </div>
+    <div class="col-start-7 md:col-start-10 col-end-13">
       <SearchInput id="additionalAdminSearch" v-model="search" placeholder="Digite o nome do adicional" />
     </div>
   </div>
@@ -63,6 +66,31 @@ emitter.on('setModalFalse-FormAdditional-0', () => {
   };
   isModalAdditionalOpen.value = false;
 });
+
+function validate_characters(str) {
+  if (str) {
+    return str.toString().replace(/[\r\n]+/gm, " ").replace(/,/g, ';');
+  }
+  return str;
+}
+
+function createCsvFile() {
+  const csvContent = convertToCsv(additionalList.value);
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'additionalList.csv');
+  link.click();
+}
+
+function convertToCsv(data){
+  const headers = Object.keys(data[0]);
+  const rows = data.map(obj => headers.map(header => validate_characters(obj[header])));
+  const headerRow = headers.join(',');
+  const csvRows = [headerRow, ...rows.map(row => row.join(','))];
+  return csvRows.join('\n');
+}
 
 async function loadData() {
   const response = await AdditionalService.getAdditionals();
