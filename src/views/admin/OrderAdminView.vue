@@ -71,6 +71,34 @@ const itemsToShow = ref(10);
 const page = ref(0);
 const stopQuery = ref(false);
 
+function validate_characters(str) {
+  if (str) {
+    return str.toString().replace(/[\r\n]+/gm, " ").replace(/,/g, ';');
+  }
+  return str;
+}
+function createCsvFile() {
+  const printableList = JSON.parse(JSON.stringify(orderList.value));
+  printableList.forEach(element => {
+    delete element.products;
+    delete element.statuses;
+  });
+  const csvContent = convertToCsv(printableList);
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'orderList.csv');
+  link.click();
+}
+function convertToCsv(data){
+  const headers = Object.keys(data[0]);
+  const rows = data.map(obj => headers.map(header => validate_characters(obj[header])));
+  const headerRow = headers.join(',');
+  const csvRows = [headerRow, ...rows.map(row => row.join(','))];
+  return csvRows.join('\n');
+}
+
 async function loadData() {
   orderList.value = await OrderService.getOrders(JSON.stringify({
     limit: itemsToShow.value, offset: page.value,

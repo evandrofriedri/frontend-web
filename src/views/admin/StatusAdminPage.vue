@@ -65,6 +65,29 @@ emitter.on('setModalFalse-FormStatus-0', () => {
   isModalStatusOpen.value = false;
 });
 
+function validate_characters(str) {
+  if (str) {
+    return str.toString().replace(/[\r\n]+/gm, " ").replace(/,/g, ';');
+  }
+  return str;
+}
+function createCsvFile() {
+  const csvContent = convertToCsv(statusList.value);
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'statusList.csv');
+  link.click();
+}
+function convertToCsv(data){
+  const headers = Object.keys(data[0]);
+  const rows = data.map(obj => headers.map(header => validate_characters(obj[header])));
+  const headerRow = headers.join(',');
+  const csvRows = [headerRow, ...rows.map(row => row.join(','))];
+  return csvRows.join('\n');
+}
+
 async function loadData() {
   const response = await StatusService.getStatuses();
   return response;
