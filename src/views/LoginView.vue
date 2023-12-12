@@ -13,9 +13,9 @@
             Entrar
           </h2>
           <div class="mt-4 mb-4">
-            <div class="flex items-center">
+            <!-- <div class="flex items-center">
               <GoogleLogin class="w-full" :callback="callback" prompt auto-login />
-            </div>
+            </div> -->
             <!-- <button @click="callback">teste google</button> -->
           </div>
           <div class="flex py-3 items-center">
@@ -71,7 +71,7 @@ import { useRouter } from 'vue-router';
 import BaseInput from '../components/BaseInput.vue';
 import FormButton from '../components/FormButton.vue';
 import AccountService from '../services/AccountService';
-import { GoogleLogin, decodeCredential } from 'vue3-google-login';
+// import { GoogleLogin, decodeCredential } from 'vue3-google-login';
 
 const router = useRouter();
 
@@ -82,12 +82,12 @@ const formData = ref({
 
 const erroMsg = ref(false);
 
-const callback = async (response) => {
-  const decodedCredential = decodeCredential(response.credential);
-  if (decodedCredential.email_verified) {
-    await loginWithGoogle(decodedCredential);
-  }
-}
+// const callback = async (response) => {
+//   const decodedCredential = decodeCredential(response.credential);
+//   if (decodedCredential.email_verified) {
+//     await loginWithGoogle(decodedCredential);
+//   }
+// }
 
 const rules = computed(() => ({
   email: {
@@ -127,35 +127,35 @@ const submitForm = async () => {
   }
 };
 
-async function loginWithGoogle(user) {
+// async function loginWithGoogle(user) {
 
-  const response = await AccountService.validateGoogleLogin({
-    name: user.name,
-    email: user.email,
-    password: user.azp,
-    image_url: user.picture,
-  });
+//   const response = await AccountService.validateGoogleLogin({
+//     name: user.name,
+//     email: user.email,
+//     password: user.azp,
+//     image_url: user.picture,
+//   });
 
-  if (response.response.data.token) {
-    localStorage.setItem('jwt', response.response.data.token);
-    Swal.fire({
-      title: 'Login realizado com sucesso!',
-        html: `Olá, <b>${response.response.data.account.name}</b>!`,
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-    }).then(() => {
-      router.push({ name: 'Home' });
-    });
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Erro ao efetuar login!',
-      text: `${response.response.data.message}`,
-      showConfirmButton: true,
-      confirmButtonColor: '#374151',
-    });
-  }
-}
+//   if (response.response.data.token) {
+//     localStorage.setItem('jwt', response.response.data.token);
+//     Swal.fire({
+//       title: 'Login realizado com sucesso!',
+//         html: `Olá, <b>${response.response.data.account.name}</b>!`,
+//         timer: 3000,
+//         timerProgressBar: true,
+//         showConfirmButton: false,
+//     }).then(() => {
+//       router.push({ name: 'Home' });
+//     });
+//   } else {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Erro ao efetuar login!',
+//       text: `${response.response.data.message}`,
+//       showConfirmButton: true,
+//       confirmButtonColor: '#374151',
+//     });
+//   }
+// }
 
 </script>
