@@ -35,7 +35,7 @@ import { onMounted, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import VueJwtDecode from 'vue-jwt-decode';
 import { useRouter } from 'vue-router';
-// import { googleLogout } from 'vue3-google-login';
+import { googleLogout } from 'vue3-google-login';
 import LogoApp from './LogoApp.vue';
 import MenuButton from './MenuButton.vue';
 import MenuItemBar from './MenuItemBar.vue';
@@ -67,7 +67,7 @@ function getUser() {
 
 function logOutUser() {
   localStorage.removeItem('jwt');
-  // googleLogout();
+  googleLogout();
   router.go(0);
 }
 
