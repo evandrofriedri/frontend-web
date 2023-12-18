@@ -59,7 +59,7 @@ const routes = [
   },
   {
     path: '/admin/account',
-    name: 'accountAdmin',
+    name: 'AccountAdmin',
     component: lazyLoad('admin/AccountAdminView'),
     meta: { requireAuth: true },
   },

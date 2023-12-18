@@ -44,6 +44,7 @@ import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
 import AccountService from '../../services/AccountService';
+import RoleService from '../../services/RoleService';
 
 const router = useRouter();
 
@@ -53,6 +54,7 @@ const account = ref({
   cellphone: null,
   password: null,
   confirmPassword: null,
+  role_id: null,
 });
 
 const number = helpers.regex(
@@ -95,9 +97,13 @@ const submitForm = async () => {
   if (!validated) {
     return false;
   }
+
+  const role = await RoleService.getRoleID('client');
+
+  account.value.role_id = role[0].role_id;
   const response = await AccountService.createAccount(account.value);
   if (response.response.data.token) {
-    localStorage.setItem('jwt', response.response.data.token);
+    // localStorage.setItem('jwt', response.response.data.token);
     Swal.fire({
       icon: 'success',
       title: 'Cadastro realizado com sucesso!',

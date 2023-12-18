@@ -13,6 +13,7 @@
         <BaseInput id="cellphone" v-model="account.cellphone" name="cellphone" label="Celular" type="text" placeholder="Ex: (xx) xxxxx-xxxx" :errors="v$.cellphone.$errors" />
         <BaseInput id="password" v-model="account.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
         <BaseInput id="confirmPassword" v-model="account.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
+        <SelectInput id="role" v-model="account.role_id" name="role" :items="roles" label="Função" :errors="v$.role_id.$errors" />
         <div class="flex mb-4">
           <label class="text-base text-gray-800 max-w">
             <input
@@ -54,9 +55,12 @@ import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
 import AccountService from '../services/AccountService';
+import RoleService from '../services/RoleService';
+import SelectInput from './SelectInput.vue';
 
 const router = useRouter();
 const emitter = inject('emitter');
+const roles = ref([]);
 
 const account = ref({
   name: null,
@@ -64,6 +68,7 @@ const account = ref({
   cellphone: null,
   password: null,
   confirmPassword: null,
+  role_id: null,
 });
 
 const props = defineProps({
@@ -87,8 +92,21 @@ function closeModal() {
   emitter.emit(`closeModal-FormAccount-${props.account.account_id}`);
 }
 
+async function loadRoles() {
+  const response = await RoleService.getRoles();
+  const data = [];
+  response.forEach(element => {
+    data.push({
+      id: element.role_id,
+      name: element.description,
+    });
+  });
+  return data;
+}
+
 onMounted(async () => {
   account.value = await props.account;
+  roles.value = await loadRoles();
 });
 
 const number = helpers.regex(
@@ -120,6 +138,9 @@ const rules = computed(() => ({
   confirmPassword: {
     required: helpers.withMessage('Campo obrigatório ', required),
     sameAs: helpers.withMessage('As senhas não são iguais', sameAs(account.value.password)),
+  },
+  role_id: {
+    required: helpers.withMessage('Campo obrigatório', required),
   },
 }));
 

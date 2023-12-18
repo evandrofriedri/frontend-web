@@ -99,7 +99,14 @@ function closeModal() {
 
 async function loadCategories() {
   const response = await CategoryService.getCategories();
-  return response;
+  const data = [];
+  response.forEach(element => {
+    data.push({
+      id: element.category_id,
+      name: element.name,
+    });
+  });
+  return data;
 }
 
 async function loadAdditionals() {

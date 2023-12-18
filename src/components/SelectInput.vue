@@ -8,7 +8,7 @@
       v-bind="$attrs"
       @input="$emit('update:modelValue', $event.target.value)"
     >
-      <option v-for="(item) in items" :key="item.category_id" :value="item.category_id">
+      <option v-for="(item) in items" :key="item.id" :value="item.id">
         {{ item.name }}
       </option>
     </select>
