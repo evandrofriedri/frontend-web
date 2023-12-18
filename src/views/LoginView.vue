@@ -71,6 +71,7 @@ import { useRouter } from 'vue-router';
 import BaseInput from '../components/BaseInput.vue';
 import FormButton from '../components/FormButton.vue';
 import AccountService from '../services/AccountService';
+import RoleService from '../services/RoleService';
 import { GoogleLogin, decodeCredential } from 'vue3-google-login';
 
 const router = useRouter();
@@ -129,11 +130,14 @@ const submitForm = async () => {
 
 async function loginWithGoogle(user) {
 
+  const role = await RoleService.getRoleID('client');
+
   const response = await AccountService.validateGoogleLogin({
     name: user.name,
     email: user.email,
     password: user.azp,
     image_url: user.picture,
+    role_id: role[0].role_id,
   });
 
   if (response.response.data.token) {
