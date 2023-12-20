@@ -7,7 +7,7 @@ import {
   faCartShopping, faUserGear, faCheck, faChevronLeft, faStore,
   faExclamationTriangle, faArrowRightToBracket, faAddressCard,
   faArrowRightFromBracket, faListOl, faClockRotateLeft, faKitchenSet,
-  faMapLocationDot, faStar, faFileCirclePlus, faBan, faArrowLeft, faFileCsv,
+  faMapLocationDot, faStar, faFileCirclePlus, faBan, faArrowLeft, faFileCsv, faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 
 import * as freeRegularSvgIcons from '@fortawesome/free-regular-svg-icons';
@@ -42,6 +42,7 @@ const icons = {
   faBan,
   faArrowLeft,
   faFileCsv,
+  faSpinner,
   faStar2: freeRegularSvgIcons.faStar,
   faTrashCan: freeRegularSvgIcons.faTrashCan,
   faPenToSquare: freeRegularSvgIcons.faPenToSquare,

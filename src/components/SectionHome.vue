@@ -1,13 +1,13 @@
 <template>
   <div class="fixed z-10 right-2 top-3">
-    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o nome do produto..." />
+    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o nome do produto..." @keydown="filteredList()" />
   </div>
   <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
     <MenuItemSticky v-for="(data) in menuList" :key="data.category_id" :href="`#${data.category_id}`" :title="data.name" :class="{ active: data.category_id == currentSection }" />
   </div>
   <div class="container mx-auto">
     <div class="flex w-full h-48" />
-    <section v-for="(data) in filteredList(menuList)" :key="data.category_id">
+    <section v-for="(data) in menuList" :key="data.category_id">
       <SectionTitle :id="data.category_id" :title="data.name" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
         <CardItem
@@ -23,7 +23,7 @@
 <script setup>
 import {
   ref,
-  onUpdated,
+  onMounted,
 } from 'vue';
 import CardItem from './CardItem.vue';
 import SectionTitle from './SectionTitle.vue';
@@ -64,15 +64,6 @@ const loadDataProduct = async (category) => {
   productList.value.push(objCategory);
 };
 
-const loadData = async () => {
-  menuList.value = await CategoryService.getCategories();
-
-  // eslint-disable-next-line no-plusplus
-  for (let index = 0; index < menuList.value.length; index++) {
-    const element = menuList.value[index];
-    loadDataProduct(element);
-  }
-};
 
 function thereIsProduct(obj) {
   if (obj[0].category_id === 'busca') {
@@ -82,15 +73,23 @@ function thereIsProduct(obj) {
   }
 }
 
-function filteredList(data) {
+const filteredList = async () => {
+  menuList.value = await CategoryService.getCategories();
+
+  // eslint-disable-next-line no-plusplus
+  for (let index = 0; index < menuList.value.length; index++) {
+    const element = menuList.value[index];
+    await loadDataProduct(element);
+  }
+
   let filtData = [];
   const arrSearch = {
     category_id: 'busca',
     name: 'Resultado da Busca',
     products: [],
   };
-  if (search.value !== '') {
-    data.forEach((element) => {
+  if (search.value.trim() !== '') {
+    menuList.value.forEach((element) => {
       element.products.forEach((pdt) => {
         const pdtLowCase = pdt.name.toLowerCase();
         if (pdtLowCase.includes(search.value.toLowerCase())) {
@@ -99,6 +98,7 @@ function filteredList(data) {
       });
     });
     filtData.push(arrSearch);
+    menuList.value = filtData;
   } else {
     filtData = menuList.value;
   }
@@ -106,11 +106,10 @@ function filteredList(data) {
   if (filtData !== undefined && filtData !== null) {
     thereIsProduct(filtData);
   }
-  return filtData;
 }
-await filteredList(loadData());
+await filteredList();
 
-onUpdated(() => {
+onMounted(() => {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {

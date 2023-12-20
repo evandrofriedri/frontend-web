@@ -116,7 +116,7 @@ const submitForm = async () => {
       Swal.fire({
         title: 'Login realizado com sucesso!',
         html: `Olá, <b>${response.response.data.account.name}</b>!`,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         showConfirmButton: false,
       }).then(() => {
@@ -145,7 +145,7 @@ async function loginWithGoogle(user) {
     Swal.fire({
       title: 'Login realizado com sucesso!',
         html: `Olá, <b>${response.response.data.account.name}</b>!`,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         showConfirmButton: false,
     }).then(() => {

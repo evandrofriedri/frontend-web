@@ -12,8 +12,8 @@
       <SubMenuItemBar v-if="user" icon="fa-solid fa-list-check" label="Meus Pedidos" route="/account/order" @click="toggleMenu()" />
       <SubMenuItemBar v-if="user" icon="fa-solid fa-address-card" label="Meus Endereços" route="/account/address" @click="toggleMenu()" />
       <SubMenuItemBar v-if="user" icon="fa-solid fa-arrow-right-from-bracket" label="Sair" description="" route="/" @click="logOutUser()" />
-      <MenuSeparator v-if="user.role_name !== 'client'"/>
-        <MenuItemBar v-if="user.role_name !== 'client'" icon="fa-solid fa-kitchen-set" label="Gerenciar Pedidos" route="/admin/order" @click="toggleMenu()" />
+      <MenuSeparator v-if="user.role_name === 'admin' || user.role_name === 'employee'" />
+        <MenuItemBar v-if="user.role_name === 'admin' || user.role_name === 'employee'" icon="fa-solid fa-kitchen-set" label="Gerenciar Pedidos" route="/admin/order" @click="toggleMenu()" />
         <MenuItemBar v-if="user.role_name === 'admin'" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/admin/account" @click="toggleMenu()" />
         <MenuItemBar v-if="user.role_name === 'admin'" icon="fa-solid fa-list-ol" label="Gerenciar Cardápio" route="/admin/menu" @click="toggleMenu()" />
       <MenuSeparator />
