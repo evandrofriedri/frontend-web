@@ -279,54 +279,63 @@ async function orderProduct(itemsCart, orderId) {
 }
 
 const confirmOrder = async () => {
-  const validated = true;
 
-  if (!validated) {
-    return false;
-  }
-
-  const itemsCart = JSON.parse(localStorage.getItem('itemsCart'));
-
-  const order = {
-    account_id: user.value.account_id,
-    observation: '',
-    delivery: delivery.value,
-    total_value: total.value,
-  };
-
-  const orderResponse = await OrderService.createOrder(order);
-  if (!orderResponse) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Erro ao cadastrar novo Pedido, tente mais tarde!',
-      showConfirmButton: true,
-      confirmButtonColor: '#374151',
-    });
-    return false;
-  }
-
-  const orderId = orderResponse.return[0].order_id;
-
-  const orderProductResponse = orderProduct(itemsCart, orderId);
-
-  if (!orderProductResponse) {
-    return false;
-  }
-
-  const orderStatusResponse = await orderStatus(orderId);
-  if (!orderStatusResponse) {
-    return false;
-  }
-
+  let orderId;
   Swal.fire({
-    icon: 'success',
-    title: 'Pedido realizado com sucesso!',
-    html: `Pedido <b>#${orderId}</b> criado. <br>Acompanhe o pedido em <i>Meus pedidos</i>.`,
-    showConfirmButton: true,
-    showCancelButton: true,
-    confirmButtonColor: '#374151',
-    confirmButtonText: '<a href="/account/order">Meus Pedidos</a>',
-    cancelButtonText: 'Cardápio',
+    title: "Pedido sendo criado...",
+    html: "Aguarde um instante.",
+    timer: 3500,
+    timerProgressBar: true,
+    didOpen: async () => {
+      Swal.showLoading();
+
+      const itemsCart = JSON.parse(localStorage.getItem('itemsCart'));
+
+      const order = {
+        account_id: user.value.account_id,
+        observation: '',
+        delivery: delivery.value,
+        total_value: total.value,
+      };
+
+      const orderResponse = await OrderService.createOrder(order);
+      if (!orderResponse) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao cadastrar novo Pedido, tente mais tarde!',
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        });
+        return false;
+      }
+
+      orderId = orderResponse.return[0].order_id;
+
+      const orderProductResponse = orderProduct(itemsCart, orderId);
+
+      if (!orderProductResponse) {
+        return false;
+      }
+
+      const orderStatusResponse = await orderStatus(orderId);
+      if (!orderStatusResponse) {
+        return false;
+      }
+
+    },
+  }).then((result) => {
+    if (result.dismiss === Swal.DismissReason.timer) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Pedido realizado com sucesso!',
+        html: `Pedido <b>#${orderId}</b> criado. <br>Acompanhe o pedido em <i>Meus pedidos</i>.`,
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonColor: '#374151',
+        confirmButtonText: '<a href="/account/order">Meus Pedidos</a>',
+        cancelButtonText: 'Cardápio',
+      });
+    }
   });
 
   return true;
