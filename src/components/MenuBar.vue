@@ -33,7 +33,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import VueJwtDecode from 'vue-jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import { useRouter } from 'vue-router';
 import { googleLogout } from 'vue3-google-login';
 import LogoApp from './LogoApp.vue';
@@ -58,7 +58,7 @@ function getUser() {
   const token = localStorage.getItem('jwt');
   let tokenDecoded = false;
   if (token !== null) {
-    tokenDecoded = VueJwtDecode.decode(token);
+    tokenDecoded = jwtDecode(token);
   }
   return tokenDecoded;
 }

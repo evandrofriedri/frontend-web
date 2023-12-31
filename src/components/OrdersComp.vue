@@ -21,7 +21,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useInfiniteScroll } from '@vueuse/core';
-import VueJwtDecode from 'vue-jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import OrderService from '../services/OrderService';
 import CardNotFound from './CardNotFound.vue';
 // import SearchInput from './SearchInput.vue';
@@ -40,7 +40,7 @@ function getUser() {
   const token = localStorage.getItem('jwt');
   let tokenDecoded = null;
   if (token !== null) {
-    tokenDecoded = VueJwtDecode.decode(token);
+    tokenDecoded = jwtDecode(token);
   }
   return tokenDecoded;
 }

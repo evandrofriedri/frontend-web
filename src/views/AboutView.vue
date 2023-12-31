@@ -22,6 +22,7 @@
           <li>Biblioteca Sweetalert</li>
           <li>Biblioteca FontAwesomeIcon</li>
           <li>Biblioteca NProgress</li>
+          <li>Biblioteca Jwt-Decode</li>
         </ul>
       </p>
       <br>

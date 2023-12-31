@@ -51,7 +51,7 @@ import {
 } from '@vuelidate/validators';
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import VueJwtDecode from 'vue-jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
@@ -176,7 +176,7 @@ function getUser() {
   const token = localStorage.getItem('jwt');
   let tokenDecoded = null;
   if (token !== null) {
-    tokenDecoded = VueJwtDecode.decode(token);
+    tokenDecoded = jwtDecode(token);
   }
   return tokenDecoded;
 }

@@ -121,7 +121,7 @@ import {
   onMounted,
 } from 'vue';
 import Swal from 'sweetalert2';
-import VueJwtDecode from 'vue-jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import AddressLayout from './AddressLayout.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
@@ -183,7 +183,7 @@ function getUser() {
   const token = localStorage.getItem('jwt');
   let tokenDecoded = null;
   if (token !== null) {
-    tokenDecoded = VueJwtDecode.decode(token);
+    tokenDecoded = jwtDecode(token);
   }
   return tokenDecoded;
 }

@@ -55,7 +55,7 @@
 
 <script setup>
 import { onMounted, ref, inject } from 'vue';
-import VueJwtDecode from 'vue-jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import AddressItem from '../../components/AddressItem.vue';
@@ -72,7 +72,7 @@ function getUser() {
   const token = localStorage.getItem('jwt');
   let tokenDecoded = null;
   if (token !== null) {
-    tokenDecoded = VueJwtDecode.decode(token);
+    tokenDecoded = jwtDecode(token);
   }
   return tokenDecoded;
 }
