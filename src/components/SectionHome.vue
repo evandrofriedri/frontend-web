@@ -90,12 +90,14 @@ const filteredList = async () => {
   };
   if (search.value.trim() !== '') {
     menuList.value.forEach((element) => {
-      element.products.forEach((pdt) => {
-        const pdtLowCase = pdt.name.toLowerCase();
-        if (pdtLowCase.includes(search.value.toLowerCase())) {
-          arrSearch.products.push(pdt);
-        }
-      });
+      if (element.products !== undefined) {
+        element.products.forEach((pdt) => {
+          const pdtLowCase = pdt.name.toLowerCase();
+          if (pdtLowCase.includes(search.value.toLowerCase())) {
+            arrSearch.products.push(pdt);
+          }
+        });
+      }
     });
     filtData.push(arrSearch);
     menuList.value = filtData;

@@ -190,6 +190,8 @@ const submitForm = async () => {
         text: `${response.response.data.message}`,
         showConfirmButton: true,
         confirmButtonColor: '#374151',
+      }).then(() => {
+        router.go(0);
       });
     }
   }

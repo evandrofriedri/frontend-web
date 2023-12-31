@@ -112,24 +112,25 @@ const submitForm = async () => {
   }
 
   const response = await AccountService.updateAccount(account.value);
-  if (response) {
+  if (response.response.data.token) {
+    localStorage.setItem('jwt', response.response.data.token);
     Swal.fire({
       icon: 'success',
       title: 'Cadastro alterado com sucesso!',
       showConfirmButton: true,
       confirmButtonColor: '#374151',
     }).then(() => {
-      router.push({ name: 'Home' });
+      router.go(0);
     });
   } else {
     Swal.fire({
       icon: 'error',
-      title: 'Erro ao editar usuário, tente mais tarde!',
+      title: 'Erro ao editar usuário!',
+      text: `${response.response.data.message}`,
       showConfirmButton: true,
       confirmButtonColor: '#374151',
     });
   }
-
   return true;
 };
 
