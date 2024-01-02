@@ -103,7 +103,7 @@
           <FormButton
             icon="fa-solid fa-check"
             description="Confirmar Pedido"
-            @click="confirmOrder();cleanCart();isModalCartOpen = false"
+            @click="confirmOrder();isModalCartOpen = false"
           />
         </div>
       </div>
@@ -311,7 +311,7 @@ const confirmOrder = async () => {
 
       orderId = orderResponse.return[0].order_id;
 
-      const orderProductResponse = orderProduct(itemsCart, orderId);
+      const orderProductResponse = await orderProduct(itemsCart, orderId);
 
       if (!orderProductResponse) {
         return false;
@@ -336,6 +336,8 @@ const confirmOrder = async () => {
         cancelButtonText: 'Cardápio',
       });
     }
+  }).then(() => {
+    cleanCart();
   });
 
   return true;
