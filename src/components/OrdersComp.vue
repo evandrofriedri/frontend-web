@@ -4,13 +4,13 @@
     <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Acompanhar Pedidos
     </h1>
-    <!-- <div class="grid grid-cols-12 items-center mb-2">
+    <div class="grid grid-cols-12 items-center mb-2">
       <div class="col-start-6 md:col-start-10 col-end-13">
-        <SearchInput id="OrdersSearch" v-model="search" placeholder="Digite o número do pedido" @keydown="filter()" />
+        <SearchInput id="OrdersSearch" v-model="search" placeholder="Digite o número do pedido" @keyup="filter()" />
       </div>
-    </div> -->
+    </div>
     <div v-show="foundOrder !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
-      <div v-for="(item, index) in orderList" :key="index" class="p-5 bg-white shadow-md rounded mb-3">
+      <div v-for="(item) in filteredList" :key="item" class="p-5 bg-white shadow-md rounded mb-3">
         <OrderDetail :show-label="false" :order="item" />
       </div>
     </div>
@@ -24,11 +24,12 @@ import { useInfiniteScroll } from '@vueuse/core';
 import { jwtDecode } from "jwt-decode";
 import OrderService from '../services/OrderService';
 import CardNotFound from './CardNotFound.vue';
-// import SearchInput from './SearchInput.vue';
+import SearchInput from './SearchInput.vue';
 import OrderDetail from './OrderDetail.vue';
 
-// const search = ref('');
+const search = ref('');
 const orderList = ref([]);
+const filteredList = ref([]);
 const foundOrder = ref(1);
 const listEl = ref(null);
 const itemsToShow = ref(10);
@@ -78,6 +79,7 @@ const getDataOnScroll = async () => {
       stopQuery.value = true;
     }
     orderList.value.push(...newData.value);
+    filteredList.value = JSON.parse(JSON.stringify(orderList.value));
   }
 };
 
@@ -118,25 +120,20 @@ const loadData = async () => {
       orderProductAdditional.map((element) => product.additionals.push(element));
     });
   });
-
-  // filter();
-
   thereIsOrders(orderList.value);
+
+  filteredList.value = JSON.parse(JSON.stringify(orderList.value));
 }
 
-// const filter = () => {
-//   // let filtData = [];
-//   filteredList.value = orderList.value;
-//   // eslint-disable-next-line vue/max-len
-//   if (search.value.trim() !== '') {
-//     filteredList.value = orderList.value.filter((d) => d.order_id.toString().toLowerCase().includes(search.value.toLowerCase()));
-//     // orderList.value = filtData;
-//   }
-//   // else {
-//   //   filtData = orderList.value;
-//   // }
-//   thereIsOrders(filteredList.value);
-// }
+const filter = () => {
+  if (search.value.trim() !== '') {
+    filteredList.value = orderList.value.filter((d) => d.order_id.toString().toLowerCase().includes(search.value.toLowerCase()));
+  }
+  else {
+    filteredList.value = JSON.parse(JSON.stringify(orderList.value));
+  }
+  thereIsOrders(filteredList.value);
+}
 
 await loadData();
 </script>

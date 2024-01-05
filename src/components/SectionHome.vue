@@ -1,13 +1,13 @@
 <template>
   <div class="fixed z-10 right-2 top-3">
-    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o nome do produto..." @keydown="filteredList()" />
+    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o nome do produto..." @keyup="filter()" />
   </div>
   <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
-    <MenuItemSticky v-for="(data) in menuList" :key="data.category_id" :href="`#${data.category_id}`" :title="data.name" :class="{ active: data.category_id == currentSection }" />
+    <MenuItemSticky v-for="(data) in filteredList" :key="data.category_id" :href="`#${data.category_id}`" :title="data.name" :class="{ active: data.category_id == currentSection }" />
   </div>
   <div class="container mx-auto">
     <div class="flex w-full h-48" />
-    <section v-for="(data) in menuList" :key="data.category_id">
+    <section v-for="(data) in filteredList" :key="data.category_id">
       <SectionTitle :id="data.category_id" :title="data.name" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
         <CardItem
@@ -35,8 +35,9 @@ import ProductService from '../services/ProductService';
 
 const currentSection = ref('');
 const search = ref('');
-const foundProduct = ref(0);
+const foundProduct = ref(1);
 const menuList = ref(null);
+const filteredList = ref([]);
 const productList = ref([]);
 
 const loadDataProduct = async (category) => {
@@ -73,7 +74,7 @@ function thereIsProduct(obj) {
   }
 }
 
-const filteredList = async () => {
+const loadData = async () => {
   menuList.value = await CategoryService.getCategories();
 
   // eslint-disable-next-line no-plusplus
@@ -81,6 +82,11 @@ const filteredList = async () => {
     const element = menuList.value[index];
     await loadDataProduct(element);
   }
+
+  filteredList.value = JSON.parse(JSON.stringify(menuList.value));
+}
+
+const filter = async () => {
 
   let filtData = [];
   const arrSearch = {
@@ -100,16 +106,16 @@ const filteredList = async () => {
       }
     });
     filtData.push(arrSearch);
-    menuList.value = filtData;
+    filteredList.value = filtData;
   } else {
-    filtData = menuList.value;
+    filteredList.value = JSON.parse(JSON.stringify(menuList.value));
   }
 
-  if (filtData !== undefined && filtData !== null) {
-    thereIsProduct(filtData);
-  }
+
+    thereIsProduct(filteredList.value);
+
 }
-await filteredList();
+await loadData();
 
 onMounted(() => {
   const observer = new IntersectionObserver(

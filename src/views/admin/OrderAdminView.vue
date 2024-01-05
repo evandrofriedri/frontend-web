@@ -5,6 +5,9 @@
       Pedidos Recebidos
     </h1>
     <div class="grid gap-1 grid-cols-12 items-center mb-2">
+      <div class="col-start-1 md:col-end-2 col-end-3">
+        <BaseButton icon="fa-solid fa-file-circle-plus" description="Atualizar" title="Criar novo endereço" @click="isModalAddressOpen = true" />
+      </div> TODO - COLOCAR BOTAÃO DE ATUALIZAR
       <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
         <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
       </div>
