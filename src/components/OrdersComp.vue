@@ -79,7 +79,7 @@ const getDataOnScroll = async () => {
       stopQuery.value = true;
     }
     orderList.value.push(...newData.value);
-    filteredList.value = JSON.parse(JSON.stringify(orderList.value));
+    filteredList.value = orderList.value;
   }
 };
 
@@ -122,7 +122,7 @@ const loadData = async () => {
   });
   thereIsOrders(orderList.value);
 
-  filteredList.value = JSON.parse(JSON.stringify(orderList.value));
+  filteredList.value = orderList.value;
 }
 
 const filter = () => {
@@ -130,7 +130,7 @@ const filter = () => {
     filteredList.value = orderList.value.filter((d) => d.order_id.toString().toLowerCase().includes(search.value.toLowerCase()));
   }
   else {
-    filteredList.value = JSON.parse(JSON.stringify(orderList.value));
+    filteredList.value = orderList.value;
   }
   thereIsOrders(filteredList.value);
 }
