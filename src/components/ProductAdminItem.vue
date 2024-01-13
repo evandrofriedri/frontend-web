@@ -2,7 +2,7 @@
   <td class="px-2 py-2">
     {{ product.name }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2 hidden sm:table-cell">
     {{ product.description }}
   </td>
   <td class="px-2 py-2">

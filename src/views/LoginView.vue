@@ -116,7 +116,7 @@ const submitForm = async () => {
       Swal.fire({
         title: 'Login realizado com sucesso!',
         html: `Olá, <b>${response.response.data.account.name}</b>!`,
-        timer: 2000,
+        timer: 1500,
         timerProgressBar: true,
         showConfirmButton: false,
       }).then(() => {

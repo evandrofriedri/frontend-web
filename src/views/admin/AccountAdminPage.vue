@@ -20,10 +20,10 @@
           <th scope="col" class="px-2 py-2">
             E-mail
           </th>
-          <th scope="col" class="px-2 py-2">
+          <th scope="col" class="px-2 py-2 hidden sm:table-cell">
             Celular
           </th>
-          <th scope="col" class="px-2 py-2">
+          <th scope="col" class="px-2 py-2 hidden sm:table-cell">
             Status
           </th>
           <th scope="col" class="px-2 py-2">

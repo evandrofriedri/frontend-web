@@ -5,10 +5,10 @@
   <td class="px-2 py-2">
     {{ account.email }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2 hidden sm:table-cell">
     {{ account.cellphone }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2 hidden sm:table-cell">
     {{ account.active_name }}
   </td>
   <td class="px-2 py-2 ">

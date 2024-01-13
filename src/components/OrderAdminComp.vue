@@ -28,10 +28,10 @@
             <th scope="col" class="px-2 py-2">
               Conta
             </th>
-            <th scope="col" class="px-2 py-2">
+            <th scope="col" class="px-2 py-2 hidden sm:table-cell">
               Observação
             </th>
-            <th scope="col" class="px-2 py-2">
+            <th scope="col" class="px-2 py-2 hidden sm:table-cell">
               Total
             </th>
             <th scope="col" class="px-2 py-2">

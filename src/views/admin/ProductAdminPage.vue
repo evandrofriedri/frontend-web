@@ -17,7 +17,7 @@
           <th scope="col" class="px-2 py-2">
             Produto
           </th>
-          <th scope="col" class="px-2 py-2">
+          <th scope="col" class="px-2 py-2 hidden sm:table-cell">
             Descrição
           </th>
           <th scope="col" class="px-2 py-2">

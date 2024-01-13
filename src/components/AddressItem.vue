@@ -5,13 +5,13 @@
   <td class="px-2 py-2">
     {{ address.number }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2 hidden sm:table-cell">
     {{ address.neighborhood }}
   </td>
   <td class="px-2 py-2">
     {{ address.city }}
   </td>
-  <td class="px-2 py-2">
+  <td class="px-2 py-2 hidden sm:table-cell">
     <font-awesome-icon :icon="`${ address.favorite == true ? 'fa-solid' : 'fa-regular'} fa-star`" :class="`${ address.favorite == true ? 'text-yellow-500' : ''}`" size="lg" />
   </td>
   <td class="px-2 py-2 ">

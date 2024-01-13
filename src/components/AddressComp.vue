@@ -25,13 +25,13 @@
             <th scope="col" class="px-2 py-2">
               Número
             </th>
-            <th scope="col" class="px-2 py-2">
+            <th scope="col" class="px-2 py-2 hidden sm:table-cell">
               Bairro
             </th>
             <th scope="col" class="px-2 py-2">
               Cidade
             </th>
-            <th scope="col" class="px-2 py-2">
+            <th scope="col" class="px-2 py-2 hidden sm:table-cell">
               End. Padrão
             </th>
             <th scope="col" class="px-2 py-2">

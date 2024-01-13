@@ -8,10 +8,10 @@
   <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.account.split(' ')[0] }}
   </td>
-  <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
+  <td class="px-2 py-2 hidden sm:table-cell" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.observation }}
   </td>
-  <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
+  <td class="px-2 py-2 hidden sm:table-cell" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.total_value }}
   </td>
   <td class="px-2 py-2 font-medium" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
