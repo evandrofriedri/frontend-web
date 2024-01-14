@@ -7,7 +7,7 @@
         <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="categoryAdminSearch" v-model="search" placeholder="Digite o nome da categoria" />
+      <SearchInput id="categoryAdminSearch" v-model="search" placeholder="Digite o nome da categoria" @keyup="filter()" />
     </div>
   </div>
   <div v-show="foundCategory !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList(categoryList)" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
+        <tr v-for="(item) in filteredList" :key="item" class="bg-white border-b hover:bg-gray-200 duration-300">
           <CategoryAdminItem :category="item" />
         </tr>
       </tbody>
@@ -38,7 +38,7 @@
   </ModalWrapper>
 </template>
 <script setup>
-import { onMounted, ref, inject } from 'vue';
+import { ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import CategoryAdminItem from '../../components/CategoryAdminItem.vue';
@@ -49,6 +49,7 @@ import CategoryService from '../../services/CategoryService';
 
 const search = ref('');
 const categoryList = ref([]);
+const filteredList = ref([]);
 const isModalCategoryOpen = ref(false);
 const foundCategory = ref(0);
 const newCategory = ref({
@@ -89,23 +90,24 @@ function convertToCsv(data){
 }
 
 async function loadData() {
-  const response = await CategoryService.getCategories();
-  return response;
+  categoryList.value = await CategoryService.getCategories();
+  thereIsCategory(categoryList.value);
+
+  filteredList.value = JSON.parse(JSON.stringify(categoryList.value));
 }
 
 function thereIsCategory(obj) {
   foundCategory.value = Object.values(obj).length;
 }
 
-function filteredList(data) {
-  // eslint-disable-next-line vue/max-len
-  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
-  thereIsCategory(filtData);
-  return filtData;
+const filter = () => {
+  if (search.value.trim() !== '') {
+    filteredList.value = categoryList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  } else {
+    filteredList.value = JSON.parse(JSON.stringify(categoryList.value));
+  }
+  thereIsCategory(filteredList.value);
 }
 
-onMounted(async () => {
-  categoryList.value = await loadData();
-  categoryList.value = await filteredList(categoryList.value);
-});
+await loadData();
 </script>

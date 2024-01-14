@@ -128,8 +128,7 @@ const loadData = async () => {
 const filter = () => {
   if (search.value.trim() !== '') {
     filteredList.value = orderList.value.filter((d) => d.order_id.toString().toLowerCase().includes(search.value.toLowerCase()));
-  }
-  else {
+  } else {
     filteredList.value = orderList.value;
   }
   thereIsOrders(filteredList.value);

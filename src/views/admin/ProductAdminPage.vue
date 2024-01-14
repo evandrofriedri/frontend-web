@@ -7,7 +7,7 @@
         <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="ProductAdminSearch" v-model="search" placeholder="Digite o nome do produto" />
+      <SearchInput id="ProductAdminSearch" v-model="search" placeholder="Digite o nome do produto" @keyup="filter()" />
     </div>
   </div>
   <div v-show="foundProduct !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList(productList)" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
+        <tr v-for="(item) in filteredList" :key="item" class="bg-white border-b hover:bg-gray-200 duration-300">
           <ProductAdminItem :product="item" />
         </tr>
       </tbody>
@@ -44,7 +44,7 @@
   </ModalWrapper>
 </template>
 <script setup>
-import { onMounted, ref, inject } from 'vue';
+import { ref, inject } from 'vue';
 import { useInfiniteScroll } from '@vueuse/core';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
@@ -56,6 +56,7 @@ import ProductService from '../../services/ProductService';
 
 const search = ref('');
 const productList = ref([]);
+const filteredList = ref([]);
 const isModalProductOpen = ref(false);
 const foundProduct = ref(0);
 const newProduct = ref({
@@ -109,25 +110,6 @@ function convertToCsv(data){
   return csvRows.join('\n');
 }
 
-async function loadData() {
-  const response = await ProductService.getProducts(JSON.stringify({
-    limit: itemsToShow.value, offset: page.value,
-  }));
-  response.forEach((element) => {
-    if (element.additionals !== null) {
-      const arr = element.additionals.split(',');
-      const numberArray = arr.map(Number);
-      // eslint-disable-next-line no-param-reassign
-      element.additionals = numberArray;
-    } else {
-      // eslint-disable-next-line no-param-reassign
-      element.additionals = [];
-    }
-  });
-
-  return response;
-}
-
 const getDataOnScroll = async () => {
   if (!stopQuery.value) {
     page.value += itemsToShow.value;
@@ -153,6 +135,7 @@ const getDataOnScroll = async () => {
       stopQuery.value = true;
     }
     productList.value.push(...newData);
+    filteredList.value = productList.value;
   }
 };
 
@@ -166,18 +149,37 @@ useInfiniteScroll(
 
 function thereIsProduct(obj) {
   foundProduct.value = Object.values(obj).length;
+
 }
 
-function filteredList(data) {
-  // eslint-disable-next-line vue/max-len
-  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
-  thereIsProduct(filtData);
-  return filtData;
+const loadData = async () => {
+  productList.value = await ProductService.getProducts(JSON.stringify({
+    limit: itemsToShow.value, offset: page.value,
+  }));
+  productList.value.forEach((element) => {
+    if (element.additionals !== null) {
+      const arr = element.additionals.split(',');
+      const numberArray = arr.map(Number);
+      // eslint-disable-next-line no-param-reassign
+      element.additionals = numberArray;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      element.additionals = [];
+    }
+  });
+  thereIsProduct(productList.value);
+
+  filteredList.value = productList.value;
 }
 
-onMounted(async () => {
-  productList.value = await loadData();
-  productList.value = await filteredList(productList.value);
-});
+const filter = () => {
+  if (search.value.trim() !== '') {
+    filteredList.value = productList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  } else {
+    filteredList.value = productList.value;
+  }
+  thereIsProduct(filteredList.value);
+}
 
+await loadData();
 </script>

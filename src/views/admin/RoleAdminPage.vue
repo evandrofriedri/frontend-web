@@ -7,7 +7,7 @@
         <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="roleAdminSearch" v-model="search" placeholder="Digite o nome da função" />
+      <SearchInput id="roleAdminSearch" v-model="search" placeholder="Digite o nome da função" @keyup="filter()" />
     </div>
   </div>
   <div v-show="foundRole !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList(roleList)" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
+        <tr v-for="(item, index) in filteredList" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
           <RoleAdminItem :role="item" />
         </tr>
       </tbody>
@@ -49,6 +49,7 @@ import RoleService from '../../services/RoleService';
 
 const search = ref('');
 const roleList = ref([]);
+const filteredList = ref([]);
 const isModalRoleOpen = ref(false);
 const foundRole = ref(0);
 const newRole = ref({
@@ -88,24 +89,25 @@ function convertToCsv(data){
   return csvRows.join('\n');
 }
 
-async function loadData() {
-  const response = await RoleService.getRoles();
-  return response;
+const loadData = async () => {
+  roleList.value = await RoleService.getRoles();
+  thereIsRole(roleList.value);
+
+  filteredList.value = JSON.parse(JSON.stringify(roleList.value));
 }
 
 function thereIsRole(obj) {
   foundRole.value = Object.values(obj).length;
 }
 
-function filteredList(data) {
-  // eslint-disable-next-line vue/max-len
-  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
-  thereIsRole(filtData);
-  return filtData;
+const filter = () => {
+  if (search.value.trim() !== '') {
+    filteredList.value = roleList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  } else {
+    filteredList.value = JSON.parse(JSON.stringify(roleList.value));
+  }
+  thereIsRole(filteredList.value);
 }
 
-onMounted(async () => {
-  roleList.value = await loadData();
-  roleList.value = await filteredList(roleList.value);
-});
+await loadData();
 </script>

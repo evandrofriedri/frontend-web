@@ -7,7 +7,7 @@
         <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="statusAdminSearch" v-model="search" placeholder="Digite o nome do status" />
+      <SearchInput id="statusAdminSearch" v-model="search" placeholder="Digite o nome do status" @keyup="filter()" />
     </div>
   </div>
   <div v-show="foundStatus !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList(statusList)" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
+        <tr v-for="(item) in filteredList" :key="item" class="bg-white border-b hover:bg-gray-200 duration-300">
           <StatusAdminItem :status="item" />
         </tr>
       </tbody>
@@ -38,7 +38,7 @@
   </ModalWrapper>
 </template>
 <script setup>
-import { onMounted, ref, inject } from 'vue';
+import { ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import StatusAdminItem from '../../components/StatusAdminItem.vue';
@@ -49,6 +49,7 @@ import StatusService from '../../services/StatusService';
 
 const search = ref('');
 const statusList = ref([]);
+const filteredList = ref([]);
 const isModalStatusOpen = ref(false);
 const foundStatus = ref(0);
 const newStatus = ref({
@@ -88,24 +89,26 @@ function convertToCsv(data){
   return csvRows.join('\n');
 }
 
-async function loadData() {
-  const response = await StatusService.getStatuses();
-  return response;
+const loadData = async () => {
+  statusList.value = await StatusService.getStatuses();
+  thereIsStatus(statusList.value);
+
+  filteredList.value = JSON.parse(JSON.stringify(statusList.value));
 }
 
 function thereIsStatus(obj) {
   foundStatus.value = Object.values(obj).length;
 }
 
-function filteredList(data) {
-  // eslint-disable-next-line vue/max-len
-  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+const filter = () => {
+  if (search.value.trim() !== '') {
+    filteredList.value = statusList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  } else {
+    filteredList.value = JSON.parse(JSON.stringify(statusList.value));
+  }
   thereIsStatus(filtData);
   return filtData;
 }
 
-onMounted(async () => {
-  statusList.value = await loadData();
-  statusList.value = await filteredList(statusList.value);
-});
+await loadData();
 </script>

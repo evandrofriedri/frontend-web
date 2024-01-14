@@ -3,16 +3,36 @@
   <div class="flex flex-col container mx-auto py-10 px-4 sm:px-6 lg:px-20">
     <TabWrapper>
       <PageTab title="Produtos">
-        <ProductAdminPage />
+        <Suspense>
+          <ProductAdminPage />
+          <template #fallback>
+            <CardLoading />
+          </template>
+        </Suspense>
       </PageTab>
       <PageTab title="Categorias">
-        <CategoryAdminPage />
+        <Suspense>
+          <CategoryAdminPage />
+          <template #fallback>
+            <CardLoading />
+          </template>
+        </Suspense>
       </PageTab>
       <PageTab title="Adicionais">
-        <AdditionalAdminPage />
+        <Suspense>
+          <AdditionalAdminPage />
+          <template #fallback>
+            <CardLoading />
+          </template>
+        </Suspense>
       </PageTab>
       <PageTab title="Status do Pedido">
-        <StatusAdminPage />
+        <Suspense>
+          <StatusAdminPage />
+          <template #fallback>
+            <CardLoading />
+          </template>
+        </Suspense>
       </PageTab>
     </TabWrapper>
   </div>
@@ -24,4 +44,5 @@ import ProductAdminPage from './ProductAdminPage.vue';
 import CategoryAdminPage from './CategoryAdminPage.vue';
 import AdditionalAdminPage from './AdditionalAdminPage.vue';
 import StatusAdminPage from './StatusAdminPage.vue';
+import CardLoading from '../../components/CardLoading.vue';
 </script>

@@ -7,7 +7,7 @@
       <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="accountAdminSearch" v-model="search" placeholder="Digite o nome da conta" />
+      <SearchInput id="accountAdminSearch" v-model="search" placeholder="Digite o nome da conta" @keyup="filter()" />
     </div>
   </div>
   <div v-show="foundAccount !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList(accountList)" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
+        <tr v-for="(item, index) in filteredList" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
           <AccountAdminItem :account="item" />
         </tr>
       </tbody>
@@ -45,11 +45,7 @@
 </template>
 
 <script setup>
-import {
-  onMounted,
-  ref,
-  inject,
-} from 'vue';
+import { ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import AccountAdminItem from '../../components/AccountAdminItem.vue';
@@ -60,6 +56,7 @@ import ModalWrapper from '../../components/ModalWrapper.vue';
 
 const search = ref('');
 const accountList = ref([]);
+const filteredList = ref([]);
 const isModalAccountOpen = ref(false);
 const foundAccount = ref(0);
 const newAccount = ref({
@@ -109,25 +106,25 @@ function convertToCsv(data){
   return csvRows.join('\n');
 }
 
-async function loadData() {
-  const response = await AccountService.getAccounts();
-  return response;
+const loadData = async () => {
+  accountList.value = await AccountService.getAccounts();
+  thereIsAccount(accountList.value)
+
+  filteredList.value = JSON.parse(JSON.stringify(accountList.value));
 }
 
 function thereIsAccount(obj) {
   foundAccount.value = Object.values(obj).length;
 }
 
-function filteredList(data) {
-  // eslint-disable-next-line vue/max-len
-  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
-  thereIsAccount(filtData);
-  return filtData;
+const filter = () => {
+  if (search.value.trim() !== '') {
+    filteredList.value = accountList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  } else {
+    filteredList.value = JSON.parse(JSON.stringify(accountList.value));
+  }
+  thereIsAccount(filteredList.value);
 }
 
-onMounted(async () => {
-  accountList.value = await loadData();
-  accountList.value = await filteredList(accountList.value);
-});
-
+await loadData();
 </script>

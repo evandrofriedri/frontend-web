@@ -7,7 +7,7 @@
         <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="additionalAdminSearch" v-model="search" placeholder="Digite o nome do adicional" />
+      <SearchInput id="additionalAdminSearch" v-model="search" placeholder="Digite o nome do adicional" @keyup="filter()" />
     </div>
   </div>
   <div v-show="foundAdditional !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList(additionalList)" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
+        <tr v-for="(item) in filteredList" :key="item" class="bg-white border-b hover:bg-gray-200 duration-300">
           <AdditionalAdminItem :additional="item" />
         </tr>
       </tbody>
@@ -38,7 +38,7 @@
   </ModalWrapper>
 </template>
 <script setup>
-import { onMounted, ref, inject } from 'vue';
+import { ref, inject } from 'vue';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import AdditionalAdminItem from '../../components/AdditionalAdminItem.vue';
@@ -49,6 +49,7 @@ import AdditionalService from '../../services/AdditionalService';
 
 const search = ref('');
 const additionalList = ref([]);
+const filteredList = ref([]);
 const isModalAdditionalOpen = ref(false);
 const foundAdditional = ref(0);
 const newAdditional = ref({
@@ -90,24 +91,25 @@ function convertToCsv(data){
   return csvRows.join('\n');
 }
 
-async function loadData() {
-  const response = await AdditionalService.getAdditionals();
-  return response;
+const loadData = async () => {
+  additionalList.value = await AdditionalService.getAdditionals();
+  thereIsAdditional(additionalList.value);
+
+  filteredList.value = JSON.parse(JSON.stringify(additionalList.value));
 }
 
 function thereIsAdditional(obj) {
   foundAdditional.value = Object.values(obj).length;
 }
 
-function filteredList(data) {
-  // eslint-disable-next-line vue/max-len
-  const filtData = data.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
-  thereIsAdditional(filtData);
-  return filtData;
+const filter = () => {
+  if (search.value.trim() !== '') {
+    filteredList.value = additionalList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+  } else {
+    filteredList.value = JSON.parse(JSON.stringify(additionalList.value));
+  }
+  thereIsAdditional(filteredList.value);
 }
 
-onMounted(async () => {
-  additionalList.value = await loadData();
-  additionalList.value = await filteredList(additionalList.value);
-});
+await loadData();
 </script>
