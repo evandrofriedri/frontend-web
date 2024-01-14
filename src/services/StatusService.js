@@ -10,7 +10,6 @@ export default {
       const response = await Api().get('/statuses');
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -22,10 +21,8 @@ export default {
   async createStatus(status) {
     try {
       const response = await Api().post('/statuses', status);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -39,7 +36,6 @@ export default {
       const response = await Api().get(`/statuses/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -54,7 +50,6 @@ export default {
       const response = await Api().put(`/statuses/${id}`, status);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -67,7 +62,6 @@ export default {
       const response = await Api().delete(`/statuses/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },

@@ -10,7 +10,6 @@ export default {
       const response = await Api().get(`/products/all/${params}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -22,10 +21,8 @@ export default {
   async createProduct(product) {
     try {
       const response = await Api().post('/products', product);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -39,7 +36,6 @@ export default {
       const response = await Api().get(`/products/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -54,7 +50,6 @@ export default {
       const response = await Api().put(`/products/${id}`, product);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -67,7 +62,6 @@ export default {
       const response = await Api().delete(`/products/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -79,10 +73,8 @@ export default {
   async createProductAdditional(productId, additionalId) {
     try {
       const response = await Api().post(`/products/${productId}/additionals/${additionalId}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -96,7 +88,6 @@ export default {
       const response = await Api().get(`/products/${productId}/additionals`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -110,7 +101,6 @@ export default {
       const response = await Api().delete(`/products/${productId}/additionals`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },

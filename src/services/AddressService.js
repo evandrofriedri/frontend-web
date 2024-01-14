@@ -10,7 +10,6 @@ export default {
       const response = await Api().get('/addresses');
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -24,7 +23,6 @@ export default {
       const response = await Api().post('/addresses', address);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -38,7 +36,6 @@ export default {
       const response = await Api().get(`/addresses/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -52,7 +49,6 @@ export default {
       const response = await Api().get(`/addresses/unique/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -67,7 +63,6 @@ export default {
       const response = await Api().put(`/addresses/${id}`, address);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -80,7 +75,6 @@ export default {
       const response = await Api().delete(`/addresses/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },

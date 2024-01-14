@@ -9,10 +9,8 @@ export default {
   async validateLogin(account) {
     try {
       const response = await Api().post('/login', account);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return error;
     }
   },
@@ -24,10 +22,8 @@ export default {
     async validateGoogleLogin(account) {
       try {
         const response = await Api().post('/googleLogin', account);
-        console.log(response.data);
         return response.data;
       } catch (error) {
-        console.log(error);
         return error;
       }
     },
@@ -39,10 +35,8 @@ export default {
   async userProfile() {
     try {
       const response = await Api().get('/userProfile');
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -56,7 +50,6 @@ export default {
       const response = await Api().get('/accounts');
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -68,10 +61,8 @@ export default {
   async createAccount(account) {
     try {
       const response = await Api().post('/accounts', account);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return error;
     }
   },
@@ -85,7 +76,6 @@ export default {
       const response = await Api().get(`/accounts/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -100,7 +90,6 @@ export default {
       const response = await Api().put(`/accounts/${id}`, account);
       return response.data;
     } catch (error) {
-      console.log(error);
       return error;
     }
   },
@@ -113,7 +102,6 @@ export default {
       const response = await Api().delete(`/accounts/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },

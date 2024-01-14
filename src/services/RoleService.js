@@ -10,7 +10,6 @@ export default {
       const response = await Api().get('/roles');
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -22,10 +21,8 @@ export default {
   async createRole(role) {
     try {
       const response = await Api().post('/roles', role);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -39,7 +36,6 @@ export default {
       const response = await Api().get(`/roles/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -54,7 +50,6 @@ export default {
       const response = await Api().put(`/roles/${id}`, role);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -67,7 +62,6 @@ export default {
       const response = await Api().delete(`/roles/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },

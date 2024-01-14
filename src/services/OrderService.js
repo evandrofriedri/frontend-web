@@ -10,7 +10,6 @@ export default {
       const response = await Api().get(`/orders/all/${params}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -22,10 +21,8 @@ export default {
   async createOrder(order) {
     try {
       const response = await Api().post('/orders', order);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -39,7 +36,6 @@ export default {
       const response = await Api().get(`/orders/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -54,7 +50,6 @@ export default {
       const response = await Api().put(`/orders/${id}`, order);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -67,7 +62,6 @@ export default {
       const response = await Api().delete(`/orders/${id}`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -79,10 +73,8 @@ export default {
   async createOrderProduct(orderId, productId, product) {
     try {
       const response = await Api().post(`/orders/${orderId}/products/${productId}`, product);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -96,7 +88,6 @@ export default {
       const response = await Api().get(`/orders/${orderId}/products`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -110,7 +101,6 @@ export default {
       const response = await Api().delete(`/orders/${orderId}/products`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -122,10 +112,8 @@ export default {
   async createOrderStatus(orderId, statusId) {
     try {
       const response = await Api().post(`/orders/${orderId}/statuses/${statusId}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -139,7 +127,6 @@ export default {
       const response = await Api().get(`/orders/${orderId}/statuses`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -153,7 +140,6 @@ export default {
       const response = await Api().delete(`/orders/${orderId}/statuses`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -165,10 +151,8 @@ export default {
   async createOrderProductAdditional(orderProductId, additionalId, additional) {
     try {
       const response = await Api().post(`/orders/${orderProductId}/additionals/${additionalId}`, additional);
-      console.log(response.data);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -182,7 +166,6 @@ export default {
       const response = await Api().get(`/orders/${orderProductId}/additionals`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
@@ -196,7 +179,6 @@ export default {
       const response = await Api().delete(`/orders/${orderProductId}/additionals`);
       return response.data;
     } catch (error) {
-      console.log(error);
       return false;
     }
   },
