@@ -6,7 +6,7 @@
         <Suspense>
           <ProductAdminPage />
           <template #fallback>
-            <CardLoading />
+            <CardLoading typeBox="hidden" />
           </template>
         </Suspense>
       </PageTab>
@@ -14,7 +14,7 @@
         <Suspense>
           <CategoryAdminPage />
           <template #fallback>
-            <CardLoading />
+            <CardLoading typeBox="hidden" />
           </template>
         </Suspense>
       </PageTab>
@@ -22,7 +22,7 @@
         <Suspense>
           <AdditionalAdminPage />
           <template #fallback>
-            <CardLoading />
+            <CardLoading typeBox="hidden" />
           </template>
         </Suspense>
       </PageTab>
@@ -30,7 +30,7 @@
         <Suspense>
           <StatusAdminPage />
           <template #fallback>
-            <CardLoading />
+            <CardLoading typeBox="hidden" />
           </template>
         </Suspense>
       </PageTab>

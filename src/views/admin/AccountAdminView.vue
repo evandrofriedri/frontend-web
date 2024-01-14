@@ -6,7 +6,7 @@
         <Suspense>
           <AccountAdminPage />
           <template #fallback>
-            <CardLoading />
+            <CardLoading typeBox="hidden" />
           </template>
         </Suspense>
       </PageTab>
@@ -14,7 +14,7 @@
         <Suspense>
           <RoleAdminPage />
           <template #fallback>
-            <CardLoading />
+            <CardLoading typeBox="hidden" />
           </template>
         </Suspense>
       </PageTab>
