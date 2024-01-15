@@ -83,7 +83,7 @@ const loadData = async () => {
       const element = menuList.value[index];
       await loadDataProduct(element);
     }
-    localStorage.setItem('menuList', JSON.stringify(menuList.value));
+    await localStorage.setItem('menuList', JSON.stringify(menuList.value));
   } else {
     menuList.value = JSON.parse(localStorage.getItem('menuList'));
   }
