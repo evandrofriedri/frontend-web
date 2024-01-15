@@ -180,7 +180,7 @@ function updateCart() {
 }
 
 function getUser() {
-  const token = localStorage.getItem('jwt');
+  const token = JSON.parse(localStorage.getItem('jwt'));
   let tokenDecoded = null;
   if (token !== null) {
     tokenDecoded = jwtDecode(token);
@@ -189,8 +189,13 @@ function getUser() {
 }
 
 async function loadData() {
-  systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
-  systemParams.value.deliveryValue = await ConfigurationService.getConfigurationID('deliveryValue');
+  if (localStorage.getItem('systemParams') === null) {
+    systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
+    systemParams.value.deliveryValue = await ConfigurationService.getConfigurationID('deliveryValue');
+    localStorage.setItem('systemParams', JSON.stringify(systemParams.value));
+  } else {
+    systemParams.value = JSON.parse(localStorage.getItem('systemParams'));
+  }
 
   user.value = getUser();
   if (user.value !== null) {

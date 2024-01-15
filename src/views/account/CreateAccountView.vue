@@ -103,7 +103,7 @@ const submitForm = async () => {
   account.value.role_id = role[0].role_id;
   const response = await AccountService.createAccount(account.value);
   if (response.response.data.token) {
-    // localStorage.setItem('jwt', response.response.data.token);
+    // localStorage.setItem('jwt', JSON.stringify(response.response.data.token));
     Swal.fire({
       icon: 'success',
       title: 'Cadastro realizado com sucesso!',

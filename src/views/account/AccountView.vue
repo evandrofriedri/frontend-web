@@ -113,7 +113,7 @@ const submitForm = async () => {
 
   const response = await AccountService.updateAccount(account.value);
   if (response.response.data.token) {
-    localStorage.setItem('jwt', response.response.data.token);
+    localStorage.setItem('jwt', JSON.stringify(response.response.data.token));
     Swal.fire({
       icon: 'success',
       title: 'Cadastro alterado com sucesso!',

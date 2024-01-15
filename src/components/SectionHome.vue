@@ -75,12 +75,17 @@ function thereIsProduct(obj) {
 }
 
 const loadData = async () => {
-  menuList.value = await CategoryService.getCategories();
+  if (localStorage.getItem('menuList') === null) {
+    menuList.value = await CategoryService.getCategories();
 
-  // eslint-disable-next-line no-plusplus
-  for (let index = 0; index < menuList.value.length; index++) {
-    const element = menuList.value[index];
-    await loadDataProduct(element);
+    // eslint-disable-next-line no-plusplus
+    for (let index = 0; index < menuList.value.length; index++) {
+      const element = menuList.value[index];
+      await loadDataProduct(element);
+    }
+    localStorage.setItem('menuList', JSON.stringify(menuList.value));
+  } else {
+    menuList.value = JSON.parse(localStorage.getItem('menuList'));
   }
 
   filteredList.value = JSON.parse(JSON.stringify(menuList.value));

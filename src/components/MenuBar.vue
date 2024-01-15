@@ -55,7 +55,7 @@ onClickOutside(blur, () => {
 });
 
 function getUser() {
-  const token = localStorage.getItem('jwt');
+  const token = JSON.parse(localStorage.getItem('jwt'));
   let tokenDecoded = false;
   if (token !== null) {
     tokenDecoded = jwtDecode(token);
