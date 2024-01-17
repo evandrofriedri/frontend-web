@@ -83,9 +83,10 @@ const loadData = async () => {
       const element = menuList.value[index];
       await loadDataProduct(element);
     }
-    await localStorage.setItem('menuList', JSON.stringify(menuList.value));
+    const expiresIn = new Date().getTime() + (86400000 * 2);
+    await localStorage.setItem('menuList', JSON.stringify({value:menuList.value, expires: expiresIn}));
   } else {
-    menuList.value = JSON.parse(localStorage.getItem('menuList'));
+    menuList.value = JSON.parse(localStorage.getItem('menuList')).value;
   }
 
   filteredList.value = JSON.parse(JSON.stringify(menuList.value));

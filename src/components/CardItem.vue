@@ -205,11 +205,12 @@ function addItemCart() {
   if (localStorage.getItem('itemsCart') === null) {
     itemsCart = [];
   } else {
-    itemsCart = JSON.parse(localStorage.getItem('itemsCart'));
+    itemsCart = JSON.parse(localStorage.getItem('itemsCart')).value;
   }
 
   itemsCart.push(itemCart);
-  localStorage.setItem('itemsCart', JSON.stringify(itemsCart));
+  const expiresIn = new Date().getTime() + (86400000 * 3);
+  localStorage.setItem('itemsCart', JSON.stringify({value: itemsCart, expires: expiresIn}));
 
   resetItem();
 }

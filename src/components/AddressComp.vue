@@ -70,9 +70,9 @@ const filteredList = ref([]);
 const isModalAddressOpen = ref(false);
 const foundAddress = ref(1);
 function getUser() {
-  const token = JSON.parse(localStorage.getItem('jwt'));
   let tokenDecoded = null;
-  if (token !== null) {
+  if (localStorage.getItem('jwt') !== null) {
+    const token = JSON.parse(localStorage.getItem('jwt')).value;
     tokenDecoded = jwtDecode(token);
   }
   return tokenDecoded;

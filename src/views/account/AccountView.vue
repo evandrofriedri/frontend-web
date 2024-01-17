@@ -113,7 +113,8 @@ const submitForm = async () => {
 
   const response = await AccountService.updateAccount(account.value);
   if (response.response.data.token) {
-    localStorage.setItem('jwt', JSON.stringify(response.response.data.token));
+    const expiresIn = new Date().getTime() + (86400000 * 1);
+    localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
     Swal.fire({
       icon: 'success',
       title: 'Cadastro alterado com sucesso!',
@@ -173,9 +174,9 @@ function deleteAccount(Account) {
 }
 
 function getUser() {
-  const token = localStorage.getItem('jwt');
   let tokenDecoded = null;
-  if (token !== null) {
+  if (localStorage.getItem('jwt') !== null) {
+    const token = JSON.parse(localStorage.getItem('jwt')).value;
     tokenDecoded = jwtDecode(token);
   }
   return tokenDecoded;

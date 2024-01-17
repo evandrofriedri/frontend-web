@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress';
+const localStorageExpires = require("../midllewares/localStorageExpires");
 
 function lazyLoad(view) {
   return () => import(`../views/${view}.vue`);
@@ -83,6 +84,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  localStorageExpires();
   if (to.matched.some((record) => record.meta.requireAuth)) {
     if (localStorage.getItem('jwt') == null) {
       next({

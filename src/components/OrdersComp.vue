@@ -38,9 +38,9 @@ const stopQuery = ref(false);
 const user = ref(null);
 
 function getUser() {
-  const token = JSON.parse(localStorage.getItem('jwt'));
   let tokenDecoded = null;
-  if (token !== null) {
+  if (localStorage.getItem('jwt') !== null) {
+    const token = JSON.parse(localStorage.getItem('jwt')).value;
     tokenDecoded = jwtDecode(token);
   }
   return tokenDecoded;

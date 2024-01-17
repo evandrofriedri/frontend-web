@@ -112,7 +112,8 @@ const submitForm = async () => {
     });
 
     if (response.response.data.token) {
-      localStorage.setItem('jwt', JSON.stringify(response.response.data.token));
+      const expiresIn = new Date().getTime() + (86400000 * 1);
+      localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
       Swal.fire({
         title: 'Login realizado com sucesso!',
         html: `Olá, <b>${response.response.data.account.name}</b>!`,
@@ -141,7 +142,8 @@ async function loginWithGoogle(user) {
   });
 
   if (response.response.data.token) {
-    localStorage.setItem('jwt', JSON.stringify(response.response.data.token));
+    const expiresIn = new Date().getTime() + (86400000 * 1);
+    localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
     Swal.fire({
       title: 'Login realizado com sucesso!',
         html: `Olá, <b>${response.response.data.account.name}</b>!`,

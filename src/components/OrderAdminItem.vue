@@ -16,7 +16,7 @@
   </td>
   <td class="px-2 py-2 font-medium" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     <div v-if="order.active == 1">
-      {{ order.status.split('-')[1] }}
+      {{ order.status }}
     </div>
     <div v-else>
       Cancelado
@@ -111,7 +111,7 @@ function cancelOrder(order) {
 
 function forwardOrder(order) {
   Swal.fire({
-    title: `Deseja dar sequêncio ao fluxo do pedido nº ${order.order_id}?`,
+    title: `Deseja dar sequência ao fluxo do pedido nº ${order.order_id}?`,
     text: 'Não poderá reverter após confirmação!',
     icon: 'question',
     showCancelButton: true,
