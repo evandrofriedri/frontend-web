@@ -39,9 +39,9 @@
                 description="Entrar"
               />
             </div>
-            <div class="mb-4">
+            <!-- <div class="mb-4">
               <p><router-link class="font-semibold text-gray-900" to="/forgotPass">Esqueceu a senha?</router-link></p>
-            </div>
+            </div> -->
             <div class="py-3 items-center">
               <div class="flex-grow border-t border-gray-200" />
             </div>

@@ -38,6 +38,16 @@
           <li>Biblioteca Bcrypt</li>
         </ul>
       </p>
+      <br>
+      <p>
+        Imagens obtidas dos sites:
+        <ul class="list-disc list-inside underline">
+          <li><a href="https://www.pexels.com/pt-br/">Pexels </a></li>
+          <li><a href="https://unsplash.com/pt-br">Unsplash</a></li>
+          <li><a href="https://pixabay.com/pt/">Pixabay</a></li>
+
+        </ul>
+      </p>
     </div>
   </div>
 </template>

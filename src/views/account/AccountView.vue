@@ -52,6 +52,7 @@ import {
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { jwtDecode } from "jwt-decode";
+import { googleLogout } from 'vue3-google-login';
 import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
@@ -158,12 +159,14 @@ function deleteAccount(Account) {
           showConfirmButton: true,
           confirmButtonColor: '#374151',
         }).then(() => {
+          localStorage.removeItem('jwt');
+          googleLogout();
           router.push({ name: 'Home' });
         });
       } else {
         Swal.fire({
           icon: 'error',
-          title: 'Erro ao excluir produto, tente mais tarde!',
+          title: 'Erro ao excluir usuário, tente mais tarde!',
           showConfirmButton: true,
           confirmButtonColor: '#374151',
         });

@@ -7,7 +7,7 @@
     <div class="p-5 bg-white shadow-md rounded mb-3">
       <p>Entre em contato com a administração:</p>
       <br>
-      <p>evandrofriedri@gmail.com</p>
+      <p>email@email.com</p>
       <br>
       <div class="grid grid-cols-12">
         <div class="col-start-7 md:col-start-9 col-end-13">
