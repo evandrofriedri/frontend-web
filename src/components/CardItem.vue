@@ -209,7 +209,7 @@ function addItemCart() {
   }
 
   itemsCart.push(itemCart);
-  const expiresIn = new Date().getTime() + (86400000 * 3);
+  const expiresIn = new Date().getTime() + (86400000 * 1);
   localStorage.setItem('itemsCart', JSON.stringify({value: itemsCart, expires: expiresIn}));
 
   resetItem();

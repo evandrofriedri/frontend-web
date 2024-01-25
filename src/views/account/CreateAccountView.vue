@@ -103,7 +103,7 @@ const submitForm = async () => {
   account.value.role_id = role[0].role_id;
   const response = await AccountService.createAccount(account.value);
   if (response.response.data.token) {
-    // const expiresIn = new Date().getTime() + (86400000 * 1);
+    // const expiresIn = new Date().getTime() + (43200000);
     // localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
     Swal.fire({
       icon: 'success',

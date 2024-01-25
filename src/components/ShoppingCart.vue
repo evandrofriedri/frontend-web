@@ -191,7 +191,7 @@ async function loadData() {
   if (localStorage.getItem('systemParams') === null) {
     systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
     systemParams.value.deliveryValue = await ConfigurationService.getConfigurationID('deliveryValue');
-    const expiresIn = new Date().getTime() + (86400000 * 7);
+    const expiresIn = new Date().getTime() + (86400000 * 2);
     localStorage.setItem('systemParams', JSON.stringify({value: systemParams.value, expires: expiresIn}));
   } else {
     systemParams.value = JSON.parse(localStorage.getItem('systemParams')).value;
@@ -222,7 +222,7 @@ async function loadData() {
 function deleteItemCart(index) {
   const itemsCart = JSON.parse(localStorage.getItem('itemsCart')).value;
   itemsCart.splice(index, 1);
-  const expiresIn = new Date().getTime() + (86400000 * 3);
+  const expiresIn = new Date().getTime() + (86400000 * 1);
   localStorage.setItem('itemsCart', JSON.stringify({value: itemsCart, expires: expiresIn}));
   updateCart();
 }
@@ -355,7 +355,7 @@ function cleanCart() {
   while (itemsCart.length > 0) {
     itemsCart.splice(0, 1);
   }
-  const expiresIn = new Date().getTime() + (86400000 * 3);
+  const expiresIn = new Date().getTime() + (86400000 * 1);
   localStorage.setItem('itemsCart', JSON.stringify({value: itemsCart, expires: expiresIn}));
   updateCart();
 }
