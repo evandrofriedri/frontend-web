@@ -8,6 +8,29 @@
         </h1>
       </div>
       <div class="flex flex-col">
+        <div class="grid gap-1 grid-cols-12">
+          <div class="col-start-1 col-end-11">
+            <div class="mb-4">
+              <label for="cep" class="text-base text-gray-800 max-w"> Buscar CEP
+                <input
+                  class="appearance-none block w-full py-3 px-4 leading-tight text-gray-800 bg-gray-50 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none"
+                  placeholder="Informe o CEP"
+                  v-model="cep"
+                  name="cep"
+                  autocomplete="on"
+                  maxlength="9"
+                />
+              </label>
+              <span v-if="cepError" class="text-sm text-red-600">
+                <font-awesome-icon icon="fa-solid fa-triangle-exclamation" class="pl-1" />
+                {{ cepError }}
+              </span>
+            </div>
+          </div>
+          <div class="col-start-11 col-end-13 mt-6">
+            <FormButton icon="fa-solid fa-magnifying-glass" description="" title="Buscar CEP" @click="searchZipCode()" />
+          </div>
+        </div>
         <BaseInput id="description" v-model="address.description" label="Endereço" type="text" placeholder="Endereço" :errors="v$.description.$errors" />
         <BaseInput id="number" v-model="address.number" label="Número" type="number" placeholder="Número" :errors="v$.number.$errors" />
         <BaseInput id="neighborhood" v-model="address.neighborhood" label="Bairro" type="text" placeholder="Bairro" :errors="v$.neighborhood.$errors" />
@@ -52,8 +75,10 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers,
 } from '@vuelidate/validators';
+import { useEventListener } from '@vueuse/core';
 import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
+import cepPromise from 'cep-promise';
 import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
@@ -61,6 +86,8 @@ import AddressService from '../services/AddressService';
 
 const router = useRouter();
 const emitter = inject('emitter');
+const cep = ref(null);
+const cepError = ref(null);
 
 const address = ref({
   id: null,
@@ -95,6 +122,14 @@ function closeModal() {
 
 onMounted(async () => {
   address.value = await props.address;
+});
+
+useEventListener(document, 'input', (evt) => {
+  if (evt.target.name === 'cep') {
+    const x = evt.target.value.replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/);
+    // eslint-disable-next-line no-param-reassign
+    evt.target.value = !x[2] ? x[1] : `${x[2] ? `${x[1]}-${x[2]}` : ''}`;
+  }
 });
 
 const isAddressTaken = async (value) => {
@@ -183,5 +218,19 @@ const submitForm = async () => {
 
   return true;
 };
+
+const searchZipCode = async () => {
+  try {
+    cepError.value = null;
+    const data = JSON.parse(JSON.stringify(address.value));
+    const result = await cepPromise(cep.value);
+    data.description = result.street;
+    data.neighborhood = result.neighborhood;
+    data.city = `${result.city}-${result.state}`;
+    address.value = data;
+  } catch (error) {
+    cepError.value = 'CEP não encontrado'
+  }
+}
 
 </script>
