@@ -15,20 +15,17 @@
     <div class="flex mb-2">
       <ReturnButton @click="isModalCartOpen = false" />
       <h1 class="text-lg text-gray-800 font-semibold text-justify">
-        Itens Adicionados
+        Resumo do Pedido
       </h1>
     </div>
-    <div class="flex flex-col max-h-72 md:max-h-[400px] overflow-auto border rounded p-2">
+    <div class="flex flex-col max-h-64 md:max-h-[350px] overflow-auto border rounded p-2">
       <div v-for="(item, index) in market" :key="index" class="text-sm text-gray-800 border rounded p-2 mt-1">
         <div class="flex justify-between text-justify">
           <p class="font-medium">
             {{ item.qtde }}x {{ item.name }}&nbsp;&nbsp;
-            <button type="button" @click="deleteItemCart(index)">
+            <button type="button" @click="deleteCartItem(index)">
               <font-awesome-icon icon="fa-regular fa-trash-can" />
-            </button> &nbsp;
-            <!-- <button type="button">
-              <font-awesome-icon icon="fa-regular fa-pen-to-square" />
-            </button> -->
+            </button>
           </p>
           <p class="font-medium">
             {{ item.totalProduct.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
@@ -51,54 +48,52 @@
           Observações: {{ item.observation }}
         </p>
         <div class="flex justify-between text-sm font-medium text-right">
-          <p>Total Item</p> <p>{{ item.totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
+          <p>Total Item</p> <p>{{ item.totalCartItem.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
         </div>
       </div>
-      <CardNotFound :found="market.length" label="Nenhum item no carrinho, retorne ao cardápio para adicionar seu produto!" />
     </div>
-    <div v-if="market.length > 0" class="flex justify-between text-base text-gray-800 font-semibold pb-2">
+    <div class="flex justify-between text-base text-gray-800 font-semibold pb-2">
       <p>Subtotal</p> <p>{{ subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
     </div>
     <div v-if="user">
-      <div v-if="market.length > 0" class="flex justify-between items-center p-2 border rounded">
-        <div v-if="deliveryAddress" class="flex flex-col items-center text-gray-800">
-          <div class="flex items-center">
-            <input id="delivery-radio-1" :checked="forDelivery" type="radio" value="" name="delivery-radio" class="w-4 h-4 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('deliver')">
-            <label for="delivery-radio-1" :checked="!forDelivery" class="w-full ml-2 text-sm font-medium">Para entregar</label>
+      <div class="flex flex-col max-h-96 md:max-h-[400px] overflow-auto border rounded p-2">
+        <div class="flex justify-center">
+          <div :class="`w-24 border-2 rounded ${forDelivery == true ? 'border-gray-800' : 'border-white'}`">
+            <DescriptionButton icon="fa-solid fa-motorcycle" description="Entregar" @click="selectDelivery('deliver')" />
           </div>
-          <div class="flex items-center">
-            <input id="delivery-radio-2" type="radio" value="" name="delivery-radio" class="w-4 h-4 border-gray-300 focus:ring-gray-600 focus:ring-2" @change="updateDelivery('local')">
-            <label for="delivery-radio-2" class="w-full ml-2 text-sm font-medium">Retirar na loja</label>
+          <div :class="`w-24 border-2 rounded ${forDelivery == false ? 'border-gray-800' : 'border-white'}`">
+            <DescriptionButton icon="fa-solid fa-bag-shopping" description="Retirar" @click="selectDelivery('local')" />
           </div>
         </div>
-        <div v-else class="w-screen">
-          <DescriptionButton icon="fa-solid fa-address-card" description="Cadastre um endereço para confirmar o pedido!" route="/account/address" />
-        </div>
-        <div v-if="deliveryAddress">
-          <AddressLayout icon="fa-solid fa-map-location-dot" :item="deliveryAddress" />
-        </div>
-      </div>
-      <div v-if="market.length > 0">
-        <div v-if="deliveryAddress" class="flex justify-between text-base text-gray-800 font-semibold text-right pb-2">
-          <p>Entrega</p><p> {{ delivery.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
-        </div>
-      </div>
-      <div v-if="market.length > 0">
-        <div v-if="deliveryAddress" class="flex justify-between items-center text-gray-800 pb-2">
-          <p class="text-base font-semibold">
-            Forma de Pagamento
-          </p>
-          <p class="italic">
-            Na entrega do pedido
-          </p>
+        <div v-if="forDelivery != null">
+          <div v-if="forDelivery">
+            <div v-if="accountAddress">
+              <AddressLayout icon="fa-solid fa-location-dot" :item="deliveryAddress" to="account/address" title="Editar endereço" />
+            </div>
+            <div v-else>
+              <FormAddress :show-label="false" :confirm-registration="false" label-btn="Cadastrar" :address="newAddress" />
+            </div>
+          </div>
+          <div v-else>
+            <AddressLayout icon="fa-solid fa-location-dot" :item="deliveryAddress" />
+          </div>
         </div>
       </div>
-      <div v-if="market.length > 0">
-        <div v-if="deliveryAddress" class="flex justify-between text-base text-gray-800 font-semibold pb-2">
-          <p>Total</p> <p>{{ total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
-        </div>
+      <div v-if="deliveryAddress" class="flex justify-between text-base text-gray-800 font-semibold text-right pb-2">
+        <p>Entrega</p><p> {{ delivery.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
       </div>
-      <div v-if="market.length > 0" class="grid grid-cols-12 text-justify items-center">
+      <div v-if="deliveryAddress" class="flex justify-between items-center text-gray-800 pb-2">
+        <p class="text-base font-semibold">
+          Forma de Pagamento
+        </p>
+        <p class="italic">
+          Na entrega do pedido
+        </p>
+      </div>
+      <div v-if="deliveryAddress" class="flex justify-between text-base text-gray-800 font-semibold pb-2">
+        <p>Total</p> <p>{{ total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
+      </div>
+      <div class="grid grid-cols-12 text-justify items-center">
         <div v-if="deliveryAddress" class="col-start-6 md:col-start-8 col-end-13">
           <FormButton
             icon="fa-solid fa-check"
@@ -109,7 +104,7 @@
       </div>
     </div>
     <div v-else class="mt-4 mb-4">
-      <DescriptionButton icon="fa-solid fa-arrow-right-to-bracket" description="Faça Login para concluir o pedido" route="/login" />
+      <DescriptionButton icon="fa-solid fa-arrow-right-to-bracket" description="Faça Login para enviar o pedido" route="/login" />
     </div>
   </ModalWrapper>
 </template>
@@ -125,23 +120,20 @@ import { jwtDecode } from "jwt-decode";
 import AddressLayout from './AddressLayout.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
-import CardNotFound from './CardNotFound.vue';
 import ModalWrapper from './ModalWrapper.vue';
 import DescriptionButton from './DescriptionButton.vue';
 import AddressService from '../services/AddressService';
 import ConfigurationService from '../services/ConfigurationService';
 import OrderService from '../services/OrderService';
 import StatusService from '../services/StatusService';
+import FormAddress from './FormAddress.vue';
 
 const market = ref([]);
 const subTotal = ref(0);
 const total = ref(0);
 const delivery = ref(0);
-const deliveryAddress = ref({
-  label: null,
-  description: null,
-});
-const forDelivery = ref(true);
+const deliveryAddress = ref(null);
+const forDelivery = ref(null);
 const systemParams = ref({
   storeAddress: null,
   deliveryValue: null,
@@ -150,7 +142,22 @@ const accountAddress = ref({});
 const isModalCartOpen = ref(false);
 const animationBtn = ref(false);
 const emitter = inject('emitter');
-const user = ref(null);
+const user = ref(getUser());
+const newAddress = ref({
+  address_id: 0,
+  description: null,
+  number: null,
+  neighborhood: null,
+  city: null,
+  favorite: false,
+  account_id: user.value ? user.value.account_id : null,
+});
+
+emitter.on('closeFormAddress', async () => {
+  await getAccountAddress();
+  await selectDelivery('deliver');
+
+});
 
 emitter.on('setModalFalse-ShoppingCart-0', () => {
   isModalCartOpen.value = false;
@@ -164,14 +171,14 @@ function warnDisabled() {
 }
 
 function updateCart() {
-  if (localStorage.getItem('itemsCart') === null) {
+  if (localStorage.getItem('cartItems') === null) {
     market.value = {};
   } else {
-    market.value = JSON.parse(localStorage.getItem('itemsCart')).value;
+    market.value = JSON.parse(localStorage.getItem('cartItems')).value;
   }
 
-  if (localStorage.getItem('itemsCart') !== null) {
-    subTotal.value = JSON.parse(localStorage.getItem('itemsCart')).value.map((i) => i.totalItemCart).reduce((prev, curr) => prev + curr, 0);
+  if (localStorage.getItem('cartItems') !== null) {
+    subTotal.value = JSON.parse(localStorage.getItem('cartItems')).value.map((i) => i.totalCartItem).reduce((prev, curr) => prev + curr, 0);
   }
 
   total.value = (subTotal.value + delivery.value);
@@ -187,6 +194,21 @@ function getUser() {
   return tokenDecoded;
 }
 
+async function getAccountAddress() {
+  const response = await AddressService.getAddressID(user.value.account_id);
+  if (response.length === 0) {
+    accountAddress.value = response;
+  }
+
+  const filterResponse = response.filter((element) => element.favorite === true);
+  if (filterResponse.length === 0) {
+    // eslint-disable-next-line prefer-destructuring
+    accountAddress.value = response[0];
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    accountAddress.value = filterResponse[0];
+  }
+}
 async function loadData() {
   if (localStorage.getItem('systemParams') === null) {
     systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
@@ -197,33 +219,32 @@ async function loadData() {
     systemParams.value = JSON.parse(localStorage.getItem('systemParams')).value;
   }
 
-  user.value = getUser();
   if (user.value !== null) {
-    const response = await AddressService.getAddressID(user.value.account_id);
-    if (response.length === 0) {
-      accountAddress.value = response;
-    }
+    await getAccountAddress();
+  }
 
-    const filterResponse = response.filter((element) => element.favorite === true);
-    if (filterResponse.length === 0) {
-      // eslint-disable-next-line prefer-destructuring
-      accountAddress.value = response[0];
+  if (localStorage.getItem('cartDelivery') !== null) {
+    forDelivery.value = (JSON.parse(localStorage.getItem('cartDelivery')).value == 'deliver');
+
+    if (forDelivery.value) {
+      deliveryAddress.value = accountAddress.value;
+      delivery.value = systemParams.value.deliveryValue;
     } else {
-      // eslint-disable-next-line prefer-destructuring
-      accountAddress.value = filterResponse[0];
+      deliveryAddress.value = systemParams.value.storeAddress;
+      delivery.value = 0;
     }
-
-    deliveryAddress.value = accountAddress.value;
-    delivery.value = systemParams.value.deliveryValue;
   }
   updateCart();
 }
 
-function deleteItemCart(index) {
-  const itemsCart = JSON.parse(localStorage.getItem('itemsCart')).value;
-  itemsCart.splice(index, 1);
+function deleteCartItem(index) {
+  const cartItems = JSON.parse(localStorage.getItem('cartItems')).value;
+  cartItems.splice(index, 1);
   const expiresIn = new Date().getTime() + (86400000 * 1);
-  localStorage.setItem('itemsCart', JSON.stringify({value: itemsCart, expires: expiresIn}));
+  localStorage.setItem('cartItems', JSON.stringify({value: cartItems, expires: expiresIn}));
+  if (cartItems.length == 0) {
+    isModalCartOpen.value = false;
+  }
   updateCart();
 }
 
@@ -261,8 +282,8 @@ async function orderProductAdditional(product, orderProductId) {
   });
 }
 
-async function orderProduct(itemsCart, orderId) {
-  itemsCart.forEach(async (product) => {
+async function orderProduct(cartItems, orderId) {
+  cartItems.forEach(async (product) => {
     const productId = product.product_id;
     const orderProductResponse = await OrderService.createOrderProduct(orderId, productId, product);
     if (!orderProductResponse) {
@@ -295,7 +316,7 @@ const confirmOrder = async () => {
     didOpen: async () => {
       Swal.showLoading();
 
-      const itemsCart = JSON.parse(localStorage.getItem('itemsCart')).value;
+      const cartItems = JSON.parse(localStorage.getItem('cartItems')).value;
 
       const order = {
         account_id: user.value.account_id,
@@ -317,7 +338,7 @@ const confirmOrder = async () => {
 
       orderId = orderResponse.return[0].order_id;
 
-      const orderProductResponse = await orderProduct(itemsCart, orderId);
+      const orderProductResponse = await orderProduct(cartItems, orderId);
 
       if (!orderProductResponse) {
         return false;
@@ -350,17 +371,21 @@ const confirmOrder = async () => {
 };
 
 function cleanCart() {
-  const itemsCart = JSON.parse(localStorage.getItem('itemsCart')).value;
+  const cartItems = JSON.parse(localStorage.getItem('cartItems')).value;
 
-  while (itemsCart.length > 0) {
-    itemsCart.splice(0, 1);
+  while (cartItems.length > 0) {
+    cartItems.splice(0, 1);
   }
   const expiresIn = new Date().getTime() + (86400000 * 1);
-  localStorage.setItem('itemsCart', JSON.stringify({value: itemsCart, expires: expiresIn}));
+  localStorage.setItem('cartItems', JSON.stringify({value: cartItems, expires: expiresIn}));
   updateCart();
 }
 
-function updateDelivery(option) {
+function selectDelivery(option) {
+
+  const expiresIn = new Date().getTime() + (86400000 * 1);
+  localStorage.setItem('cartDelivery', JSON.stringify({value: option, expires: expiresIn}));
+
   if (option === 'deliver') {
     deliveryAddress.value = accountAddress.value;
     delivery.value = systemParams.value.deliveryValue;

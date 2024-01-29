@@ -147,7 +147,7 @@ async function loginWithGoogle(user) {
     Swal.fire({
       title: 'Login realizado com sucesso!',
         html: `Olá, <b>${response.response.data.account.name}</b>!`,
-        timer: 2000,
+        timer: 1000,
         timerProgressBar: true,
         showConfirmButton: false,
     }).then(() => {

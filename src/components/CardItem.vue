@@ -66,8 +66,8 @@
       <div class="w-3/5">
         <FormButton
           icon="fa-solid fa-cart-shopping"
-          :description="'Adicionar ' + totalItemCart.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })"
-          @click="addItemCart();updateCart();isModalCardItemOpen = false"
+          :description="'Adicionar ' + totalCartItem.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })"
+          @click="addCartItem();updateCart();isModalCardItemOpen = false"
         />
       </div>
     </div>
@@ -97,9 +97,9 @@ const qtdeProduct = ref(1);
 const totalAdditional = ref(0);
 const observation = ref('');
 const totalProduct = ref(qtdeProduct.value * props.product.price);
-const totalItemCart = ref(qtdeProduct.value * props.product.price);
+const totalCartItem = ref(qtdeProduct.value * props.product.price);
 
-const itemCart = reactive({
+const cartItem = reactive({
   product_id: props.product.product_id,
   qtde: qtdeProduct.value,
   name: props.product.name,
@@ -107,7 +107,7 @@ const itemCart = reactive({
   additionals: [],
   observation: '',
   totalProduct: totalProduct.value,
-  totalItemCart: totalItemCart.value,
+  totalCartItem: totalCartItem.value,
 });
 
 emitter.on(`setModalFalse-CardItem-${props.product.product_id}`, () => {
@@ -115,7 +115,7 @@ emitter.on(`setModalFalse-CardItem-${props.product.product_id}`, () => {
 });
 
 function updateTotal() {
-  itemCart.additionals.forEach((item) => {
+  cartItem.additionals.forEach((item) => {
     let countTemp = 0;
     let totalTemp = 0;
     countTemp = item.qtde * qtdeProduct.value;
@@ -126,14 +126,14 @@ function updateTotal() {
     item.total = totalTemp;
   });
   // eslint-disable-next-line
-  totalAdditional.value = itemCart.additionals.map((item) => item.total).reduce((prev, curr) => prev + curr, 0);
+  totalAdditional.value = cartItem.additionals.map((item) => item.total).reduce((prev, curr) => prev + curr, 0);
 
   totalProduct.value = (qtdeProduct.value * props.product.price);
-  totalItemCart.value = ((qtdeProduct.value * props.product.price) + totalAdditional.value);
+  totalCartItem.value = ((qtdeProduct.value * props.product.price) + totalAdditional.value);
 
-  itemCart.qtde = qtdeProduct.value;
-  itemCart.totalProduct = totalProduct.value;
-  itemCart.totalItemCart = totalItemCart.value;
+  cartItem.qtde = qtdeProduct.value;
+  cartItem.totalProduct = totalProduct.value;
+  cartItem.totalCartItem = totalCartItem.value;
 }
 
 function toggleQtdeProduct(data) {
@@ -143,34 +143,34 @@ function toggleQtdeProduct(data) {
 }
 
 function decrementAdditional(data) {
-  const searchIndex = itemCart.additionals.findIndex((s) => s.name === data.additional.name);
+  const searchIndex = cartItem.additionals.findIndex((s) => s.name === data.additional.name);
 
   if (searchIndex !== -1) {
     if (data.count !== 0) {
-      itemCart.additionals[searchIndex].qtde = data.count;
-      itemCart.additionals[searchIndex].mult_qtde = data.count;
-      itemCart.additionals[searchIndex].unit_value = data.additional.price;
+      cartItem.additionals[searchIndex].qtde = data.count;
+      cartItem.additionals[searchIndex].mult_qtde = data.count;
+      cartItem.additionals[searchIndex].unit_value = data.additional.price;
       // eslint-disable-next-line vue/max-len
-      itemCart.additionals[searchIndex].total = data.count * data.additional.price;
+      cartItem.additionals[searchIndex].total = data.count * data.additional.price;
     } else {
-      itemCart.additionals.splice(searchIndex, 1);
+      cartItem.additionals.splice(searchIndex, 1);
     }
   }
   updateTotal();
 }
 
 function incrementAdditional(data) {
-  const searchIndex = itemCart.additionals.findIndex((s) => s.name === data.additional.name);
+  const searchIndex = cartItem.additionals.findIndex((s) => s.name === data.additional.name);
   if (searchIndex !== -1) {
     if (data.count !== 0) {
-      itemCart.additionals[searchIndex].qtde = data.count;
-      itemCart.additionals[searchIndex].mult_qtde = data.count;
-      itemCart.additionals[searchIndex].unit_value = data.additional.price;
+      cartItem.additionals[searchIndex].qtde = data.count;
+      cartItem.additionals[searchIndex].mult_qtde = data.count;
+      cartItem.additionals[searchIndex].unit_value = data.additional.price;
       // eslint-disable-next-line vue/max-len
-      itemCart.additionals[searchIndex].total = data.count * data.additional.price;
+      cartItem.additionals[searchIndex].total = data.count * data.additional.price;
     }
   } else {
-    itemCart.additionals.push({
+    cartItem.additionals.push({
       additional_id: data.additional.additional_id,
       qtde: 1,
       mult_qtde: 1,
@@ -183,7 +183,7 @@ function incrementAdditional(data) {
 }
 
 function setObservation() {
-  itemCart.observation = observation.value;
+  cartItem.observation = observation.value;
 }
 
 function resetItem() {
@@ -191,26 +191,26 @@ function resetItem() {
   totalAdditional.value = 0;
   observation.value = '';
   totalProduct.value = (qtdeProduct.value * props.product.price);
-  totalItemCart.value = (qtdeProduct.value * props.product.price);
+  totalCartItem.value = (qtdeProduct.value * props.product.price);
 
-  itemCart.qtde = qtdeProduct.value;
-  itemCart.additionals = [];
-  itemCart.observation = '';
-  itemCart.totalProduct = qtdeProduct.value * props.product.price;
-  itemCart.totalItemCart = qtdeProduct.value * props.product.price;
+  cartItem.qtde = qtdeProduct.value;
+  cartItem.additionals = [];
+  cartItem.observation = '';
+  cartItem.totalProduct = qtdeProduct.value * props.product.price;
+  cartItem.totalCartItem = qtdeProduct.value * props.product.price;
 }
 
-function addItemCart() {
-  let itemsCart;
-  if (localStorage.getItem('itemsCart') === null) {
-    itemsCart = [];
+function addCartItem() {
+  let cartItems;
+  if (localStorage.getItem('cartItems') === null) {
+    cartItems = [];
   } else {
-    itemsCart = JSON.parse(localStorage.getItem('itemsCart')).value;
+    cartItems = JSON.parse(localStorage.getItem('cartItems')).value;
   }
 
-  itemsCart.push(itemCart);
+  cartItems.push(cartItem);
   const expiresIn = new Date().getTime() + (86400000 * 1);
-  localStorage.setItem('itemsCart', JSON.stringify({value: itemsCart, expires: expiresIn}));
+  localStorage.setItem('cartItems', JSON.stringify({value: cartItems, expires: expiresIn}));
 
   resetItem();
 }

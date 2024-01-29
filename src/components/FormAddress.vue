@@ -1,7 +1,7 @@
 <template>
   <form action="" @submit.prevent="submitForm">
     <div class="flex flex-col">
-      <div class="flex mb-2">
+      <div v-if="showLabel" class="flex mb-2">
         <ReturnButton @click="closeModal()" />
         <h1 class="text-lg text-gray-800 font-medium text-justify">
           {{ labelForm }}
@@ -88,6 +88,7 @@ const router = useRouter();
 const emitter = inject('emitter');
 const cep = ref(null);
 const cepError = ref(null);
+const confirmRegistration = ref(true);
 
 const address = ref({
   id: null,
@@ -114,6 +115,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  showLabel: {
+    type: Boolean,
+    default: true,
+  },
+  confirmRegistration: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 function closeModal() {
@@ -122,6 +131,7 @@ function closeModal() {
 
 onMounted(async () => {
   address.value = await props.address;
+  confirmRegistration.value = await props.confirmRegistration;
 });
 
 useEventListener(document, 'input', (evt) => {
@@ -179,14 +189,18 @@ const submitForm = async () => {
   if (address.value.address_id === 0) {
     const response = await AddressService.createAddress(address.value);
     if (response) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Cadastro realizado com sucesso!',
-        showConfirmButton: true,
-        confirmButtonColor: '#374151',
-      }).then(() => {
-        router.go(0);
-      });
+      if (confirmRegistration.value) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cadastro realizado com sucesso!',
+          showConfirmButton: true,
+          confirmButtonColor: '#374151',
+        }).then(() => {
+          router.go(0);
+        });
+      } else {
+        emitter.emit('closeFormAddress');
+      }
     } else {
       Swal.fire({
         icon: 'error',
