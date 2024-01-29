@@ -311,8 +311,6 @@ const confirmOrder = async () => {
   Swal.fire({
     title: "Pedido sendo criado...",
     html: "Aguarde um instante.",
-    timer: 3500,
-    timerProgressBar: true,
     didOpen: async () => {
       Swal.showLoading();
 
@@ -348,21 +346,19 @@ const confirmOrder = async () => {
       if (!orderStatusResponse) {
         return false;
       }
-
+      await Swal.close();
     },
-  }).then((result) => {
-    if (result.dismiss === Swal.DismissReason.timer) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Pedido realizado com sucesso!',
-        html: `Pedido <b>#${orderId}</b> criado. <br>Acompanhe o pedido em <i>Meus pedidos</i>.`,
-        showConfirmButton: true,
-        showCancelButton: true,
-        confirmButtonColor: '#374151',
-        confirmButtonText: '<a href="/account/order">Meus Pedidos</a>',
-        cancelButtonText: 'Cardápio',
-      });
-    }
+  }).then(() => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Pedido realizado com sucesso!',
+      html: `Pedido <b>#${orderId}</b> criado. <br>Acompanhe o pedido em <i>Meus pedidos</i>.`,
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonColor: '#374151',
+      confirmButtonText: '<a href="/account/order">Meus Pedidos</a>',
+      cancelButtonText: 'Cardápio',
+    });
   }).then(() => {
     cleanCart();
   });

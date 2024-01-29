@@ -14,7 +14,7 @@
           </h2>
           <div class="mt-4 mb-4">
             <div class="flex items-center">
-              <GoogleLogin class="w-full" :callback="callback" prompt auto-login />
+              <GoogleLogin class="w-96" :callback="callback" prompt auto-login />
             </div>
             <!-- <button @click="callback">teste google</button> -->
           </div>
@@ -33,11 +33,7 @@
               </span>
             </div>
             <div class="mb-4">
-              <FormButton
-                btn-type="submit"
-                icon="fa-solid fa-arrow-right-to-bracket"
-                description="Entrar"
-              />
+              <FormButton btn-type="submit" icon="fa-solid fa-arrow-right-to-bracket" description="Entrar" />
             </div>
             <!-- <div class="mb-4">
               <p><router-link class="font-semibold text-gray-900" to="/forgotPass">Esqueceu a senha?</router-link></p>
@@ -106,62 +102,61 @@ const submitForm = async () => {
   const validated = await v$.value.$validate();
 
   if (validated) {
-    const response = await AccountService.validateLogin({
-      email: formData.value.email,
-      password: formData.value.password,
-    });
+    let response;
+    Swal.fire({
+      title: "Autenticando...",
+      html: "Aguarde um instante.",
+      didOpen: async () => {
+        Swal.showLoading();
 
-    if (response.response.data.token) {
-      const expiresIn = new Date().getTime() + (43200000);
-      localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
-      Swal.fire({
-        title: 'Login realizado com sucesso!',
-        html: `Olá, <b>${response.response.data.account.name}</b>!`,
-        timer: 1500,
-        timerProgressBar: true,
-        showConfirmButton: false,
-      }).then(() => {
+        response = await AccountService.validateLogin({
+          email: formData.value.email,
+          password: formData.value.password,
+        });
+
+        await Swal.close();
+      },
+    }).then(() => {
+      if (response.response.data.token) {
+        const expiresIn = new Date().getTime() + (43200000);
+        localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
         router.push({ name: 'Home' });
-      });
-    } else {
-      erroMsg.value = response.response.data.message;
-    }
+      } else {
+        erroMsg.value = response.response.data.message;
+      }
+    });
   }
 };
 
 async function loginWithGoogle(user) {
+  let response;
+  Swal.fire({
+    title: "Autenticando...",
+    html: "Aguarde um instante.",
+    didOpen: async () => {
+      Swal.showLoading();
 
-  const role = await RoleService.getRoleID('client');
+      const role = await RoleService.getRoleID('client');
 
-  const response = await AccountService.validateGoogleLogin({
-    name: user.name,
-    email: user.email,
-    password: user.azp,
-    image_url: user.picture,
-    role_id: role[0].role_id,
-  });
+      response = await AccountService.validateGoogleLogin({
+        name: user.name,
+        email: user.email,
+        password: user.azp,
+        image_url: user.picture,
+        role_id: role[0].role_id,
+      });
 
-  if (response.response.data.token) {
-    const expiresIn = new Date().getTime() + (43200000);
-    localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
-    Swal.fire({
-      title: 'Login realizado com sucesso!',
-        html: `Olá, <b>${response.response.data.account.name}</b>!`,
-        timer: 1000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-    }).then(() => {
+      await Swal.close();
+    },
+  }).then(() => {
+    if (response.response.data.token) {
+      const expiresIn = new Date().getTime() + (43200000);
+      localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
       router.push({ name: 'Home' });
-    });
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Erro ao efetuar login!',
-      text: `${response.response.data.message}`,
-      showConfirmButton: true,
-      confirmButtonColor: '#374151',
-    });
-  }
+    } else {
+      erroMsg.value = response.response.data.message;
+    }
+  });
 }
 
 </script>
