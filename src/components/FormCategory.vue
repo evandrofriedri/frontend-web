@@ -9,7 +9,7 @@
       </div>
       <div class="flex flex-col">
         <BaseInput id="name" v-model="category.name" label="Nome Categoria" type="text" placeholder="Nome Categoria" :errors="v$.name.$errors" />
-        <BaseInput id="sequence" v-model="category.sequence" label="Ordem" type="number" placeholder="Ordem" :errors="v$.sequence.$errors" />
+        <BaseInput id="sequence" v-model="category.sequence" label="Ordem" type="number" placeholder="Ordem" max="99999" :errors="v$.sequence.$errors" />
       </div>
     </div>
     <div class="grid grid-cols-12">

@@ -9,7 +9,7 @@
       </div>
       <div class="flex flex-col">
         <BaseInput id="name" v-model="additional.name" label="Nome Adicional" type="text" placeholder="Nome Adicional" :errors="v$.name.$errors" />
-        <BaseInput id="price" v-model="additional.price" label="Preço" type="number" step="0.01" placeholder="Preço do Adicional" :errors="v$.price.$errors" />
+        <BaseInput id="price" v-model="additional.price" label="Preço" type="number" step="0.01" placeholder="Preço do Adicional" max="99999" :errors="v$.price.$errors" />
       </div>
     </div>
     <div class="grid grid-cols-12">

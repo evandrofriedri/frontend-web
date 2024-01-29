@@ -32,7 +32,7 @@
           </div>
         </div>
         <BaseInput id="description" v-model="address.description" label="Endereço" type="text" placeholder="Endereço" :errors="v$.description.$errors" />
-        <BaseInput id="number" v-model="address.number" label="Número" type="number" placeholder="Número" :errors="v$.number.$errors" />
+        <BaseInput id="number" v-model="address.number" label="Número" type="number" placeholder="Número" max="99999" :errors="v$.number.$errors" />
         <BaseInput id="neighborhood" v-model="address.neighborhood" label="Bairro" type="text" placeholder="Bairro" :errors="v$.neighborhood.$errors" />
         <BaseInput id="city" v-model="address.city" label="Cidade" type="text" placeholder="Cidade" :errors="v$.city.$errors" />
         <div class="mb-4">
