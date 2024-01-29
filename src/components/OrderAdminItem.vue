@@ -93,7 +93,8 @@ function cancelOrder(order) {
           icon: 'success',
           title: 'Pedido Cancelado!',
           text: `Pedido nº ${order.order_id} cancelado.`,
-          confirmButtonColor: '#374151',
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           router.go(0);
         });
@@ -133,7 +134,8 @@ function forwardOrder(order) {
             icon: 'success',
             title: 'Status atualizado!',
             text: `Pedido nº ${order.order_id} atualizado.`,
-            confirmButtonColor: '#374151',
+            showConfirmButton: false,
+            timer: 1500,
           }).then(() => {
             router.go(0);
           });

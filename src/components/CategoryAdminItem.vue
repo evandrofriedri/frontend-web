@@ -61,8 +61,8 @@ function deleteCtg(category) {
           icon: 'success',
           title: 'Categoria excluída com sucesso!',
           text: `Categoria ${category.name} excluída.`,
-          showConfirmButton: true,
-          confirmButtonColor: '#374151',
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           router.go(0);
         });

@@ -67,8 +67,8 @@ function deleteAccount(account) {
           icon: 'success',
           title: 'Conta excluída com sucesso!',
           text: `Conta ${account.name} excluida.`,
-          showConfirmButton: true,
-          confirmButtonColor: '#374151',
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           router.go(0);
         });

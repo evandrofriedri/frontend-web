@@ -68,8 +68,8 @@ function deletePdt(product) {
           icon: 'success',
           title: 'Produto excluído com sucesso!',
           text: `Produto ${product.name} excluído.`,
-          showConfirmButton: true,
-          confirmButtonColor: '#374151',
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           router.go(0);
         });

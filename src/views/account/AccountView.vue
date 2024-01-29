@@ -118,9 +118,9 @@ const submitForm = async () => {
     localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
     Swal.fire({
       icon: 'success',
-      title: 'Cadastro alterado com sucesso!',
-      showConfirmButton: true,
-      confirmButtonColor: '#374151',
+      title: 'Conta alterada com sucesso!',
+      showConfirmButton: false,
+      timer: 1500,
     }).then(() => {
       router.go(0);
     });
@@ -154,12 +154,14 @@ function deleteAccount(Account) {
       if (response) {
         Swal.fire({
           icon: 'success',
-          title: 'Usuário excluído com sucesso!',
-          text: `Usuário ${Account.name} excluído.`,
-          showConfirmButton: true,
-          confirmButtonColor: '#374151',
+          title: 'Conta excluída com sucesso!',
+          text: `Conta ${Account.name} excluída.`,
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           localStorage.removeItem('jwt');
+          localStorage.removeItem('cartItems');
+          localStorage.removeItem('cartDelivery');
           googleLogout();
           router.push({ name: 'Home' });
         });

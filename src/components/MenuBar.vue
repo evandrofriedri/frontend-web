@@ -65,6 +65,8 @@ function getUser() {
 
 function logOutUser() {
   localStorage.removeItem('jwt');
+  localStorage.removeItem('cartItems');
+  localStorage.removeItem('cartDelivery');
   googleLogout();
   router.go(0);
 }

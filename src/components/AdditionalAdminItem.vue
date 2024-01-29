@@ -61,8 +61,8 @@ function deleteAdd(additional) {
           icon: 'success',
           title: 'Adicional excluído com sucesso!',
           text: `Adicional ${additional.name} excluído.`,
-          showConfirmButton: true,
-          confirmButtonColor: '#374151',
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           router.go(0);
         });

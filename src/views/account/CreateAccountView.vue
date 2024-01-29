@@ -108,8 +108,8 @@ const submitForm = async () => {
     Swal.fire({
       icon: 'success',
       title: 'Cadastro realizado com sucesso!',
-      showConfirmButton: true,
-      confirmButtonColor: '#374151',
+      showConfirmButton: false,
+      timer: 1500,
     }).then(() => {
       router.push({ name: 'Login' });
     });

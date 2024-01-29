@@ -61,8 +61,8 @@ function deleteStt(status) {
           icon: 'success',
           title: 'Status excluída com sucesso!',
           text: `Status ${status.name} excluída.`,
-          showConfirmButton: true,
-          confirmButtonColor: '#374151',
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           router.go(0);
         });
