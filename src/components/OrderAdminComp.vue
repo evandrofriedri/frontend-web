@@ -12,7 +12,7 @@
         <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
       </div>
       <div class="col-start-7 md:col-start-10 col-end-13">
-        <SearchInput id="orderAdminSearch" v-model="search" placeholder="Digite a descrição do pedido" @keyup="filter()" />
+        <SearchInput id="orderAdminSearch" v-model="search" placeholder="Digite o pedido..." @keyup="filter()" />
       </div>
     </div>
     <div v-show="foundOrder !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">

@@ -1,6 +1,6 @@
 <template>
   <div class="fixed z-10 right-2 top-3">
-    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o nome do produto..." @keyup="filter()" />
+    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o produto..." @keyup="filter()" />
   </div>
   <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
     <MenuItemSticky v-for="(data) in filteredList" :key="data.category_id" :href="`#${data.category_id}`" :title="data.name" :class="{ active: data.category_id == currentSection }" />

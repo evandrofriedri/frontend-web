@@ -7,7 +7,7 @@
         <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="ProductAdminSearch" v-model="search" placeholder="Digite o nome do produto" @keyup="filter()" />
+      <SearchInput id="ProductAdminSearch" v-model="search" placeholder="Digite o produto..." @keyup="filter()" />
     </div>
   </div>
   <div v-show="foundProduct !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">

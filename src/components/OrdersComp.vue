@@ -6,7 +6,7 @@
     </h1>
     <div class="grid grid-cols-12 items-center mb-2">
       <div class="col-start-6 md:col-start-10 col-end-13">
-        <SearchInput id="OrdersSearch" v-model="search" placeholder="Digite o número do pedido" @keyup="filter()" />
+        <SearchInput id="OrdersSearch" v-model="search" placeholder="Digite o pedido..." @keyup="filter()" />
       </div>
     </div>
     <div v-show="foundOrder !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
