@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-48" />
+  <LogoContainer />
   <div class="flex flex-col container mx-auto py-10 px-4 sm:px-6 lg:px-20">
     <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Dados da Conta
@@ -57,6 +57,7 @@ import Swal from 'sweetalert2';
 import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
 import AccountService from '../../services/AccountService';
+import LogoContainer from '../../components/LogoContainer.vue';
 
 const router = useRouter();
 

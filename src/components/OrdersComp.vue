@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-48" />
+  <LogoContainer />
   <div class="flex flex-col container mx-auto py-10 px-4 sm:px-6 lg:px-20">
     <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Acompanhar Pedidos
@@ -26,6 +26,7 @@ import OrderService from '../services/OrderService';
 import CardNotFound from './CardNotFound.vue';
 import SearchInput from './SearchInput.vue';
 import OrderDetail from './OrderDetail.vue';
+import LogoContainer from './LogoContainer.vue';
 
 const search = ref('');
 const orderList = ref([]);

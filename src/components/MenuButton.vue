@@ -1,5 +1,5 @@
 <template>
-  <button type="button" class="px-3 py-2 bg-black/50 hover:bg-gray-800 rounded text-white">
+  <button type="button" class="px-3 py-2 bg-black hover:bg-gray-800 rounded text-white">
     <font-awesome-icon :icon="icon" size="xl" />
   </button>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div id="parent-menu" class="fixed pt-2 pb-40 pl-2 pr-2 w-full top-0 left-0 z-10 flex justify-between bg-cover bg-center shadow-md duration-300">
+  <div id="parent-menu" class="fixed p-2 w-full top-0 left-0 z-10 flex bg-gray-900 opacity-80 shadow-md">
     <div id="menu-button" @click="toggleMenu()" @keypress="toggleMenu()">
       <MenuButton icon="fa-solid fa-bars" />
     </div>
@@ -20,8 +20,8 @@
       <MenuItemBar icon="fa-solid fa-utensils" label="Cardápio" route="/" @click="toggleMenu()" />
       <MenuItemBar icon="fa-solid fa-circle-info" label="Informações" route="/about" @click="toggleMenu()" />
       <MenuSeparator />
-      <div class="">
-        <LogoApp />
+      <div class="flex mx-auto justify-center">
+        <LogoCard class="h-20 w-24" />
       </div>
     </div>
   </Transition>
@@ -36,12 +36,12 @@ import { onClickOutside } from '@vueuse/core';
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from 'vue-router';
 import { googleLogout } from 'vue3-google-login';
-import LogoApp from './LogoApp.vue';
 import MenuButton from './MenuButton.vue';
 import MenuItemBar from './MenuItemBar.vue';
 import MenuSeparator from './MenuSeparator.vue';
 import SubMenuItemBar from './SubMenuItemBar.vue';
 import UserMenu from './UserMenu.vue';
+import LogoCard from './LogoCard.vue';
 
 const router = useRouter();
 
@@ -108,9 +108,4 @@ onMounted(async () => {
   opacity: 0;
   transform: translateX(-100%);
 }
-
-#parent-menu {
-  background-image: url('../assets/capa.jpg');
-}
-
 </style>

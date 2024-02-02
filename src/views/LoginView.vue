@@ -2,19 +2,19 @@
   <div class="flex min-h-screen bg-white ">
     <div class="flex-1 hidden lg:block relative w-0 px-20">
       <div class="flex h-full justify-center items-center">
-        <img src="../assets/login.svg" alt="">
+        <LogoCard color="black" class="h-52 w-64" />
       </div>
     </div>
     <div class="flex flex-1 flex-col justify-center py-10 px-4 sm:px-6 lg:px-20">
       <div class="mx-auto w-full max-w-sm">
         <div class="p-5 bg-white sm:shadow-2xl sm:rounded">
-          <img src="../assets/login.svg" alt="" class="lg:hidden h-20 w-auto">
+          <LogoCard color="black" class="lg:hidden h-20 w-24" />
           <h2 class="mt-6 lg:mt-0 text-3xl font-semibold text-gray-800">
             Entrar
           </h2>
           <div class="mt-4 mb-4">
             <div class="flex items-center">
-              <GoogleLogin class="w-96" :callback="callback" prompt auto-login />
+              <GoogleLogin class="w-full" :callback="callback" prompt auto-login />
             </div>
             <!-- <button @click="callback">teste google</button> -->
           </div>
@@ -35,9 +35,6 @@
             <div class="mb-4">
               <FormButton btn-type="submit" icon="fa-solid fa-arrow-right-to-bracket" description="Entrar" />
             </div>
-            <!-- <div class="mb-4">
-              <p><router-link class="font-semibold text-gray-900" to="/forgotPass">Esqueceu a senha?</router-link></p>
-            </div> -->
             <div class="py-3 items-center">
               <div class="flex-grow border-t border-gray-200" />
             </div>
@@ -69,6 +66,7 @@ import FormButton from '../components/FormButton.vue';
 import AccountService from '../services/AccountService';
 import RoleService from '../services/RoleService';
 import { GoogleLogin, decodeCredential } from 'vue3-google-login';
+import LogoCard from '../components/LogoCard.vue';
 
 const router = useRouter();
 

@@ -24,11 +24,6 @@ const routes = [
     component: lazyLoad('AboutView'),
   },
   {
-    path: '/forgotPass',
-    name: 'ForgotPassword',
-    component: lazyLoad('ForgotPassword'),
-  },
-  {
     path: '/account',
     name: 'Account',
     component: lazyLoad('account/AccountView'),

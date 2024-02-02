@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-48" />
+  <LogoContainer />
   <div class="flex flex-col container mx-auto py-10 px-4 sm:px-6 lg:px-20">
     <TabWrapper>
       <PageTab title="Produtos">
@@ -45,4 +45,5 @@ import CategoryAdminPage from './CategoryAdminPage.vue';
 import AdditionalAdminPage from './AdditionalAdminPage.vue';
 import StatusAdminPage from './StatusAdminPage.vue';
 import CardLoading from '../../components/CardLoading.vue';
+import LogoContainer from '../../components/LogoContainer.vue';
 </script>

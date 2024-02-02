@@ -2,13 +2,13 @@
   <div class="flex min-h-screen bg-white ">
     <div class="flex-1 hidden lg:block relative w-0 px-20">
       <div class="flex h-full justify-center items-center">
-        <img src="../../assets/sign.svg" alt="">
+        <LogoCard color="black" class="h-52 w-64" />
       </div>
     </div>
     <div class="flex flex-1 flex-col justify-center py-10 px-4 sm:px-6 lg:px-20">
       <div class="mx-auto w-full max-w-sm">
         <div class="p-5 bg-white sm:shadow-2xl sm:rounded">
-          <img src="../../assets/sign.svg" alt="" class="lg:hidden h-20 w-auto">
+          <LogoCard color="black" class="lg:hidden h-20 w-24" />
           <h2 class="mt-6 mb-6 text-3xl font-semibold text-gray-800">
             Criar seu cadastro
           </h2>
@@ -45,6 +45,7 @@ import BaseInput from '../../components/BaseInput.vue';
 import FormButton from '../../components/FormButton.vue';
 import AccountService from '../../services/AccountService';
 import RoleService from '../../services/RoleService';
+import LogoCard from '../../components/LogoCard.vue';
 
 const router = useRouter();
 

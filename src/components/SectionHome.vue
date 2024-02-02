@@ -2,11 +2,11 @@
   <div class="fixed z-10 right-2 top-3">
     <SearchInput id="homeSearch" v-model="search" placeholder="Digite o produto..." @keyup="filter()" />
   </div>
-  <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-52 z-0 shadow-md duration-300">
+  <LogoContainer />
+  <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-14 z-0 shadow-md">
     <MenuItemSticky v-for="(data) in filteredList" :key="data.category_id" :href="`#${data.category_id}`" :title="data.name" :class="{ active: data.category_id == currentSection }" />
   </div>
   <div class="container mx-auto">
-    <div class="flex w-full h-48" />
     <section v-for="(data) in filteredList" :key="data.category_id">
       <SectionTitle :id="data.category_id" :title="data.name" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
@@ -32,6 +32,7 @@ import MenuItemSticky from './MenuItemSticky.vue';
 import SearchInput from './SearchInput.vue';
 import CategoryService from '../services/CategoryService';
 import ProductService from '../services/ProductService';
+import LogoContainer from './LogoContainer.vue';
 
 const currentSection = ref('');
 const search = ref('');
