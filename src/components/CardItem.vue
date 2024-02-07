@@ -1,5 +1,7 @@
 <template>
-  <div class="p-2 flex justify-between rounded max-h-28 bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300" @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
+  <div
+    class="p-2 flex justify-between rounded max-h-28 bg-white shadow-md hover:shadow-2xl hover:cursor-pointer hover:bg-gray-50 duration-300"
+    @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
     <div class="flex flex-col justify-between pr-5">
       <div>
         <p class="mb-2 text-base font-medium text-gray-900">
@@ -34,41 +36,30 @@
       <p class="text-base text-gray-800 font-semibold text-right mt-2">
         {{ props.product.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
       </p>
-      <div v-if="props.product.additional" class="w-full mt-2">
+      <div v-if="props.product.additionals != ''" class="w-full mt-2">
         <div class="text-base text-gray-800">
           Adicionais
         </div>
         <div v-for="(item, index) in props.product.additionals" :key="index">
           <div class="flex justify-between pt-2 text-gray-800">
-            <AddItem
-              :additional="item"
-              @decrement-count="decrementAdditional"
-              @increment-count="incrementAdditional"
-            />
+            <AddItem :additional="item" @decrement-count="decrementAdditional" @increment-count="incrementAdditional" />
           </div>
         </div>
       </div>
       <label class="mt-2">
         <div class="text-base text-gray-800">Observações</div>
-        <textarea
-          v-model="observation"
-          class="w-full"
-          rows="2"
-          placeholder="Ex:Retirar cebola, retirar molho..."
-          maxlength="80"
-          @change="setObservation"
-        /></label>
+        <textarea v-model="observation" class="w-full" rows="2" placeholder="Ex:Retirar cebola, retirar molho..."
+          maxlength="80" @change="setObservation" />
+      </label>
     </div>
     <div class="flex text-justify items-center">
       <div class="w-2/5">
         <ToggleCount @toggle-qtde-product="toggleQtdeProduct" />
       </div>
       <div class="w-3/5">
-        <FormButton
-          icon="fa-solid fa-cart-shopping"
+        <FormButton icon="fa-solid fa-cart-shopping"
           :description="'Adicionar ' + totalCartItem.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })"
-          @click="addCartItem();updateCart();isModalCardItemOpen = false"
-        />
+          @click="addCartItem(); updateCart(); isModalCardItemOpen = false" />
       </div>
     </div>
   </ModalWrapper>
@@ -210,7 +201,7 @@ function addCartItem() {
 
   cartItems.push(cartItem);
   const expiresIn = new Date().getTime() + (86400000 * 1);
-  localStorage.setItem('cartItems', JSON.stringify({value: cartItems, expires: expiresIn}));
+  localStorage.setItem('cartItems', JSON.stringify({ value: cartItems, expires: expiresIn }));
 
   resetItem();
 }

@@ -53,6 +53,7 @@ export default {
       return false;
     }
   },
+
   /**
    * Metodo para excluir categoria por ID
    * DELETE
@@ -65,5 +66,18 @@ export default {
       return false;
     }
   },
+
+    /**
+   * Metodo para listar todos as categorias com produtos e adicionais
+   * GET
+   */
+    async getCategoriesWithProducts() {
+      try {
+        const response = await Api().get('/categoriesAll');
+        return response.data;
+      } catch (error) {
+        return false;
+      }
+    },
 
 };

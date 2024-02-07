@@ -24,8 +24,10 @@
             <div class="flex-grow border-t border-gray-200" />
           </div>
           <form action="" @submit.prevent="submitForm">
-            <BaseInput id="email" v-model="formData.email" label="E-mail" type="email" placeholder="E-mail" :errors="v$.email.$errors" />
-            <BaseInput id="senha" v-model="formData.password" label="Senha" type="password" placeholder="Senha" :errors="v$.password.$errors" />
+            <BaseInput id="email" v-model="formData.email" label="E-mail" type="email" placeholder="E-mail"
+              :errors="v$.email.$errors" />
+            <BaseInput id="senha" v-model="formData.password" label="Senha" type="password" placeholder="Senha"
+              :errors="v$.password.$errors" />
             <div class="mb-4">
               <span v-if="erroMsg" class="text-sm text-red-600">
                 <font-awesome-icon icon="fa-solid fa-triangle-exclamation" class="pl-1" />
@@ -116,7 +118,7 @@ const submitForm = async () => {
       },
     }).then(() => {
       if (response.response.data.token) {
-        const expiresIn = new Date().getTime() + (43200000);
+        const expiresIn = new Date().getTime() + (7200000);
         localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
         router.push({ name: 'Home' });
       } else {
@@ -148,7 +150,7 @@ async function loginWithGoogle(user) {
     },
   }).then(() => {
     if (response.response.data.token) {
-      const expiresIn = new Date().getTime() + (43200000);
+      const expiresIn = new Date().getTime() + (7200000);
       localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
       router.push({ name: 'Home' });
     } else {

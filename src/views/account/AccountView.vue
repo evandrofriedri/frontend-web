@@ -33,11 +33,7 @@
       </h1>
       <div class="grid grid-cols-12">
         <div class="col-start-6 md:col-start-10 col-end-13">
-          <FormButton
-            icon="fa-regular fa-trash-can"
-            description="Apagar"
-            @click="deleteAccount(account)"
-          />
+          <FormButton icon="fa-regular fa-trash-can" description="Apagar" @click="deleteAccount(account)" />
         </div>
       </div>
     </div>
@@ -115,8 +111,8 @@ const submitForm = async () => {
 
   const response = await AccountService.updateAccount(account.value);
   if (response.response.data.token) {
-    const expiresIn = new Date().getTime() + (43200000);
-    localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
+    const expiresIn = new Date().getTime() + (7200000);
+    localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
     Swal.fire({
       icon: 'success',
       title: 'Conta alterada com sucesso!',

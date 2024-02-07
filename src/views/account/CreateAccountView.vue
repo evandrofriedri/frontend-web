@@ -19,11 +19,7 @@
             <BaseInput id="password" v-model="account.password" label="Senha" type="password" placeholder="Senha de no mínimo 8 caracteres" :errors="v$.password.$errors" />
             <BaseInput id="confirmPassword" v-model="account.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
             <div class="mb-4">
-              <FormButton
-                btn-type="submit"
-                icon="fa-regular fa-floppy-disk"
-                description="Cadastrar"
-              />
+              <FormButton btn-type="submit" icon="fa-regular fa-floppy-disk" description="Cadastrar" />
             </div>
           </form>
         </div>
@@ -104,7 +100,7 @@ const submitForm = async () => {
   account.value.role_id = role[0].role_id;
   const response = await AccountService.createAccount(account.value);
   if (response.response.data.token) {
-    // const expiresIn = new Date().getTime() + (43200000);
+    // const expiresIn = new Date().getTime() + (7200000);
     // localStorage.setItem('jwt', JSON.stringify({value: response.response.data.token, expires: expiresIn}));
     Swal.fire({
       icon: 'success',

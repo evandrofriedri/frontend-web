@@ -10,11 +10,7 @@
     <section v-for="(data) in filteredList" :key="data.category_id">
       <SectionTitle :id="data.category_id" :title="data.name" />
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <CardItem
-          v-for="(product) in data.products"
-          :key="product.product_id"
-          :product="product"
-        />
+        <CardItem v-for="(product) in data.products" :key="product.product_id" :product="product" />
       </div>
     </section>
     <CardNotFound :found="foundProduct" label="Produto não encontrado!" />
@@ -31,7 +27,6 @@ import CardNotFound from './CardNotFound.vue';
 import MenuItemSticky from './MenuItemSticky.vue';
 import SearchInput from './SearchInput.vue';
 import CategoryService from '../services/CategoryService';
-import ProductService from '../services/ProductService';
 import LogoContainer from './LogoContainer.vue';
 
 const currentSection = ref('');
@@ -39,33 +34,6 @@ const search = ref('');
 const foundProduct = ref(1);
 const menuList = ref(null);
 const filteredList = ref([]);
-const productList = ref([]);
-
-const loadDataProduct = async (category) => {
-  const objCategory = category;
-  const response = await ProductService.getProductID(category.category_id);
-
-  response.forEach((element) => {
-    const objAdditional = [];
-    // eslint-disable-next-line no-param-reassign
-    element.additional = (element.additionals !== null);
-    if (element.additionals !== null) {
-      element.additionals.forEach((elem) => {
-        const arr = elem.split(',');
-        objAdditional.push({
-          additional_id: parseInt(arr[0], 10),
-          name: arr[1],
-          price: parseFloat(arr[2]),
-        });
-      });
-      // eslint-disable-next-line no-param-reassign
-      element.additionals = objAdditional;
-    }
-  });
-  objCategory.products = response;
-  productList.value.push(objCategory);
-};
-
 
 function thereIsProduct(obj) {
   if (obj[0].category_id === 'busca') {
@@ -77,15 +45,12 @@ function thereIsProduct(obj) {
 
 const loadData = async () => {
   if (localStorage.getItem('menuList') === null) {
-    menuList.value = await CategoryService.getCategories();
+    menuList.value = await CategoryService.getCategoriesWithProducts();
+    const expiresIn = new Date().getTime() + (7200000);
 
-    // eslint-disable-next-line no-plusplus
-    for (let index = 0; index < menuList.value.length; index++) {
-      const element = menuList.value[index];
-      await loadDataProduct(element);
+    if (menuList.value != false) {
+      await localStorage.setItem('menuList', JSON.stringify({ value: menuList.value, expires: expiresIn }));
     }
-    const expiresIn = new Date().getTime() + (43200000);
-    await localStorage.setItem('menuList', JSON.stringify({value:menuList.value, expires: expiresIn}));
   } else {
     menuList.value = JSON.parse(localStorage.getItem('menuList')).value;
   }
@@ -119,7 +84,7 @@ const filter = async () => {
   }
 
 
-    thereIsProduct(filteredList.value);
+  thereIsProduct(filteredList.value);
 
 }
 await loadData();
@@ -149,6 +114,6 @@ onMounted(() => {
 <style scoped>
 a.active {
   font-weight: bold;
-  border-color: rgb(17 24 39 );
+  border-color: rgb(17 24 39);
 }
 </style>
