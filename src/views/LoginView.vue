@@ -14,7 +14,7 @@
           </h2>
           <div class="mt-4 mb-4">
             <div class="flex items-center">
-              <GoogleLogin class="w-full" :callback="callback" prompt auto-login />
+              <GoogleLogin class="w-full" :callback="callback" />
             </div>
             <!-- <button @click="callback">teste google</button> -->
           </div>
