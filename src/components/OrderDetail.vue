@@ -7,7 +7,7 @@
           {{ labelForm }}
         </h1>
       </div>
-      <div class="max-h-[600px] overflow-x-auto">
+      <div class="max-h-[560px] overflow-auto">
         <div class="p-5 bg-white shadow-md rounded mb-3">
           <h1 class="mb-3 text-base font-semibold text-gray-800">
             Pedido #{{ order.order_id }}, feito no dia {{ order.date }}

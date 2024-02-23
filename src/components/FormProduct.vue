@@ -1,6 +1,6 @@
 <template>
   <form action="" @submit.prevent="submitForm">
-    <div class="flex flex-col">
+    <div class="flex flex-col max-h-[560px] overflow-auto">
       <div class="flex mb-2">
         <ReturnButton @click="closeModal()" />
         <h1 class="text-lg text-gray-800 font-medium text-justify">

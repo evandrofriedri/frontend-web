@@ -18,7 +18,7 @@
         Resumo do Pedido
       </h1>
     </div>
-    <div class="flex flex-col max-h-64 md:max-h-[350px] overflow-auto border rounded p-2">
+    <div class="flex flex-col max-h-64 md:max-h-[270px] overflow-auto border rounded p-2">
       <div v-for="(item, index) in market" :key="index" class="text-sm text-gray-800 border rounded p-2 mt-1">
         <div class="flex justify-between text-justify">
           <p class="font-medium">
@@ -56,7 +56,7 @@
       <p>Subtotal</p> <p>{{ subTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
     </div>
     <div v-if="user">
-      <div class="flex flex-col max-h-96 md:max-h-[400px] overflow-auto border rounded p-2">
+      <div class="flex flex-col max-h-72 md:max-h-[270px] overflow-auto border rounded p-2">
         <div class="flex justify-center">
           <div :class="`w-24 border-2 rounded ${forDelivery == true ? 'border-gray-800' : 'border-white'}`">
             <DescriptionButton icon="fa-solid fa-motorcycle" description="Entregar" @click="selectDelivery('deliver')" />

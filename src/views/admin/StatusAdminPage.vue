@@ -106,8 +106,7 @@ const filter = () => {
   } else {
     filteredList.value = JSON.parse(JSON.stringify(statusList.value));
   }
-  thereIsStatus(filtData);
-  return filtData;
+  thereIsStatus(filteredList.value);
 }
 
 await loadData();

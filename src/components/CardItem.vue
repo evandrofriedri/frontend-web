@@ -29,7 +29,7 @@
     <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
       <img :src="props.product.image_url" class="object-cover h-48 w-full rounded-t" alt="" />
     </div>
-    <div class="flex flex-col">
+    <div class="flex flex-col max-h-[400px] overflow-auto">
       <p class="text-sm font-light text-gray-800 text-justify mt-2">
         {{ props.product.description }}
       </p>
