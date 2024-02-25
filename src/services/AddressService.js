@@ -40,6 +40,19 @@ export default {
     }
   },
 
+   /**
+   * Metodo para listar endereço da contaID por busca
+   * GET
+   */
+   async getAddressName(params) {
+    try {
+      const response = await Api().get(`/addresses/search/${params}`);
+      return response.data;
+    } catch (error) {
+      return false;
+    }
+  },
+
   /**
    * Metodo para listar endereço padrão por contaID
    * GET

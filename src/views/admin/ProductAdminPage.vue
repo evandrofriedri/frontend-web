@@ -172,11 +172,24 @@ const loadData = async () => {
   filteredList.value = productList.value;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = productList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await ProductService.getProductName(search.value);
+    filteredList.value.forEach((element) => {
+      if (element.additionals !== null) {
+        const arr = element.additionals.split(',');
+        const numberArray = arr.map(Number);
+        // eslint-disable-next-line no-param-reassign
+        element.additionals = numberArray;
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        element.additionals = [];
+      }
+    });
+    stopQuery.value = true;
   } else {
     filteredList.value = productList.value;
+    stopQuery.value = false;
   }
   thereIsProduct(filteredList.value);
 }

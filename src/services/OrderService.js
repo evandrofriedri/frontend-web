@@ -14,6 +14,19 @@ export default {
     }
   },
 
+   /**
+   * Metodo para listar todos os pedidos por busca
+   * GET
+   */
+   async getOrdersName(id) {
+    try {
+      const response = await Api().get(`/orders/all/search/${id}`);
+      return response.data;
+    } catch (error) {
+      return false;
+    }
+  },
+
   /**
    * Metodo para criar novo pedido
    * POST
@@ -31,14 +44,27 @@ export default {
    * Metodo para listar pedido por contaID
    * GET
    */
-  async getOrderID(id) {
+  async getOrderID(params) {
     try {
-      const response = await Api().get(`/orders/${id}`);
+      const response = await Api().get(`/orders/${params}`);
       return response.data;
     } catch (error) {
       return false;
     }
   },
+
+    /**
+   * Metodo para listar pedido de contaID por busca
+   * GET
+   */
+    async getOrderName(params) {
+      try {
+        const response = await Api().get(`/orders/search/${params}`);
+        return response.data;
+      } catch (error) {
+        return false;
+      }
+    },
 
   /**
    * Metodo para atualizar pedido por ID

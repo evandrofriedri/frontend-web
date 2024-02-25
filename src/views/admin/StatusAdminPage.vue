@@ -100,9 +100,9 @@ function thereIsStatus(obj) {
   foundStatus.value = Object.values(obj).length;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = statusList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await StatusService.getStatusName(search.value);
   } else {
     filteredList.value = JSON.parse(JSON.stringify(statusList.value));
   }

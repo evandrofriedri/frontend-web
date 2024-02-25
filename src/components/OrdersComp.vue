@@ -126,11 +126,34 @@ const loadData = async () => {
   filteredList.value = orderList.value;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = orderList.value.filter((d) => d.order_id.toString().toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await OrderService.getOrderName(JSON.stringify({
+      account_id: user.value.account_id, name: search.value,
+    }));
+    filteredList.value.forEach(async (order) => {
+      // eslint-disable-next-line no-param-reassign
+      order.statuses = [];
+      const statusResponse = await OrderService.getOrderStatuses(order.order_id);
+      statusResponse.map((element) => order.statuses.push(element));
+
+      // eslint-disable-next-line no-param-reassign
+      order.products = [];
+      const orderProductResponse = await OrderService.getOrderProducts(order.order_id);
+      orderProductResponse.map((element) => order.products.push(element));
+
+      order.products.forEach(async (product) => {
+        // eslint-disable-next-line no-param-reassign
+        product.additionals = [];
+        // eslint-disable-next-line vue/max-len
+        const orderProductAdditional = await OrderService.getOrderProductAdditionals(product.order_product_id);
+        orderProductAdditional.map((element) => product.additionals.push(element));
+      });
+    });
+    stopQuery.value = true;
   } else {
     filteredList.value = orderList.value;
+    stopQuery.value = false;
   }
   thereIsOrders(filteredList.value);
 }

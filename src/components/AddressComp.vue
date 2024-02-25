@@ -137,9 +137,11 @@ function thereIsAdress(obj) {
   foundAddress.value = Object.values(obj).length;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = addressList.value.filter((d) => d.description.toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await AddressService.getAddressName(JSON.stringify({
+      account_id: user.value.account_id, name: search.value,
+    }));
   } else {
     filteredList.value = JSON.parse(JSON.stringify(addressList.value));
   }

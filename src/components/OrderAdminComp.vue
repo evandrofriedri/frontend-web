@@ -199,11 +199,13 @@ const loadData = async () => {
   filteredList.value = orderList.value;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = orderList.value.filter((d) => d.order_id.toString().toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await OrderService.getOrdersName(search.value);
+    stopQuery.value = true;
   } else {
     filteredList.value = orderList.value;
+    stopQuery.value = false;
   }
   thereIsOrder(filteredList.value);
 }

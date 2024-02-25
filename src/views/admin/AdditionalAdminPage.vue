@@ -102,9 +102,9 @@ function thereIsAdditional(obj) {
   foundAdditional.value = Object.values(obj).length;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = additionalList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await AdditionalService.getAdditionalName(search.value);
   } else {
     filteredList.value = JSON.parse(JSON.stringify(additionalList.value));
   }

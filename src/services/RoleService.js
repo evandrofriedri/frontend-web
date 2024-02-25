@@ -40,6 +40,19 @@ export default {
     }
   },
 
+   /**
+   * Metodo para listar função por nome
+   * GET
+   */
+   async getRoleName(name) {
+    try {
+      const response = await Api().get(`/roles/search/${name}`);
+      return response.data;
+    } catch (error) {
+      return false;
+    }
+  },
+
   /**
    * Metodo para atualizar função por ID
    * PUT

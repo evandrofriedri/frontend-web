@@ -28,12 +28,12 @@ export default {
   },
 
   /**
-   * Metodo para listar adicional por ID
+   * Metodo para listar adicional por Nome
    * GET
    */
-  async getAdditionalID(id) {
+  async getAdditionalName(name) {
     try {
-      const response = await Api().get(`/additionals/${id}`);
+      const response = await Api().get(`/additionals/search/${name}`);
       return response.data;
     } catch (error) {
       return false;

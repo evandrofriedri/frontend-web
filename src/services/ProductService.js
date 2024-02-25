@@ -28,12 +28,12 @@ export default {
   },
 
   /**
-   * Metodo para listar produto por categoriaID
+   * Metodo para listar produto por Nome
    * GET
    */
-  async getProductID(id) {
+  async getProductName(name) {
     try {
-      const response = await Api().get(`/products/${id}`);
+      const response = await Api().get(`/products/search/${name}`);
       return response.data;
     } catch (error) {
       return false;

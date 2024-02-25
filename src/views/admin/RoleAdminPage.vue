@@ -100,9 +100,9 @@ function thereIsRole(obj) {
   foundRole.value = Object.values(obj).length;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = roleList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await RoleService.getRoleName(search.value);
   } else {
     filteredList.value = JSON.parse(JSON.stringify(roleList.value));
   }

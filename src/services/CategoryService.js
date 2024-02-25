@@ -28,12 +28,12 @@ export default {
   },
 
   /**
-   * Metodo para listar categoria por ID
+   * Metodo para listar categoria por Nome
    * GET
    */
-  async getCategoryID(id) {
+  async getCategoryName(name) {
     try {
-      const response = await Api().get(`/categories/${id}`);
+      const response = await Api().get(`/categories/search/${name}`);
       return response.data;
     } catch (error) {
       return false;
@@ -73,7 +73,7 @@ export default {
    */
     async getCategoriesWithProducts() {
       try {
-        const response = await Api().get('/categoriesAll');
+        const response = await Api().get('/categories/all');
         return response.data;
       } catch (error) {
         return false;

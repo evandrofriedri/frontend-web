@@ -28,12 +28,12 @@ export default {
   },
 
   /**
-   * Metodo para listar status por ID
+   * Metodo para listar status por Nome
    * GET
    */
-  async getStatusID(id) {
+  async getStatusName(name) {
     try {
-      const response = await Api().get(`/statuses/${id}`);
+      const response = await Api().get(`/statuses/search/${name}`);
       return response.data;
     } catch (error) {
       return false;

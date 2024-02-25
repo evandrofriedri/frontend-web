@@ -45,9 +45,9 @@ export default {
    * Metodo para listar todas as contas
    * GET
    */
-  async getAccounts() {
+  async getAccounts(params) {
     try {
-      const response = await Api().get('/accounts');
+      const response = await Api().get(`/accounts/all/${params}`);
       return response.data;
     } catch (error) {
       return false;
@@ -79,6 +79,19 @@ export default {
       return false;
     }
   },
+
+    /**
+   * Metodo para listar conta por Nome
+   * GET
+   */
+    async getAccountName(name) {
+      try {
+        const response = await Api().get(`/accounts/search/${name}`);
+        return response.data;
+      } catch (error) {
+        return false;
+      }
+    },
 
   /**
    * Metodo para atualizar conta por ID

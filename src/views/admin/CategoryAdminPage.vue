@@ -100,9 +100,9 @@ function thereIsCategory(obj) {
   foundCategory.value = Object.values(obj).length;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = categoryList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await CategoryService.getCategoryName(search.value);
   } else {
     filteredList.value = JSON.parse(JSON.stringify(categoryList.value));
   }

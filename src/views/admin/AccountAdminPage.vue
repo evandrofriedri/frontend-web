@@ -10,7 +10,7 @@
       <SearchInput id="accountAdminSearch" v-model="search" placeholder="Digite a conta..." @keyup="filter()" />
     </div>
   </div>
-  <div v-show="foundAccount !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
+  <div v-show="foundAccount !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-800">
       <thead class="text-xs text-gray-900 uppercase bg-gray-200">
         <tr>
@@ -46,6 +46,7 @@
 
 <script setup>
 import { ref, inject } from 'vue';
+import { useInfiniteScroll } from '@vueuse/core';
 import SearchInput from '../../components/SearchInput.vue';
 import CardNotFound from '../../components/CardNotFound.vue';
 import AccountAdminItem from '../../components/AccountAdminItem.vue';
@@ -68,6 +69,10 @@ const newAccount = ref({
   confirmPassword: null,
   role_id: null,
 });
+const listEl = ref(null);
+const itemsToShow = ref(10);
+const page = ref(0);
+const stopQuery = ref(false);
 
 const emitter = inject('emitter');
 emitter.on('setModalFalse-FormAccount-0', () => {
@@ -106,8 +111,33 @@ function convertToCsv(data){
   return csvRows.join('\n');
 }
 
+const getDataOnScroll = async () => {
+  if (!stopQuery.value) {
+    page.value += itemsToShow.value;
+    const newData = await AccountService.getAccounts(JSON.stringify({
+      limit: itemsToShow.value, offset: page.value,
+    }));
+
+    if (newData.length === 0 || newData === false) {
+      stopQuery.value = true;
+    }
+    accountList.value.push(...newData);
+    filteredList.value = accountList.value;
+  }
+};
+
+useInfiniteScroll(
+  listEl,
+  async () => {
+    await getDataOnScroll();
+  },
+  { distance: 10 },
+);
+
 const loadData = async () => {
-  accountList.value = await AccountService.getAccounts();
+  accountList.value = await AccountService.getAccounts(JSON.stringify({
+    limit: itemsToShow.value, offset: page.value,
+  }));
   thereIsAccount(accountList.value)
 
   filteredList.value = JSON.parse(JSON.stringify(accountList.value));
@@ -117,11 +147,13 @@ function thereIsAccount(obj) {
   foundAccount.value = Object.values(obj).length;
 }
 
-const filter = () => {
+const filter = async () => {
   if (search.value.trim() !== '') {
-    filteredList.value = accountList.value.filter((d) => d.name.toLowerCase().includes(search.value.toLowerCase()));
+    filteredList.value = await AccountService.getAccountName(search.value);
+    stopQuery.value = true;
   } else {
     filteredList.value = JSON.parse(JSON.stringify(accountList.value));
+    stopQuery.value = false;
   }
   thereIsAccount(filteredList.value);
 }
