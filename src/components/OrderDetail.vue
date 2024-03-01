@@ -7,11 +7,16 @@
           {{ labelForm }}
         </h1>
       </div>
-      <div class="max-h-[560px] overflow-auto">
+      <div id="print-document-detail" class="max-h-[560px] overflow-auto">
         <div class="p-5 bg-white shadow-md rounded mb-3">
-          <h1 class="mb-3 text-base font-semibold text-gray-800">
-            Pedido #{{ order.order_id }}, feito no dia {{ order.date }}
-          </h1>
+          <div class="flex justify-between">
+            <h1 class="mb-3 text-base font-semibold text-gray-800">
+              Pedido #{{ order.order_id }}, feito no dia {{ order.date }}
+            </h1>
+            <button type="button" title="Exportar Dados" @click="exportData()">
+              <font-awesome-icon icon="fa-solid fa-print" size="xl" />
+            </button>
+          </div>
           <div class="flex items-center">
             <span class="mr-2 text-base text-gray-800 font-semibold text-justify">Status</span>
             <div class="flex-grow border-t border-gray-200" />
@@ -103,6 +108,7 @@ import {
   inject,
 } from 'vue';
 import ReturnButton from './ReturnButton.vue';
+import html2pdf from 'html2pdf.js';
 
 const emitter = inject('emitter');
 
@@ -130,6 +136,18 @@ const props = defineProps({
 
 function closeModal() {
   emitter.emit(`closeModal-OrderDetail-${props.order.order_id}`);
+}
+
+function exportData(){
+  var element = document.getElementById('print-document-detail');
+  let opt = {
+    margin:       1,
+    filename:     `order_${props.order.order_id}`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+  html2pdf().set(opt).from(element).save();
 }
 
 onMounted(async () => {

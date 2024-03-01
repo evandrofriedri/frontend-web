@@ -8,7 +8,8 @@ import {
   faExclamationTriangle, faArrowRightToBracket, faAddressCard,
   faArrowRightFromBracket, faListOl, faClockRotateLeft, faKitchenSet,
   faLocationDot, faStar, faFileCirclePlus, faBan, faArrowLeft,
-  faFileCsv, faRotateRight, faBurger, faBagShopping, faMotorcycle,
+  faRotateRight, faBurger, faBagShopping, faMotorcycle,
+  faPrint, faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 import * as freeRegularSvgIcons from '@fortawesome/free-regular-svg-icons';
@@ -39,11 +40,12 @@ const icons = {
   faFileCirclePlus,
   faBan,
   faArrowLeft,
-  faFileCsv,
   faBurger,
   faRotateRight,
   faBagShopping,
   faMotorcycle,
+  faPrint,
+  faChevronDown,
   faStar2: freeRegularSvgIcons.faStar,
   faTrashCan: freeRegularSvgIcons.faTrashCan,
   faPenToSquare: freeRegularSvgIcons.faPenToSquare,

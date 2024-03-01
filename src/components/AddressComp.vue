@@ -9,14 +9,14 @@
         <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar novo endereço" @click="isModalAddressOpen = true" />
       </div>
       <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
-        <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
+        <PrintButton id="exportData" :data="filteredList" filename="addressList" />
       </div>
       <div class="col-start-7 md:col-start-10 col-end-13">
         <SearchInput id="AddressSearch" v-model="search" placeholder="Digite o endereço..." @keyup="filter()" />
       </div>
     </div>
     <div v-show="foundAddress !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
-      <table class="w-full text-sm text-left text-gray-800">
+      <table id="print-document" class="w-full text-sm text-left text-gray-800">
         <thead class="text-xs text-gray-900 uppercase bg-gray-200">
           <tr>
             <th scope="col" class="px-2 py-2">
@@ -64,6 +64,7 @@ import FormAddress from './FormAddress.vue';
 import ModalWrapper from './ModalWrapper.vue';
 import AddressService from '../services/AddressService';
 import LogoContainer from './LogoContainer.vue';
+import PrintButton from './PrintButton.vue';
 
 const search = ref('');
 const addressList = ref([]);
@@ -102,29 +103,6 @@ emitter.on('setModalFalse-FormAddress-0', () => {
   };
   isModalAddressOpen.value = false;
 });
-
-function validate_characters(str) {
-  if (str) {
-    return str.toString().replace(/[\r\n]+/gm, " ").replace(/,/g, ';');
-  }
-  return str;
-}
-function createCsvFile() {
-  const csvContent = convertToCsv(addressList.value);
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', 'adressList.csv');
-  link.click();
-}
-function convertToCsv(data){
-  const headers = Object.keys(data[0]);
-  const rows = data.map(obj => headers.map(header => validate_characters(obj[header])));
-  const headerRow = headers.join(',');
-  const csvRows = [headerRow, ...rows.map(row => row.join(','))];
-  return csvRows.join('\n');
-}
 
 const loadData = async () => {
   addressList.value = await AddressService.getAddressID(user.value.account_id);

@@ -4,14 +4,14 @@
       <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar novo adicional" @click="isModalAdditionalOpen = true" />
     </div>
     <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
-        <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
+      <PrintButton id="exportData" :data="filteredList" filename="additionalList" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
       <SearchInput id="additionalAdminSearch" v-model="search" placeholder="Digite o adicional..." @keyup="filter()" />
     </div>
   </div>
   <div v-show="foundAdditional !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
-    <table class="w-full text-sm text-left text-gray-800">
+    <table id="print-document" class="w-full text-sm text-left text-gray-800">
       <thead class="text-xs text-gray-900 uppercase bg-gray-200">
         <tr>
           <th scope="col" class="px-2 py-2">
@@ -46,6 +46,7 @@ import BaseButton from '../../components/BaseButton.vue';
 import FormAdditional from '../../components/FormAdditional.vue';
 import ModalWrapper from '../../components/ModalWrapper.vue';
 import AdditionalService from '../../services/AdditionalService';
+import PrintButton from '../../components/PrintButton.vue';
 
 const search = ref('');
 const additionalList = ref([]);
@@ -67,29 +68,6 @@ emitter.on('setModalFalse-FormAdditional-0', () => {
   };
   isModalAdditionalOpen.value = false;
 });
-
-function validate_characters(str) {
-  if (str) {
-    return str.toString().replace(/[\r\n]+/gm, " ").replace(/,/g, ';');
-  }
-  return str;
-}
-function createCsvFile() {
-  const csvContent = convertToCsv(additionalList.value);
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', 'additionalList.csv');
-  link.click();
-}
-function convertToCsv(data){
-  const headers = Object.keys(data[0]);
-  const rows = data.map(obj => headers.map(header => validate_characters(obj[header])));
-  const headerRow = headers.join(',');
-  const csvRows = [headerRow, ...rows.map(row => row.join(','))];
-  return csvRows.join('\n');
-}
 
 const loadData = async () => {
   additionalList.value = await AdditionalService.getAdditionals();
