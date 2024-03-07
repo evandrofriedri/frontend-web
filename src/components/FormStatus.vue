@@ -126,7 +126,7 @@ const submitForm = async () => {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao editar adicional, tente mais tarde!',
+        title: 'Erro ao editar status, tente mais tarde!',
         showConfirmButton: true,
         confirmButtonColor: '#374151',
       });

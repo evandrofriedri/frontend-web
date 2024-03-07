@@ -9,9 +9,6 @@
     {{ order.account.split(' ')[0] }}
   </td>
   <td class="px-2 py-2 hidden sm:table-cell" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
-    {{ order.observation }}
-  </td>
-  <td class="px-2 py-2 hidden sm:table-cell" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.total_value }}
   </td>
   <td class="px-2 py-2 font-medium" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
@@ -22,15 +19,21 @@
       Cancelado
     </div>
   </td>
+  <td class="px-2 py-2 hidden sm:table-cell" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
+    {{ order.payment }}
+  </td>
+  <td class="px-2 py-2 hidden sm:table-cell break-words" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
+    {{ order.observation }}
+  </td>
   <td :class="`px-2 py-2 ${order.active == 0 ? 'text-gray-300' : 'text-gray-800'}`">
     <button type="button" :disabled="order.active === false" title="Cancelar Pedido" @click="cancelOrder(order)">
-      <font-awesome-icon icon="fa-regular fa-trash-can" />
+      <font-awesome-icon icon="fa-regular fa-trash-can" size="lg" />
     </button>&nbsp;&nbsp;
-    <button type="button" :disabled="order.active === false" title="Adicionar observação no pedido" @click="isModalItemOpen = true">
-      <font-awesome-icon icon="fa-regular fa-pen-to-square" />
+    <button type="button" :disabled="order.active === false" title="Editar Pedido" @click="isModalItemOpen = true">
+      <font-awesome-icon icon="fa-regular fa-pen-to-square" size="lg" />
     </button>&nbsp;&nbsp;
     <button type="button" :disabled="order.active === false" title="Dar sequência ao fluxo do pedido" @click="forwardOrder(order)">
-      <font-awesome-icon icon="fa-regular fa-square-caret-right" />
+      <font-awesome-icon icon="fa-regular fa-square-caret-right" size="lg" />
     </button>
   </td>
   <ModalWrapper :modal-open="isModalDetailItemOpen" :screen="`OrderDetail-${order.order_id}`">

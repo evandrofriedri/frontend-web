@@ -118,7 +118,7 @@ const submitForm = async () => {
       },
     }).then(() => {
       if (response.response.data.token) {
-        const expiresIn = new Date().getTime() + (7200000);
+        const expiresIn = new Date().getTime() + (28800000);
         localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
         router.push({ name: 'Home' });
       } else {

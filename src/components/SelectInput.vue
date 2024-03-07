@@ -45,7 +45,7 @@ defineProps({
   errors: {
     type: Object,
     default() {
-      return { $message: '' };
+      return [];
     },
   },
 });

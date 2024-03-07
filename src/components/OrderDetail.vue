@@ -7,8 +7,8 @@
           {{ labelForm }}
         </h1>
       </div>
-      <div id="print-document-detail" class="max-h-[560px] overflow-auto">
-        <div class="p-5 bg-white shadow-md rounded mb-3">
+      <div class="max-h-[560px] overflow-auto">
+        <div :id="`print-document-detail-${props.order.order_id}`" class="p-5 bg-white shadow-md rounded mb-3">
           <div class="flex justify-between">
             <h1 class="mb-3 text-base font-semibold text-gray-800">
               Pedido #{{ order.order_id }}, feito no dia {{ order.date }}
@@ -93,6 +93,9 @@
           <div class="flex justify-between text-base text-gray-800 font-semibold text-right pb-2">
             <p>Entrega</p><p> {{ parseFloat(order.delivery).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
           </div>
+          <div class="flex justify-between text-base text-gray-800 font-semibold text-right pb-2">
+            <p>Forma de Pagto</p><p> {{ order.payment }}</p>
+          </div>
           <div class="flex justify-between text-base text-gray-800 font-semibold">
             <p>Total</p> <p>{{ parseFloat(order.total_value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
           </div>
@@ -139,7 +142,7 @@ function closeModal() {
 }
 
 function exportData(){
-  var element = document.getElementById('print-document-detail');
+  var element = document.getElementById(`print-document-detail-${props.order.order_id}`);
   let opt = {
     margin:       1,
     filename:     `order_${props.order.order_id}`,

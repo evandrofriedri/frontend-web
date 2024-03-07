@@ -34,6 +34,14 @@
           </template>
         </Suspense>
       </PageTab>
+      <PageTab title="Forma de Pagto">
+        <Suspense>
+          <PaymentAdminPage />
+          <template #fallback>
+            <CardLoading typeBox="hidden" />
+          </template>
+        </Suspense>
+      </PageTab>
     </TabWrapper>
   </div>
 </template>
@@ -44,6 +52,7 @@ import ProductAdminPage from './ProductAdminPage.vue';
 import CategoryAdminPage from './CategoryAdminPage.vue';
 import AdditionalAdminPage from './AdditionalAdminPage.vue';
 import StatusAdminPage from './StatusAdminPage.vue';
+import PaymentAdminPage from './PaymentAdminPage.vue';
 import CardLoading from '../../components/CardLoading.vue';
 import LogoContainer from '../../components/LogoContainer.vue';
 </script>

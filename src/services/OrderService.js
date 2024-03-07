@@ -18,9 +18,9 @@ export default {
    * Metodo para listar todos os pedidos por busca
    * GET
    */
-   async getOrdersName(id) {
+   async getOrdersName(params) {
     try {
-      const response = await Api().get(`/orders/all/search/${id}`);
+      const response = await Api().get(`/orders/all/search/${params}`);
       return response.data;
     } catch (error) {
       return false;

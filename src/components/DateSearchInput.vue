@@ -1,16 +1,15 @@
 <template>
-  <div :id="`search-input-${id}`">
-    <label :for="id" class="text-base text-gray-800 max-w">{{ label }}</label>
+  <label :for="name" class="text-base text-gray-800 max-w"> {{ label }}
     <input
-      class="appearance-none block w-full py-1.5 px-2 leading-tight text-gray-800 bg-gray-50 focus:bg-white border border-gray-200 shadow-md rounded focus:border-gray-500 focus:outline-none"
+      type="date"
+      :name="name"
       :value="modelValue"
-      :placeholder="placeholder"
-      v-bind="$attrs"
-      autocomplete="on"
-      :maxlength="maxlength"
+      min=""
+      max=""
+      class="appearance-none block w-full py-1.5 px-2 leading-tight text-gray-800 bg-gray-50 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none"
       @input="$emit('update:modelValue', $event.target.value)"
-    />
-  </div>
+      />
+  </label>
 </template>
 
 <script setup>
@@ -18,7 +17,7 @@
 defineEmits(['update:modelValue']);
 
 defineProps({
-  id: {
+  name: {
     type: String,
     default: '',
   },

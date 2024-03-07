@@ -4,19 +4,28 @@
     <h1 class="mb-5 text-xl font-semibold text-gray-800">
       Pedidos Recebidos
     </h1>
-    <div class="grid gap-1 grid-cols-12 items-center mb-2">
-      <div class="col-start-1 md:col-end-3 col-end-4">
-        <BaseButton icon="fa-solid fa-rotate-right" :description="`${timer}s`" title="Atualiza lista" @click="startTimer(true)" />
+    <div class="grid gap-1 grid-rows-2 md:grid-rows-1 grid-cols-12 items-center mb-2">
+      <div class="col-start-1 col-end-5 md:col-end-3">
+        <DateSearchInput name="startDate" v-model="search.startDate" label="Data Inicial"/>
       </div>
-      <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
-        <BaseButton icon="fa-solid fa-file-csv" description="" title="Exportar dados" @click="createCsvFile()" />
+      <div class="col-start-5 md:col-start-3 col-end-9 md:col-end-5">
+        <DateSearchInput name="endDate" v-model="search.endDate" label="Data final" />
       </div>
-      <div class="col-start-7 md:col-start-10 col-end-13">
-        <SearchInput id="orderAdminSearch" v-model="search" placeholder="Digite o pedido..." @keyup="filter()" />
+      <div class="col-start-9 md:col-start-5 col-end-13 md:col-end-7">
+        <SelectSearchInput name="status" v-model="search.status_id" :items="statuses" label="Status" />
+      </div>
+      <div class="col-start-1 md:col-start-7 col-end-5 md:col-end-9">
+        <SearchInput id="orderAdminSearch" type="number" min="0" v-model="search.order_id" label="Nº Pedido" placeholder="Apenas números"  />
+      </div>
+      <div class="col-start-5 md:col-start-9 col-end-9 md:col-end-11">
+        <PrintButton id="exportData" label="Exportar" :data="filteredList" filename="orderList" />
+      </div>
+      <div class="col-start-9 md:col-start-11 col-end-13">
+        <BaseButton label="Buscar" icon="fa-solid fa-magnifying-glass" description="" title="Buscar Pedido" @click="filter()" />
       </div>
     </div>
     <div v-show="foundOrder !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
-      <table class="w-full text-sm text-left text-gray-800">
+      <table id="print-document" class="w-full text-sm text-left text-gray-800">
         <thead class="text-xs text-gray-900 uppercase bg-gray-200">
           <tr>
             <th scope="col" class="px-2 py-2">
@@ -29,13 +38,16 @@
               Conta
             </th>
             <th scope="col" class="px-2 py-2 hidden sm:table-cell">
-              Observação
-            </th>
-            <th scope="col" class="px-2 py-2 hidden sm:table-cell">
               Total
             </th>
             <th scope="col" class="px-2 py-2">
               Status
+            </th>
+            <th scope="col" class="px-2 py-2 hidden sm:table-cell">
+              Pagto
+            </th>
+            <th scope="col" class="px-2 py-2 hidden sm:table-cell break-words">
+              Observação
             </th>
             <th scope="col" class="px-2 py-2">
               Ações
@@ -59,7 +71,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useInfiniteScroll } from '@vueuse/core';
 import SearchInput from './SearchInput.vue';
 import CardNotFound from './CardNotFound.vue';
@@ -67,58 +78,25 @@ import OrderAdminItem from './OrderAdminItem.vue';
 import OrderService from '../services/OrderService';
 import BaseButton from './BaseButton.vue';
 import LogoContainer from './LogoContainer.vue';
+import SelectSearchInput from './SelectSearchInput.vue';
+import DateSearchInput from './DateSearchInput.vue';
+import StatusService from '../services/StatusService';
+import PrintButton from './PrintButton.vue';
 
-const router = useRouter();
-const search = ref('');
+const search = ref({
+  startDate: null,
+  endDate: null,
+  status_id: null,
+  order_id: null,
+});
 const orderList = ref([]);
 const filteredList = ref([]);
 const foundOrder = ref(0);
 const listEl = ref(null);
-const itemsToShow = ref(5);
+const itemsToShow = ref(10);
 const page = ref(0);
 const stopQuery = ref(false);
-const timer = ref(60);
-
-function validate_characters(str) {
-  if (str) {
-    return str.toString().replace(/[\r\n]+/gm, " ").replace(/,/g, ';');
-  }
-  return str;
-}
-function createCsvFile() {
-  const printableList = JSON.parse(JSON.stringify(orderList.value));
-  printableList.forEach(element => {
-    delete element.products;
-    delete element.statuses;
-  });
-  const csvContent = convertToCsv(printableList);
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', 'orderList.csv');
-  link.click();
-}
-
-function convertToCsv(data){
-  const headers = Object.keys(data[0]);
-  const rows = data.map(obj => headers.map(header => validate_characters(obj[header])));
-  const headerRow = headers.join(',');
-  const csvRows = [headerRow, ...rows.map(row => row.join(','))];
-  return csvRows.join('\n');
-}
-
-async function startTimer(resetTimer = false) {
-  if (resetTimer) {
-    router.go(0);
-  }
-  const interval = setInterval(() => {
-    timer.value--;
-    if (timer.value == 0) {
-      router.go(0);
-    }
-  }, 1000);
-}
+const statuses = ref([]);
 
 const getDataOnScroll = async () => {
   if (!stopQuery.value) {
@@ -162,11 +140,23 @@ useInfiniteScroll(
   async () => {
     await getDataOnScroll();
   },
-  { distance: 5 },
+  { distance: 10 },
 );
 
 function thereIsOrder(obj) {
   foundOrder.value = Object.values(obj).length;
+}
+
+async function loadStatuses() {
+  const response = await StatusService.getStatuses();
+  const data = [{id:-1, name:''}];
+  response.forEach(element => {
+    data.push({
+      id: element.status_id,
+      name: element.name,
+    });
+  });
+  return data;
 }
 
 const loadData = async () => {
@@ -200,8 +190,37 @@ const loadData = async () => {
 }
 
 const filter = async () => {
-  if (search.value.trim() !== '') {
-    filteredList.value = await OrderService.getOrdersName(search.value);
+  if (( search.value.startDate !== '' &&
+        search.value.startDate !== null ) ||
+      ( search.value.endDate !== '' &&
+        search.value.endDate !== null ) ||
+      ( search.value.status_id !== '-1' &&
+        search.value.status_id !== null ) ||
+      ( search.value.order_id !== '' &&
+        search.value.order_id !== null )) {
+
+    filteredList.value = await OrderService.getOrdersName(JSON.stringify(
+      search.value));
+
+    filteredList.value.forEach(async (order) => {
+      // eslint-disable-next-line no-param-reassign
+      order.statuses = [];
+      const statusResponse = await OrderService.getOrderStatuses(order.order_id);
+      statusResponse.map((element) => order.statuses.push(element));
+
+      // eslint-disable-next-line no-param-reassign
+      order.products = [];
+      const orderProductResponse = await OrderService.getOrderProducts(order.order_id);
+      orderProductResponse.map((element) => order.products.push(element));
+
+      order.products.forEach(async (product) => {
+        // eslint-disable-next-line no-param-reassign
+        product.additionals = [];
+        // eslint-disable-next-line vue/max-len
+        const orderProductAdditional = await OrderService.getOrderProductAdditionals(product.order_product_id);
+        orderProductAdditional.map((element) => product.additionals.push(element));
+      });
+    });
     stopQuery.value = true;
   } else {
     filteredList.value = orderList.value;
@@ -210,6 +229,39 @@ const filter = async () => {
   thereIsOrder(filteredList.value);
 }
 
+// const checkPermission = () => {
+//   if (!('serviceWorker' in navigator)) {
+//     throw new Error("No support for service worker!");
+//   }
+
+//   if (!('Notification' in window)) {
+//     throw new Error("No support for notification API");
+//   }
+
+//   if (!('PushManager' in window)) {
+//     throw new Error("No support for Push API");
+//   }
+// }
+
+// const registerSW = async () => {
+//   console.log('register sw');
+//   const registration = await navigator.serviceWorker.register('/sw.js');
+//   console.log(registration);
+//   return registration;
+// }
+
+// const requestNotificationPermission = async () => {
+//   const permission = await Notification.requestPermission();
+
+//   // if (permission !== 'granted') {
+//   //   throw new Error("Notification permission not granted");
+//   // }
+// }
+
 await loadData();
-await startTimer();
+statuses.value = await loadStatuses();
+// checkPermission(); //retirar essa fun��o por conta do throw new
+// await requestNotificationPermission(); // retirar o throw new da fun��o
+// await registerSW();
+
 </script>

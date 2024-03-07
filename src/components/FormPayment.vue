@@ -8,17 +8,7 @@
         </h1>
       </div>
       <div class="flex flex-col">
-        <SelectInput id="payment_id" v-model="order.payment_id" name="payment" :items="payments" label="Forma de Pagto" />
-        <label class="mt-2">
-          <div class="text-base text-gray-800">Observação</div>
-          <textarea
-            v-model="order.observation"
-            class="w-full"
-            rows="3"
-            placeholder="Ex:Retirar cebola, retirar molho..."
-            maxlength="100"
-          />
-        </label>
+        <BaseInput id="name" v-model="payment.name" label="Nome Pagamento" type="text" placeholder="Nome Pagamento" :errors="v$.name.$errors" />
       </div>
     </div>
     <div class="grid grid-cols-12">
@@ -35,30 +25,30 @@
 <script setup>
 import {
   ref,
+  computed,
   onMounted,
   inject,
 } from 'vue';
-
-import { useRouter } from 'vue-router';
+import { useVuelidate } from '@vuelidate/core';
+import {
+  required, helpers,
+} from '@vuelidate/validators';
 import Swal from 'sweetalert2';
+import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
-import OrderService from '../services/OrderService';
 import PaymentService from '../services/PaymentService';
-import SelectInput from './SelectInput.vue';
 
-const router = useRouter();
-const payments = ref([]);
 const emitter = inject('emitter');
 
-const order = ref({
+const payment = ref({
   id: null,
-  payment_id: null,
-  observation: null,
+  name: null,
+  sequence: null,
 });
 
 const props = defineProps({
-  order: {
+  payment: {
     type: Object,
     default() {
       return { msg: 0 };
@@ -75,29 +65,36 @@ const props = defineProps({
 });
 
 function closeModal() {
-  emitter.emit(`closeModal-FormOrder-${props.order.order_id}`);
+  console.log(`ENVIA FormPayment-${props.payment.payment_id}`);
+  emitter.emit(`closeModal-FormPayment-${props.payment.payment_id}`);
 }
 
-async function loadPayments() {
-  const response = await PaymentService.getPayments();
-  const data = [];
-  response.forEach(element => {
-    data.push({
-      id: element.payment_id,
-      name: element.name,
-    });
-  });
-  return data;
+function reloadPayment() {
+  console.log(`ENVIA FormPayment-${props.payment.payment_id}`);
+  emitter.emit('reloadPayment');
 }
 
 onMounted(async () => {
-  order.value = await props.order;
-  payments.value = await loadPayments();
+  payment.value = await props.payment;
 });
 
+const rules = computed(() => ({
+  name: {
+    required: helpers.withMessage('Campo obrigatório', required),
+  },
+}));
+
+const v$ = useVuelidate(rules, payment);
+
 const submitForm = async () => {
-  if (order.value.order_id === undefined) {
-    const response = await OrderService.createOrder(order.value);
+  const validated = await v$.value.$validate();
+
+  if (!validated) {
+    return false;
+  }
+
+  if (payment.value.payment_id === 0) {
+    const response = await PaymentService.createPayment(payment.value);
     if (response) {
       Swal.fire({
         icon: 'success',
@@ -105,18 +102,19 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadPayment();
       });
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao cadastrar novo pedido, tente mais tarde!',
+        title: 'Erro ao cadastrar nova forma de pagto, tente mais tarde!',
         showConfirmButton: true,
         confirmButtonColor: '#374151',
       });
     }
   } else {
-    const response = await OrderService.updateOrder(order.value);
+    const response = await PaymentService.updatePayment(payment.value);
     if (response) {
       Swal.fire({
         icon: 'success',
@@ -124,12 +122,13 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadPayment();
       });
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao editar pedido, tente mais tarde!',
+        title: 'Erro ao editar forma de pagto, tente mais tarde!',
         showConfirmButton: true,
         confirmButtonColor: '#374151',
       });
