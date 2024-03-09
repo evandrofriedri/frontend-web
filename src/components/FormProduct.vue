@@ -18,6 +18,7 @@
           <div v-for="(item, index) in additionals" :key="index">
             <div class="flex justify-between pt-2 text-gray-800">
               <CheckboxInput
+                :id="`chkAdditional-${item.additional_id}`"
                 :item="item"
                 @update-checkbox="updateAdditional"
               />
@@ -50,7 +51,6 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers, between,
 } from '@vuelidate/validators';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import CheckboxInput from './CheckboxInput.vue';
 import BaseInput from './BaseInput.vue';
@@ -61,7 +61,6 @@ import CategoryService from '../services/CategoryService';
 import AdditionalService from '../services/AdditionalService';
 import ProductService from '../services/ProductService';
 
-const router = useRouter();
 const emitter = inject('emitter');
 const categories = ref([]);
 const additionals = ref([]);
@@ -95,6 +94,10 @@ const props = defineProps({
 
 function closeModal() {
   emitter.emit(`closeModal-FormProduct-${props.product.product_id}`);
+}
+
+function reloadProduct() {
+  emitter.emit('reloadProduct');
 }
 
 async function loadCategories() {
@@ -211,7 +214,8 @@ const submitForm = async () => {
       showConfirmButton: false,
       timer: 1500,
     }).then(() => {
-      router.go(0);
+      closeModal();
+      reloadProduct();
     });
   } else {
     const response = await ProductService.updateProduct(product.value);
@@ -236,7 +240,8 @@ const submitForm = async () => {
       showConfirmButton: false,
       timer: 1500,
     }).then(() => {
-      router.go(0);
+      closeModal();
+      reloadProduct();
     });
   }
 

@@ -34,14 +34,12 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers,
 } from '@vuelidate/validators';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
 import StatusService from '../services/StatusService';
 
-const router = useRouter();
 const emitter = inject('emitter');
 
 const status = ref({
@@ -69,6 +67,10 @@ const props = defineProps({
 
 function closeModal() {
   emitter.emit(`closeModal-FormStatus-${props.status.status_id}`);
+}
+
+function reloadStatus() {
+  emitter.emit('reloadStatus');
 }
 
 onMounted(async () => {
@@ -102,7 +104,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadStatus();
       });
     } else {
       Swal.fire({
@@ -121,7 +124,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadStatus();
       });
     } else {
       Swal.fire({

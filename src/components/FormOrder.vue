@@ -5,13 +5,15 @@
         <ReturnButton @click="closeModal()" />
         <h1 class="text-lg text-gray-800 font-medium text-justify">
           {{ labelForm }}
+          {{ order.order_id }}
         </h1>
       </div>
       <div class="flex flex-col">
         <SelectInput id="payment_id" v-model="order.payment_id" name="payment" :items="payments" label="Forma de Pagto" />
-        <label class="mt-2">
+        <label id="obs" class="mt-2">
           <div class="text-base text-gray-800">Observação</div>
           <textarea
+            id="obs"
             v-model="order.observation"
             class="w-full"
             rows="3"
@@ -39,7 +41,6 @@ import {
   inject,
 } from 'vue';
 
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
@@ -47,7 +48,6 @@ import OrderService from '../services/OrderService';
 import PaymentService from '../services/PaymentService';
 import SelectInput from './SelectInput.vue';
 
-const router = useRouter();
 const payments = ref([]);
 const emitter = inject('emitter');
 
@@ -78,6 +78,10 @@ function closeModal() {
   emitter.emit(`closeModal-FormOrder-${props.order.order_id}`);
 }
 
+function reloadOrders() {
+  emitter.emit('reloadOrders');
+}
+
 async function loadPayments() {
   const response = await PaymentService.getPayments();
   const data = [];
@@ -105,7 +109,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadOrders();
       });
     } else {
       Swal.fire({
@@ -124,7 +129,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadOrders();
       });
     } else {
       Swal.fire({

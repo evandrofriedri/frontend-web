@@ -45,7 +45,6 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
 import { ref, inject } from 'vue';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
@@ -54,10 +53,13 @@ import OrderDetail from './OrderDetail.vue';
 import OrderService from '../services/OrderService';
 import StatusService from '../services/StatusService';
 
-const router = useRouter();
 const isModalDetailItemOpen = ref(false);
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
+
+function reloadOrders() {
+  emitter.emit('reloadOrders');
+}
 
 const props = defineProps({
   order: {
@@ -99,7 +101,7 @@ function cancelOrder(order) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          reloadOrders();
         });
       } else {
         Swal.fire({
@@ -140,7 +142,7 @@ function forwardOrder(order) {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            router.go(0);
+            reloadOrders();
           });
         } else {
           Swal.fire({

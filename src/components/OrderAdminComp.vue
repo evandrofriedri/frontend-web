@@ -6,13 +6,13 @@
     </h1>
     <div class="grid gap-1 grid-rows-2 md:grid-rows-1 grid-cols-12 items-center mb-2">
       <div class="col-start-1 col-end-5 md:col-end-3">
-        <DateSearchInput name="startDate" v-model="search.startDate" label="Data Inicial"/>
+        <DateSearchInput id="startDate" v-model="search.startDate" label="Data Inicial"/>
       </div>
       <div class="col-start-5 md:col-start-3 col-end-9 md:col-end-5">
-        <DateSearchInput name="endDate" v-model="search.endDate" label="Data final" />
+        <DateSearchInput id="endDate" v-model="search.endDate" label="Data final" />
       </div>
       <div class="col-start-9 md:col-start-5 col-end-13 md:col-end-7">
-        <SelectSearchInput name="status" v-model="search.status_id" :items="statuses" label="Status" />
+        <SelectSearchInput id="status" v-model="search.status_id" :items="statuses" label="Status" />
       </div>
       <div class="col-start-1 md:col-start-7 col-end-5 md:col-end-9">
         <SearchInput id="orderAdminSearch" type="number" min="0" v-model="search.order_id" label="NÂº Pedido" placeholder="Apenas nÃºmeros"  />
@@ -21,7 +21,7 @@
         <PrintButton id="exportData" label="Exportar" :data="filteredList" filename="orderList" />
       </div>
       <div class="col-start-9 md:col-start-11 col-end-13">
-        <BaseButton label="Buscar" icon="fa-solid fa-magnifying-glass" description="" title="Buscar Pedido" @click="filter()" />
+        <BaseButton id="searchOrder" label="Buscar" icon="fa-solid fa-magnifying-glass" description="" title="Buscar Pedido" @click="filter()" />
       </div>
     </div>
     <div v-show="foundOrder !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -70,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import { useInfiniteScroll } from '@vueuse/core';
 import SearchInput from './SearchInput.vue';
 import CardNotFound from './CardNotFound.vue';
@@ -97,6 +97,21 @@ const itemsToShow = ref(10);
 const page = ref(0);
 const stopQuery = ref(false);
 const statuses = ref([]);
+
+const emitter = inject('emitter');
+
+emitter.on('reloadOrders', async () => {
+  page.value = 0;
+  await filter();
+
+  await useInfiniteScroll(
+    listEl,
+    async () => {
+      await getDataOnScroll();
+    },
+    { distance: 10 },
+  );
+});
 
 const getDataOnScroll = async () => {
   if (!stopQuery.value) {
@@ -223,7 +238,15 @@ const filter = async () => {
     });
     stopQuery.value = true;
   } else {
-    filteredList.value = orderList.value;
+    page.value = 0;
+    await loadData();
+    await useInfiniteScroll(
+      listEl,
+      async () => {
+        await getDataOnScroll();
+      },
+      { distance: 10 },
+    );
     stopQuery.value = false;
   }
   thereIsOrder(filteredList.value);
@@ -260,8 +283,8 @@ const filter = async () => {
 
 await loadData();
 statuses.value = await loadStatuses();
-// checkPermission(); //retirar essa função por conta do throw new
-// await requestNotificationPermission(); // retirar o throw new da função
+// checkPermission(); //retirar essa funï¿½ï¿½o por conta do throw new
+// await requestNotificationPermission(); // retirar o throw new da funï¿½ï¿½o
 // await registerSW();
 
 </script>

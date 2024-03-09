@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-1 grid-cols-12 items-center mb-2">
     <div class="col-start-1 md:col-end-2 col-end-3">
-      <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar nova função" @click="isModalRoleOpen = true" />
+      <BaseButton id="newRole" icon="fa-solid fa-file-circle-plus" description="" title="Criar nova função" @click="isModalRoleOpen = true" />
     </div>
     <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
       <PrintButton id="exportData" :data="filteredList" filename="roleList" />
@@ -59,6 +59,7 @@ const newRole = ref({
 });
 
 const emitter = inject('emitter');
+
 emitter.on('setModalFalse-FormRole-0', () => {
   newRole.value = {
     role_id: 0,
@@ -66,6 +67,11 @@ emitter.on('setModalFalse-FormRole-0', () => {
   };
   isModalRoleOpen.value = false;
 });
+
+emitter.on('reloadRole', async () => {
+  await loadData();
+});
+
 
 const loadData = async () => {
   roleList.value = await RoleService.getRoles();

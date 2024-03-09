@@ -29,15 +29,17 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import FormAddress from './FormAddress.vue';
 import ModalWrapper from './ModalWrapper.vue';
 import AddressService from '../services/AddressService';
 
-const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
+
+function reloadAddress() {
+  emitter.emit('reloadAddress');
+}
 
 const props = defineProps({
   address: {
@@ -73,7 +75,7 @@ function DeleteAddress(address) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          reloadAddress();
         });
       } else {
         Swal.fire({

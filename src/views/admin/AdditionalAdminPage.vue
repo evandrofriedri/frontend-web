@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-1 grid-cols-12 items-center mb-2">
     <div class="col-start-1 md:col-end-2 col-end-3">
-      <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar novo adicional" @click="isModalAdditionalOpen = true" />
+      <BaseButton id="newAdditional" icon="fa-solid fa-file-circle-plus" description="" title="Criar novo adicional" @click="isModalAdditionalOpen = true" />
     </div>
     <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
       <PrintButton id="exportData" :data="filteredList" filename="additionalList" />
@@ -60,6 +60,7 @@ const newAdditional = ref({
 });
 
 const emitter = inject('emitter');
+
 emitter.on('setModalFalse-FormAdditional-0', () => {
   newAdditional.value = {
     additional_id: 0,
@@ -67,6 +68,10 @@ emitter.on('setModalFalse-FormAdditional-0', () => {
     price: '',
   };
   isModalAdditionalOpen.value = false;
+});
+
+emitter.on('reloadAdditional', async () => {
+  await loadData();
 });
 
 const loadData = async () => {

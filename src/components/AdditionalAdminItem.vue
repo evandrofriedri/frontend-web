@@ -20,15 +20,17 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormAdditional from './FormAdditional.vue';
 import AdditionalService from '../services/AdditionalService';
 
-const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
+
+function reloadAdditional() {
+  emitter.emit('reloadAdditional');
+}
 
 const props = defineProps({
   additional: {
@@ -64,7 +66,7 @@ function deleteAdd(additional) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          reloadAdditional();
         });
       } else {
         Swal.fire({

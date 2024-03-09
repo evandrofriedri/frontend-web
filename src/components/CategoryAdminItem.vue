@@ -20,15 +20,17 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormCategory from './FormCategory.vue';
 import CategoryService from '../services/CategoryService';
 
-const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
+
+function reloadCategory() {
+  emitter.emit('reloadCategory');
+}
 
 const props = defineProps({
   category: {
@@ -64,7 +66,7 @@ function deleteCtg(category) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          reloadCategory();
         });
       } else {
         Swal.fire({

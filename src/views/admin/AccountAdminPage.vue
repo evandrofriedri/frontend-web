@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-1 grid-cols-12 items-center mb-2">
     <div class="col-start-1 md:col-end-2 col-end-3">
-      <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar nova conta" @click="isModalAccountOpen = true" />
+      <BaseButton id="newAccount" icon="fa-solid fa-file-circle-plus" description="" title="Criar nova conta" @click="isModalAccountOpen = true" />
     </div>
     <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
       <PrintButton id="exportData" :data="filteredList" filename="accountList" />
@@ -76,6 +76,7 @@ const page = ref(0);
 const stopQuery = ref(false);
 
 const emitter = inject('emitter');
+
 emitter.on('setModalFalse-FormAccount-0', () => {
   newAccount.value = {
     account_id: 0,
@@ -88,6 +89,20 @@ emitter.on('setModalFalse-FormAccount-0', () => {
   };
   isModalAccountOpen.value = false;
 });
+
+emitter.on('reloadAccount', async () => {
+  page.value = 0;
+  await loadData();
+
+  await useInfiniteScroll(
+    listEl,
+    async () => {
+      await getDataOnScroll();
+    },
+    { distance: 10 },
+  );
+});
+
 
 const getDataOnScroll = async () => {
   if (!stopQuery.value) {

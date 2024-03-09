@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-1 grid-cols-12 items-center mb-2">
     <div class="col-start-1 md:col-end-2 col-end-3">
-      <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar nova forma de pagto" @click="isModalPaymentOpen = true" />
+      <BaseButton id="newPayment" icon="fa-solid fa-file-circle-plus" description="" title="Criar nova forma de pagto" @click="isModalPaymentOpen = true" />
     </div>
     <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
       <PrintButton id="exportData" :data="filteredList" filename="paymentList" />
@@ -58,7 +58,6 @@ const newPayment = ref({
 const emitter = inject('emitter');
 
 emitter.on('setModalFalse-FormPayment-0', async () => {
-  console.log('RECEBE on Payment Admin Page');
   newPayment.value = {
     payment_id: 0,
     name: null,
@@ -67,7 +66,6 @@ emitter.on('setModalFalse-FormPayment-0', async () => {
 });
 
 emitter.on('reloadPayment', async () => {
-  console.log('RECEBE on Payment Admin Page');
   await loadData();
 });
 

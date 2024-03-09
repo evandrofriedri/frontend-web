@@ -26,7 +26,6 @@ const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
 function reloadPayment() {
-  console.log(`ENVIA Payment Admin Item`);
   emitter.emit('reloadPayment');
 }
 
@@ -40,7 +39,6 @@ const props = defineProps({
 });
 
 emitter.on(`setModalFalse-FormPayment-${props.payment.payment_id}`, () => {
-  console.log('RECEBE Payment Admin Item');
   isModalItemOpen.value = false;
 });
 

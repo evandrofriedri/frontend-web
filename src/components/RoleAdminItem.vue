@@ -20,15 +20,17 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormRole from './FormRole.vue';
 import RoleService from '../services/RoleService';
 
-const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
+
+function reloadRole() {
+  emitter.emit('reloadRole');
+}
 
 const props = defineProps({
   role: {
@@ -64,7 +66,7 @@ function deleteCtg(role) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          reloadRole();
         });
       } else {
         Swal.fire({

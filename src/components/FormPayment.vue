@@ -65,12 +65,10 @@ const props = defineProps({
 });
 
 function closeModal() {
-  console.log(`ENVIA FormPayment-${props.payment.payment_id}`);
   emitter.emit(`closeModal-FormPayment-${props.payment.payment_id}`);
 }
 
 function reloadPayment() {
-  console.log(`ENVIA FormPayment-${props.payment.payment_id}`);
   emitter.emit('reloadPayment');
 }
 

@@ -1,8 +1,8 @@
 <template>
 
-  <label :for="name" class="text-base text-gray-800 max-w">{{ label }}</label>
+  <label :for="id" class="text-base text-gray-800 max-w">{{ label }}</label>
   <select
-    :name="name"
+    :id="id"
     :value="modelValue"
     class="block w-full py-1.5 px-2 leading-tight text-gray-800 bg-gray-50 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none"
     v-bind="$attrs"
@@ -19,7 +19,7 @@
 defineEmits(['update:modelValue']);
 
 defineProps({
-  name: {
+  id: {
     type: String,
     default: '',
   },

@@ -1,8 +1,8 @@
 <template>
-  <label :for="name" class="text-base text-gray-800 max-w"> {{ label }}
+  <label :for="id" class="text-base text-gray-800 max-w"> {{ label }}
     <input
       type="date"
-      :name="name"
+      :id="id"
       :value="modelValue"
       min=""
       max=""
@@ -17,7 +17,7 @@
 defineEmits(['update:modelValue']);
 
 defineProps({
-  name: {
+  id: {
     type: String,
     default: '',
   },

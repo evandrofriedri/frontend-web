@@ -1,6 +1,6 @@
 <template>
   <label :for="id" class="text-base text-gray-800 max-w">{{ label }}
-    <button id="dropdown-button" type="button" title="Exportar dados" @click="toggleDropdown()" class="flex justify-between items-center w-full py-1.5 px-2 leading-none text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded">
+    <button :id="id" :name="id" type="button" title="Exportar dados" @click="toggleDropdown()" class="flex justify-between items-center w-full py-1.5 px-2 leading-none text-white bg-gray-700 hover:bg-gray-800 active:bg-gray-900 font-semibold rounded">
       <div></div>
       <font-awesome-icon icon="fa-solid fa-print" size="lg" />
       <font-awesome-icon icon="fa-solid fa-chevron-down" size="sm" />

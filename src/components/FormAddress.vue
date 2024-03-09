@@ -13,6 +13,7 @@
             <div class="mb-4">
               <label for="cep" class="text-base text-gray-800 max-w"> Buscar CEP
                 <input
+                  id="cep"
                   class="appearance-none block w-full py-3 px-4 leading-tight text-gray-800 bg-gray-50 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none"
                   placeholder="Informe o CEP"
                   v-model="cep"
@@ -37,8 +38,9 @@
         <BaseInput id="city" v-model="address.city" label="Cidade" type="text" placeholder="Cidade" :errors="v$.city.$errors" />
         <div class="mb-4">
           <div class="flex">
-            <label class="text-base text-gray-800 max-w">
+            <label for="chkDefault" class="text-base text-gray-800 max-w">
               <input
+                id="chkDefault"
                 v-model="address.favorite"
                 class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
                 type="checkbox"
@@ -76,7 +78,6 @@ import {
   required, helpers,
 } from '@vuelidate/validators';
 import { useEventListener } from '@vueuse/core';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import cepPromise from 'cep-promise';
 import BaseInput from './BaseInput.vue';
@@ -84,7 +85,6 @@ import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
 import AddressService from '../services/AddressService';
 
-const router = useRouter();
 const emitter = inject('emitter');
 const cep = ref(null);
 const cepError = ref(null);
@@ -127,6 +127,10 @@ const props = defineProps({
 
 function closeModal() {
   emitter.emit(`closeModal-FormAddress-${props.address.address_id}`);
+}
+
+function reloadAddress() {
+  emitter.emit('reloadAddress');
 }
 
 onMounted(async () => {
@@ -196,7 +200,8 @@ const submitForm = async () => {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          closeModal();
+          reloadAddress();
         });
       } else {
         emitter.emit('closeFormAddress');
@@ -218,7 +223,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadAddress();
       });
     } else {
       Swal.fire({

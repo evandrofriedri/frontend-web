@@ -34,14 +34,12 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, helpers, between,
 } from '@vuelidate/validators';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
 import ReturnButton from './ReturnButton.vue';
 import AdditionalService from '../services/AdditionalService';
 
-const router = useRouter();
 const emitter = inject('emitter');
 
 const additional = ref({
@@ -68,6 +66,10 @@ const props = defineProps({
 
 function closeModal() {
   emitter.emit(`closeModal-FormAdditional-${props.additional.additional_id}`);
+}
+
+function reloadAdditional() {
+  emitter.emit('reloadAdditional');
 }
 
 onMounted(async () => {
@@ -102,7 +104,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadAdditional();
       });
     } else {
       Swal.fire({
@@ -121,7 +124,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadAdditional();
       });
     } else {
       Swal.fire({

@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-1 grid-cols-12 items-center mb-2">
     <div class="col-start-1 md:col-end-2 col-end-3">
-      <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar novo status" @click="isModalStatusOpen = true" />
+      <BaseButton id="newStatus" icon="fa-solid fa-file-circle-plus" description="" title="Criar novo status" @click="isModalStatusOpen = true" />
     </div>
     <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
       <PrintButton id="exportData" :data="filteredList" filename="statusList" />
@@ -59,12 +59,17 @@ const newStatus = ref({
 });
 
 const emitter = inject('emitter');
+
 emitter.on('setModalFalse-FormStatus-0', () => {
   newStatus.value = {
     status_id: 0,
     name: null,
   };
   isModalStatusOpen.value = false;
+});
+
+emitter.on('reloadStatus', async () => {
+  await loadData();
 });
 
 const loadData = async () => {

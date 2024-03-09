@@ -15,8 +15,9 @@
         <BaseInput id="confirmPassword" v-model="account.confirmPassword" label="Insira novamente a Senha" type="password" placeholder="Confirmação da senha" :errors="v$.confirmPassword.$errors" />
         <SelectInput id="role" v-model="account.role_id" name="role" :items="roles" label="Função" :errors="v$.role_id.$errors" />
         <div class="flex mb-4">
-          <label class="text-base text-gray-800 max-w">
+          <label for="chkAccountActive" class="text-base text-gray-800 max-w">
             <input
+              id="chkAccountActive"
               v-model="account.active"
               class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
               type="checkbox"
@@ -49,7 +50,6 @@ import { useVuelidate } from '@vuelidate/core';
 import {
   required, email, sameAs, minLength, helpers,
 } from '@vuelidate/validators';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import BaseInput from './BaseInput.vue';
 import FormButton from './FormButton.vue';
@@ -58,7 +58,6 @@ import AccountService from '../services/AccountService';
 import RoleService from '../services/RoleService';
 import SelectInput from './SelectInput.vue';
 
-const router = useRouter();
 const emitter = inject('emitter');
 const roles = ref([]);
 
@@ -90,6 +89,10 @@ const props = defineProps({
 
 function closeModal() {
   emitter.emit(`closeModal-FormAccount-${props.account.account_id}`);
+}
+
+function reloadAccount() {
+  emitter.emit('reloadAccount');
 }
 
 async function loadRoles() {
@@ -162,7 +165,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadAccount();
       });
     } else {
       Swal.fire({
@@ -181,7 +185,8 @@ const submitForm = async () => {
         showConfirmButton: false,
         timer: 1500,
       }).then(() => {
-        router.go(0);
+        closeModal();
+        reloadAccount();
       });
     } else {
       Swal.fire({
@@ -190,8 +195,6 @@ const submitForm = async () => {
         text: `${response.response.data.message}`,
         showConfirmButton: true,
         confirmButtonColor: '#374151',
-      }).then(() => {
-        router.go(0);
       });
     }
   }

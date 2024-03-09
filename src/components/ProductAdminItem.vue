@@ -26,15 +26,17 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormProduct from './FormProduct.vue';
 import ProductService from '../services/ProductService';
 
-const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
+
+function reloadProduct() {
+  emitter.emit('reloadProduct');
+}
 
 const props = defineProps({
   product: {
@@ -71,7 +73,7 @@ function deletePdt(product) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          reloadProduct();
         });
       } else {
         Swal.fire({

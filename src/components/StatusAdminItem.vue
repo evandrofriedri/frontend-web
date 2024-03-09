@@ -20,15 +20,17 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormStatus from './FormStatus.vue';
 import StatusService from '../services/StatusService';
 
-const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
+
+function reloadStatus() {
+  emitter.emit('reloadStatus');
+}
 
 const props = defineProps({
   status: {
@@ -64,7 +66,7 @@ function deleteStt(status) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          reloadStatus();
         });
       } else {
         Swal.fire({

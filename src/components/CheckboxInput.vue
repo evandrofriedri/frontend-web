@@ -1,7 +1,8 @@
 <template>
   <div class="flex">
-    <label class="text-base text-gray-800 max-w">
+    <label :for="id" class="text-base text-gray-800 max-w">
       <input
+        :id="id"
         v-model="checked"
         :value="item.additional_id"
         class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
@@ -21,6 +22,10 @@ import { onMounted, ref } from 'vue';
 defineEmits(['updateCheckbox']);
 
 const props = defineProps({
+  id: {
+    type: String,
+    default: '',
+  },
   item: {
     type: Object,
     default() {

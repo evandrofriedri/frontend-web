@@ -6,7 +6,7 @@
     </h1>
     <div class="grid gap-1 grid-cols-12 items-center mb-2">
       <div class="col-start-1 md:col-end-2 col-end-3">
-        <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar novo endereço" @click="isModalAddressOpen = true" />
+        <BaseButton id="newAddress" icon="fa-solid fa-file-circle-plus" description="" title="Criar novo endereço" @click="isModalAddressOpen = true" />
       </div>
       <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
         <PrintButton id="exportData" :data="filteredList" filename="addressList" />
@@ -91,6 +91,7 @@ const newAddress = ref({
 });
 
 const emitter = inject('emitter');
+
 emitter.on('setModalFalse-FormAddress-0', () => {
   newAddress.value = {
     address_id: 0,
@@ -102,6 +103,10 @@ emitter.on('setModalFalse-FormAddress-0', () => {
     account_id: user.value.account_id,
   };
   isModalAddressOpen.value = false;
+});
+
+emitter.on('reloadAddress', async () => {
+  await loadData();
 });
 
 const loadData = async () => {

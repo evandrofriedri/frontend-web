@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-1 grid-cols-12 items-center mb-2">
     <div class="col-start-1 md:col-end-2 col-end-3">
-      <BaseButton icon="fa-solid fa-file-circle-plus" description="" title="Criar novo produto" @click="isModalProductOpen = true" />
+      <BaseButton id="newProduct" icon="fa-solid fa-file-circle-plus" description="" title="Criar novo produto" @click="isModalProductOpen = true" />
     </div>
     <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
       <PrintButton id="exportData" :data="filteredList" filename="productList" />
@@ -75,6 +75,7 @@ const page = ref(0);
 const stopQuery = ref(false);
 
 const emitter = inject('emitter');
+
 emitter.on('setModalFalse-FormProduct-0', () => {
   newProduct.value = {
     product_id: 0,
@@ -86,6 +87,19 @@ emitter.on('setModalFalse-FormProduct-0', () => {
     price: 0,
   };
   isModalProductOpen.value = false;
+});
+
+emitter.on('reloadProduct', async () => {
+  page.value = 0;
+  await loadData();
+
+  await useInfiniteScroll(
+    listEl,
+    async () => {
+      await getDataOnScroll();
+    },
+    { distance: 10 },
+  );
 });
 
 const getDataOnScroll = async () => {

@@ -26,15 +26,17 @@
 
 <script setup>
 import { ref, inject } from 'vue';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
 import ModalWrapper from './ModalWrapper.vue';
 import FormAccount from './FormAccount.vue';
 import AccountService from '../services/AccountService';
 
-const router = useRouter();
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
+
+function reloadAccount() {
+  emitter.emit('reloadAccount');
+}
 
 const props = defineProps({
   account: {
@@ -70,7 +72,7 @@ function deleteAccount(account) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          router.go(0);
+          reloadAccount();
         });
       } else {
         Swal.fire({
