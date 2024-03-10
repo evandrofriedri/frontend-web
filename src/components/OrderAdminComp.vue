@@ -252,39 +252,26 @@ const filter = async () => {
   thereIsOrder(filteredList.value);
 }
 
-// const checkPermission = () => {
-//   if (!('serviceWorker' in navigator)) {
-//     throw new Error("No support for service worker!");
-//   }
+const registerSW = async () => {
+  console.log('register sw');
+  const registration = await navigator.serviceWorker.register('/sw.js');
+  console.log(registration);
+  return registration;
+}
 
-//   if (!('Notification' in window)) {
-//     throw new Error("No support for notification API");
-//   }
+const requestNotificationPermission = async () => {
 
-//   if (!('PushManager' in window)) {
-//     throw new Error("No support for Push API");
-//   }
-// }
+  if ( ('serviceWorker' in navigator) && ('Notification' in window) && ('PushManager' in window) ) {
+    const permission = await Notification.requestPermission();
 
-// const registerSW = async () => {
-//   console.log('register sw');
-//   const registration = await navigator.serviceWorker.register('/sw.js');
-//   console.log(registration);
-//   return registration;
-// }
-
-// const requestNotificationPermission = async () => {
-//   const permission = await Notification.requestPermission();
-
-//   // if (permission !== 'granted') {
-//   //   throw new Error("Notification permission not granted");
-//   // }
-// }
+    if (permission === 'granted') {
+      await registerSW();
+    }
+  }
+}
 
 await loadData();
 statuses.value = await loadStatuses();
-// checkPermission(); //retirar essa fun��o por conta do throw new
-// await requestNotificationPermission(); // retirar o throw new da fun��o
-// await registerSW();
+await requestNotificationPermission();
 
 </script>
