@@ -126,6 +126,7 @@ import AddressService from '../services/AddressService';
 import ConfigurationService from '../services/ConfigurationService';
 import OrderService from '../services/OrderService';
 import StatusService from '../services/StatusService';
+import NotificationService from '../services/NotificationService';
 import FormAddress from './FormAddress.vue';
 
 const market = ref([]);
@@ -248,6 +249,28 @@ function deleteCartItem(index) {
   updateCart();
 }
 
+async function orderNotification(orderId) {
+
+  const title = 'Novo Pedido!';
+  const message = `Criado pedido nº ${orderId}!`;
+  const url = 'admin-order';
+
+  await NotificationService.sendNotificationRole(JSON.stringify({
+    roleName: 'employee',
+    title: title,
+    message: message,
+    url: url,
+  }));
+  await NotificationService.sendNotificationRole(JSON.stringify({
+    roleName: 'admin',
+    title: title,
+    message: message,
+    url: url,
+  }));
+
+  return true;
+}
+
 async function orderStatus(orderId) {
   const statusResponse = await StatusService.getStatuses();
   // eslint-disable-next-line vue/max-len
@@ -337,7 +360,6 @@ const confirmOrder = async () => {
       orderId = orderResponse.return[0].order_id;
 
       const orderProductResponse = await orderProduct(cartItems, orderId);
-
       if (!orderProductResponse) {
         return false;
       }
@@ -346,6 +368,12 @@ const confirmOrder = async () => {
       if (!orderStatusResponse) {
         return false;
       }
+
+      const orderNotificationResponse = await orderNotification(orderId);
+      if (!orderNotificationResponse) {
+        return false;
+      }
+
       await Swal.close();
     },
   }).then(() => {

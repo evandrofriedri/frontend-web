@@ -67,11 +67,13 @@
     </div>
     <CardNotFound :found="foundOrder" label="Pedido não encontrado!" />
   </div>
+  <ServiceWorker :user="user" />
 </template>
 
 <script setup>
 import { ref, inject } from 'vue';
 import { useInfiniteScroll } from '@vueuse/core';
+import { jwtDecode } from "jwt-decode";
 import SearchInput from './SearchInput.vue';
 import CardNotFound from './CardNotFound.vue';
 import OrderAdminItem from './OrderAdminItem.vue';
@@ -82,6 +84,7 @@ import SelectSearchInput from './SelectSearchInput.vue';
 import DateSearchInput from './DateSearchInput.vue';
 import StatusService from '../services/StatusService';
 import PrintButton from './PrintButton.vue';
+import ServiceWorker from './ServiceWorker.vue';
 
 const search = ref({
   startDate: null,
@@ -97,6 +100,7 @@ const itemsToShow = ref(10);
 const page = ref(0);
 const stopQuery = ref(false);
 const statuses = ref([]);
+const user = ref(null);
 
 const emitter = inject('emitter');
 
@@ -175,6 +179,7 @@ async function loadStatuses() {
 }
 
 const loadData = async () => {
+  user.value = getUser();
   orderList.value = await OrderService.getOrders(JSON.stringify({
     limit: itemsToShow.value, offset: page.value,
   }));
@@ -252,26 +257,15 @@ const filter = async () => {
   thereIsOrder(filteredList.value);
 }
 
-const registerSW = async () => {
-  console.log('register sw');
-  const registration = await navigator.serviceWorker.register('/sw.js');
-  console.log(registration);
-  return registration;
-}
-
-const requestNotificationPermission = async () => {
-
-  if ( ('serviceWorker' in navigator) && ('Notification' in window) && ('PushManager' in window) ) {
-    const permission = await Notification.requestPermission();
-
-    if (permission === 'granted') {
-      await registerSW();
-    }
+function getUser() {
+  let tokenDecoded = null;
+  if (localStorage.getItem('jwt') !== null) {
+    const token = JSON.parse(localStorage.getItem('jwt')).value;
+    tokenDecoded = jwtDecode(token);
   }
+  return tokenDecoded;
 }
 
 await loadData();
 statuses.value = await loadStatuses();
-await requestNotificationPermission();
-
 </script>

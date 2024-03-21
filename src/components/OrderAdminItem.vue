@@ -52,6 +52,7 @@ import FormOrder from './FormOrder.vue';
 import OrderDetail from './OrderDetail.vue';
 import OrderService from '../services/OrderService';
 import StatusService from '../services/StatusService';
+import NotificationService from '../services/NotificationService';
 
 const isModalDetailItemOpen = ref(false);
 const isModalItemOpen = ref(false);
@@ -128,13 +129,24 @@ function forwardOrder(order) {
   }).then(async (result) => {
     if (result.isConfirmed) {
       const statusIds = [];
+      const statusNames = [];
       const statusResponse = await StatusService.getStatuses();
       statusResponse.map((element) => statusIds.push(element.status_id));
+      statusResponse.map((element) => statusNames.push(element.name));
       const statusIdIndex = statusIds.indexOf(parseInt(order.status.split('-')[0], 10));
       if (statusIds[statusIdIndex + 1] !== undefined) {
         // eslint-disable-next-line vue/max-len
         const response = await OrderService.createOrderStatus(order.order_id, statusIds[statusIdIndex + 1]);
         if (response) {
+          const title = 'Oba! Pedido Atualizado!';
+          const message = `Pedido nº ${order.order_id}: ${statusNames[statusIdIndex + 1]}.`;
+          const url = 'account-order';
+          await NotificationService.sendNotification(JSON.stringify({
+            account_id: order.account_id,
+            title: title,
+            message: message,
+            url: url,
+          }));
           Swal.fire({
             icon: 'success',
             title: 'Status atualizado!',

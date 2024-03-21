@@ -15,12 +15,14 @@
     </section>
     <CardNotFound :found="foundProduct" label="Produto não encontrado!" />
   </div>
+  <ServiceWorker :user="user" />
 </template>
 <script setup>
 import {
   ref,
   onMounted,
 } from 'vue';
+import { jwtDecode } from "jwt-decode";
 import CardItem from './CardItem.vue';
 import SectionTitle from './SectionTitle.vue';
 import CardNotFound from './CardNotFound.vue';
@@ -28,12 +30,23 @@ import MenuItemSticky from './MenuItemSticky.vue';
 import SearchInput from './SearchInput.vue';
 import CategoryService from '../services/CategoryService';
 import LogoContainer from './LogoContainer.vue';
+import ServiceWorker from './ServiceWorker.vue';
 
 const currentSection = ref('');
 const search = ref('');
 const foundProduct = ref(1);
 const menuList = ref(null);
 const filteredList = ref([]);
+const user = ref(null);
+
+function getUser() {
+  let tokenDecoded = null;
+  if (localStorage.getItem('jwt') !== null) {
+    const token = JSON.parse(localStorage.getItem('jwt')).value;
+    tokenDecoded = jwtDecode(token);
+  }
+  return tokenDecoded;
+}
 
 function thereIsProduct(obj) {
   if (obj[0].category_id === 'busca') {
@@ -44,6 +57,7 @@ function thereIsProduct(obj) {
 }
 
 const loadData = async () => {
+  user.value = getUser();
   if (localStorage.getItem('menuList') === null) {
     menuList.value = await CategoryService.getCategoriesWithProducts();
     const expiresIn = new Date().getTime() + (7200000);
@@ -82,10 +96,7 @@ const filter = async () => {
   } else {
     filteredList.value = JSON.parse(JSON.stringify(menuList.value));
   }
-
-
   thereIsProduct(filteredList.value);
-
 }
 await loadData();
 

@@ -16,6 +16,7 @@
     </div>
     <CardNotFound :found="foundOrder" label="Nenhum pedido encontrado!" />
   </div>
+  <ServiceWorker :user="user" />
 </template>
 
 <script setup>
@@ -27,6 +28,7 @@ import CardNotFound from './CardNotFound.vue';
 import SearchInput from './SearchInput.vue';
 import OrderDetail from './OrderDetail.vue';
 import LogoContainer from './LogoContainer.vue';
+import ServiceWorker from './ServiceWorker.vue';
 
 const search = ref('');
 const orderList = ref([]);
