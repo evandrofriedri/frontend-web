@@ -69,6 +69,7 @@ emitter.on('setModalFalse-FormCategory-0', () => {
 });
 
 emitter.on('reloadCategory', async () => {
+  search.value = '';
   await loadData();
 });
 

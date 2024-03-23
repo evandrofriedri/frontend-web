@@ -92,6 +92,7 @@ emitter.on('setModalFalse-FormAccount-0', () => {
 
 emitter.on('reloadAccount', async () => {
   page.value = 0;
+  search.value = '';
   await loadData();
 
   await useInfiniteScroll(

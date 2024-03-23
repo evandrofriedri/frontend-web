@@ -91,6 +91,7 @@ emitter.on('setModalFalse-FormProduct-0', () => {
 
 emitter.on('reloadProduct', async () => {
   page.value = 0;
+  search.value = '';
   await loadData();
 
   await useInfiniteScroll(

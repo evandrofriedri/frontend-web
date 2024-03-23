@@ -69,6 +69,7 @@ emitter.on('setModalFalse-FormRole-0', () => {
 });
 
 emitter.on('reloadRole', async () => {
+  search.value = '';
   await loadData();
 });
 

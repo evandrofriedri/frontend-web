@@ -71,6 +71,7 @@ emitter.on('setModalFalse-FormAdditional-0', () => {
 });
 
 emitter.on('reloadAdditional', async () => {
+  search.value = '';
   await loadData();
 });
 

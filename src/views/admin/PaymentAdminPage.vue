@@ -66,6 +66,7 @@ emitter.on('setModalFalse-FormPayment-0', async () => {
 });
 
 emitter.on('reloadPayment', async () => {
+  search.value = '';
   await loadData();
 });
 
