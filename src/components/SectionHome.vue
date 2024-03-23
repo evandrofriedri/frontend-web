@@ -1,6 +1,6 @@
 <template>
   <div class="fixed z-10 right-2 top-3">
-    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o produto..." @keyup="filter()" />
+    <SearchInput id="homeSearch" v-model="search" placeholder="Digite o produto..." @keyup.stop="filter()" />
   </div>
   <LogoContainer />
   <div id="sticky" class="sticky flex items-center overflow-x-auto text-gray-900 bg-gray-50 justify-between top-14 z-0 shadow-md">
@@ -60,7 +60,7 @@ const loadData = async () => {
   user.value = getUser();
   if (localStorage.getItem('menuList') === null) {
     menuList.value = await CategoryService.getCategoriesWithProducts();
-    const expiresIn = new Date().getTime() + (7200000);
+    const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_MENU_EXPIRATION_TIME, 10));
 
     if (menuList.value != false) {
       await localStorage.setItem('menuList', JSON.stringify({ value: menuList.value, expires: expiresIn }));
@@ -82,7 +82,7 @@ const filter = async () => {
   };
   if (search.value.trim() !== '') {
     menuList.value.forEach((element) => {
-      if (element.products !== undefined) {
+      if ( (element.products !== undefined) && (element.products !== null) ) {
         element.products.forEach((pdt) => {
           const pdtLowCase = pdt.name.toLowerCase();
           if (pdtLowCase.includes(search.value.toLowerCase())) {

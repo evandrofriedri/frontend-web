@@ -7,7 +7,7 @@
       <PrintButton id="exportData" :data="filteredList" filename="accountList" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="accountAdminSearch" v-model="search" placeholder="Digite a conta..." @keyup="filter()" />
+      <SearchInput id="accountAdminSearch" v-model="search" placeholder="Digite a conta..." @keyup.stop="filter()" />
     </div>
   </div>
   <div v-show="foundAccount !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">

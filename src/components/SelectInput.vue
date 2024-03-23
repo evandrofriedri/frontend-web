@@ -7,6 +7,7 @@
       class="block w-full py-3 px-4 leading-tight text-gray-800 bg-gray-50 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none"
       v-bind="$attrs"
       @input="$emit('update:modelValue', $event.target.value)"
+      @click="$emit('updateName', $event.target[$event.target.selectedIndex].text)"
     >
       <option v-for="(item) in items" :key="item.id" :value="item.id">
         {{ item.name }}
@@ -21,7 +22,7 @@
 
 <script setup>
 
-defineEmits(['update:modelValue']);
+defineEmits(['update:modelValue', 'updateName']);
 
 defineProps({
   id: {

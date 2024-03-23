@@ -200,7 +200,7 @@ function addCartItem() {
   }
 
   cartItems.push(cartItem);
-  const expiresIn = new Date().getTime() + (86400000 * 1);
+  const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_MARKET_EXPIRATION_TIME, 10));
   localStorage.setItem('cartItems', JSON.stringify({ value: cartItems, expires: expiresIn }));
 
   resetItem();

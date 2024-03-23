@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
+import { ref /*, inject*/ } from 'vue';
 import { useInfiniteScroll } from '@vueuse/core';
 import { jwtDecode } from "jwt-decode";
 import SearchInput from './SearchInput.vue';
@@ -102,20 +102,20 @@ const stopQuery = ref(false);
 const statuses = ref([]);
 const user = ref(null);
 
-const emitter = inject('emitter');
+// const emitter = inject('emitter');
 
-emitter.on('reloadOrders', async () => {
-  page.value = 0;
-  await filter();
+// emitter.on('reloadOrders', async () => {
+//   page.value = 0;
+//   await filter();
 
-  await useInfiniteScroll(
-    listEl,
-    async () => {
-      await getDataOnScroll();
-    },
-    { distance: 10 },
-  );
-});
+//   await useInfiniteScroll(
+//     listEl,
+//     async () => {
+//       await getDataOnScroll();
+//     },
+//     { distance: 10 },
+//   );
+// });
 
 const getDataOnScroll = async () => {
   if (!stopQuery.value) {
@@ -159,7 +159,7 @@ useInfiniteScroll(
   async () => {
     await getDataOnScroll();
   },
-  { distance: 10 },
+  { distance: 5 },
 );
 
 function thereIsOrder(obj) {
@@ -250,7 +250,7 @@ const filter = async () => {
       async () => {
         await getDataOnScroll();
       },
-      { distance: 10 },
+      { distance: 5 },
     );
     stopQuery.value = false;
   }

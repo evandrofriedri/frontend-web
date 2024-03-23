@@ -7,7 +7,7 @@
       <PrintButton id="exportData" :data="filteredList" filename="additionalList" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="additionalAdminSearch" v-model="search" placeholder="Digite o adicional..." @keyup="filter()" />
+      <SearchInput id="additionalAdminSearch" v-model="search" placeholder="Digite o adicional..." @keyup.stop="filter()" />
     </div>
   </div>
   <div v-show="foundAdditional !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">

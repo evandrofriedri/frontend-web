@@ -12,7 +12,7 @@
         <PrintButton id="exportData" :data="filteredList" filename="addressList" />
       </div>
       <div class="col-start-7 md:col-start-10 col-end-13">
-        <SearchInput id="AddressSearch" v-model="search" placeholder="Digite o endereço..." @keyup="filter()" />
+        <SearchInput id="AddressSearch" v-model="search" placeholder="Digite o endereço..." @keyup.stop="filter()" />
       </div>
     </div>
     <div v-show="foundAddress !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">

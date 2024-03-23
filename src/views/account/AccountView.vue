@@ -111,7 +111,7 @@ const submitForm = async () => {
 
   const response = await AccountService.updateAccount(account.value);
   if (response.response.data.token) {
-    const expiresIn = new Date().getTime() + (7200000);
+    const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_LOGIN_EXPIRATION_TIME, 10));
     localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
     Swal.fire({
       icon: 'success',

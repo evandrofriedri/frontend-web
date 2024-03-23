@@ -7,7 +7,7 @@
       <PrintButton id="exportData" :data="filteredList" filename="paymentList" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="paymentAdminSearch" v-model="search" placeholder="Digite a forma de pagto..." @keyup="filter()" />
+      <SearchInput id="paymentAdminSearch" v-model="search" placeholder="Digite a forma de pagto..." @keyup.stop="filter()" />
     </div>
   </div>
   <div v-show="foundPayment !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">

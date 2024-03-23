@@ -9,7 +9,7 @@
         </h1>
       </div>
       <div class="flex flex-col">
-        <SelectInput id="payment_id" v-model="order.payment_id" name="payment" :items="payments" label="Forma de Pagto" />
+        <SelectInput id="payment_id" v-model="order.payment_id" name="payment" :items="payments" label="Forma de Pagto" @update-name="updateName" />
         <label id="obs" class="mt-2">
           <div class="text-base text-gray-800">Observação</div>
           <textarea
@@ -78,8 +78,13 @@ function closeModal() {
   emitter.emit(`closeModal-FormOrder-${props.order.order_id}`);
 }
 
-function reloadOrders() {
-  emitter.emit('reloadOrders');
+// function reloadOrders() {
+//   emitter.emit('reloadOrders');
+// }
+
+
+function updateName(data){
+  props.order.payment = data;
 }
 
 async function loadPayments() {
@@ -110,7 +115,7 @@ const submitForm = async () => {
         timer: 1500,
       }).then(() => {
         closeModal();
-        reloadOrders();
+        // reloadOrders();
       });
     } else {
       Swal.fire({
@@ -130,7 +135,7 @@ const submitForm = async () => {
         timer: 1500,
       }).then(() => {
         closeModal();
-        reloadOrders();
+        // reloadOrders();
       });
     } else {
       Swal.fire({

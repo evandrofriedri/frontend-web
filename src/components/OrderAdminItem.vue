@@ -58,9 +58,9 @@ const isModalDetailItemOpen = ref(false);
 const isModalItemOpen = ref(false);
 const emitter = inject('emitter');
 
-function reloadOrders() {
-  emitter.emit('reloadOrders');
-}
+// function reloadOrders() {
+//   emitter.emit('reloadOrders');
+// }
 
 const props = defineProps({
   order: {
@@ -95,6 +95,15 @@ function cancelOrder(order) {
       order.active = false;
       const response = await OrderService.updateOrder(order);
       if (response) {
+        const title = 'Pedido Cancelado!';
+        const message = `Pedido nº ${order.order_id} foi cancelado.`;
+        const url = 'account-order';
+        await NotificationService.sendNotification(JSON.stringify({
+          account_id: order.account_id,
+          title: title,
+          message: message,
+          url: url,
+        }));
         Swal.fire({
           icon: 'success',
           title: 'Pedido Cancelado!',
@@ -102,7 +111,7 @@ function cancelOrder(order) {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          reloadOrders();
+          // reloadOrders();
         });
       } else {
         Swal.fire({
@@ -154,7 +163,8 @@ function forwardOrder(order) {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            reloadOrders();
+            order.status = `${statusIds[statusIdIndex + 1]}-${statusNames[statusIdIndex + 1]}`
+            // reloadOrders();
           });
         } else {
           Swal.fire({

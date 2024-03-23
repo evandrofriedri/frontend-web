@@ -7,7 +7,7 @@
       <PrintButton id="exportData" :data="filteredList" filename="statusList" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="statusAdminSearch" v-model="search" placeholder="Digite o status..." @keyup="filter()" />
+      <SearchInput id="statusAdminSearch" v-model="search" placeholder="Digite o status..." @keyup.stop="filter()" />
     </div>
   </div>
   <div v-show="foundStatus !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">

@@ -196,6 +196,9 @@ function getUser() {
 }
 
 async function getAccountAddress() {
+  if (user.value == null) {
+    user.value = getUser();
+  }
   const response = await AddressService.getAddressID(user.value.account_id);
   if (response.length === 0) {
     accountAddress.value = response;
@@ -214,7 +217,7 @@ async function loadData() {
   if (localStorage.getItem('systemParams') === null) {
     systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
     systemParams.value.deliveryValue = await ConfigurationService.getConfigurationID('deliveryValue');
-    const expiresIn = new Date().getTime() + (86400000 * 2);
+    const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_MARKET_EXPIRATION_TIME, 10));
     localStorage.setItem('systemParams', JSON.stringify({value: systemParams.value, expires: expiresIn}));
   } else {
     systemParams.value = JSON.parse(localStorage.getItem('systemParams')).value;
@@ -241,7 +244,7 @@ async function loadData() {
 function deleteCartItem(index) {
   const cartItems = JSON.parse(localStorage.getItem('cartItems')).value;
   cartItems.splice(index, 1);
-  const expiresIn = new Date().getTime() + (86400000 * 1);
+  const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_MARKET_EXPIRATION_TIME, 10));
   localStorage.setItem('cartItems', JSON.stringify({value: cartItems, expires: expiresIn}));
   if (cartItems.length == 0) {
     isModalCartOpen.value = false;
@@ -400,14 +403,14 @@ function cleanCart() {
   while (cartItems.length > 0) {
     cartItems.splice(0, 1);
   }
-  const expiresIn = new Date().getTime() + (86400000 * 1);
+  const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_MARKET_EXPIRATION_TIME, 10));
   localStorage.setItem('cartItems', JSON.stringify({value: cartItems, expires: expiresIn}));
   updateCart();
 }
 
 function selectDelivery(option) {
 
-  const expiresIn = new Date().getTime() + (86400000 * 1);
+  const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_MARKET_EXPIRATION_TIME, 10));
   localStorage.setItem('cartDelivery', JSON.stringify({value: option, expires: expiresIn}));
 
   if (option === 'deliver') {

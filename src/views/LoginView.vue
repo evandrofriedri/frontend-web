@@ -118,7 +118,7 @@ const submitForm = async () => {
       },
     }).then(() => {
       if (response.response.data.token) {
-        const expiresIn = new Date().getTime() + (28800000);
+        const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_LOGIN_EXPIRATION_TIME, 10));
         localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
         router.push({ name: 'Home' });
       } else {
@@ -150,7 +150,7 @@ async function loginWithGoogle(user) {
     },
   }).then(() => {
     if (response.response.data.token) {
-      const expiresIn = new Date().getTime() + (7200000);
+      const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_LOGIN_EXPIRATION_TIME, 10));
       localStorage.setItem('jwt', JSON.stringify({ value: response.response.data.token, expires: expiresIn }));
       router.push({ name: 'Home' });
     } else {
