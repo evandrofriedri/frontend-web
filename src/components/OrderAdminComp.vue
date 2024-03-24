@@ -37,17 +37,17 @@
             <th scope="col" class="px-2 py-2">
               Conta
             </th>
+            <th scope="col" class="px-2 py-2 hidden sm:table-cell break-words">
+              Observação
+            </th>
             <th scope="col" class="px-2 py-2 hidden sm:table-cell">
               Total
-            </th>
-            <th scope="col" class="px-2 py-2">
-              Status
             </th>
             <th scope="col" class="px-2 py-2 hidden sm:table-cell">
               Pagto
             </th>
-            <th scope="col" class="px-2 py-2 hidden sm:table-cell break-words">
-              Observação
+            <th scope="col" class="px-2 py-2">
+              Status
             </th>
             <th scope="col" class="px-2 py-2">
               Ações

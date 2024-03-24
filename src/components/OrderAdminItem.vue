@@ -8,8 +8,14 @@
   <td class="px-2 py-2" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.account.split(' ')[0] }}
   </td>
+  <td class="px-2 py-2 hidden sm:table-cell break-words" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
+    {{ order.observation }}
+  </td>
   <td class="px-2 py-2 hidden sm:table-cell" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     {{ order.total_value }}
+  </td>
+  <td class="px-2 py-2 hidden sm:table-cell" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
+    {{ order.payment }}
   </td>
   <td class="px-2 py-2 font-medium" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
     <div v-if="order.active == 1">
@@ -18,12 +24,6 @@
     <div v-else>
       Cancelado
     </div>
-  </td>
-  <td class="px-2 py-2 hidden sm:table-cell" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
-    {{ order.payment }}
-  </td>
-  <td class="px-2 py-2 hidden sm:table-cell break-words" @click="isModalDetailItemOpen = true" @keypress="isModalDetailItemOpen = true">
-    {{ order.observation }}
   </td>
   <td :class="`px-2 py-2 ${order.active == 0 ? 'text-gray-300' : 'text-gray-800'}`">
     <button type="button" :disabled="order.active === false" title="Cancelar Pedido" @click="cancelOrder(order)">
