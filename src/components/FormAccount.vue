@@ -109,6 +109,7 @@ async function loadRoles() {
 
 onMounted(async () => {
   account.value = await props.account;
+  account.value.confirmPassword = await props.account.password;
   roles.value = await loadRoles();
 });
 

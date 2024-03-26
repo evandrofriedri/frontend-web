@@ -57,7 +57,7 @@ const newPayment = ref({
 
 const emitter = inject('emitter');
 
-emitter.on('setModalFalse-FormPayment-0', async () => {
+emitter.on('setModalFalse-FormPayment-0', () => {
   newPayment.value = {
     payment_id: 0,
     name: null,

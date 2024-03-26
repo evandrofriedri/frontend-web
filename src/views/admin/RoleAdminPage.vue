@@ -26,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
+        <tr v-for="(item) in filteredList" :key="item" class="bg-white border-b hover:bg-gray-200 duration-300">
           <RoleAdminItem :role="item" />
         </tr>
       </tbody>
@@ -72,7 +72,6 @@ emitter.on('reloadRole', async () => {
   search.value = '';
   await loadData();
 });
-
 
 const loadData = async () => {
   roleList.value = await RoleService.getRoles();

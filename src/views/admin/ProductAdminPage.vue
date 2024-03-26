@@ -7,7 +7,7 @@
       <PrintButton id="exportData" :data="filteredList" filename="productList" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="ProductAdminSearch" v-model="search" placeholder="Digite o produto..." @keyup.stop="filter()" />
+      <SearchInput id="productAdminSearch" v-model="search" placeholder="Digite o produto..." @keyup.stop="filter()" />
     </div>
   </div>
   <div v-show="foundProduct !== 0" ref="listEl" class="p-5 max-h-[600px] bg-white shadow-md rounded mb-3 overflow-x-auto">

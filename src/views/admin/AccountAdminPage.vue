@@ -32,7 +32,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in filteredList" :key="index" class="bg-white border-b hover:bg-gray-200 duration-300">
+        <tr v-for="(item) in filteredList" :key="item" class="bg-white border-b hover:bg-gray-200 duration-300">
           <AccountAdminItem :account="item" />
         </tr>
       </tbody>
@@ -103,7 +103,6 @@ emitter.on('reloadAccount', async () => {
     { distance: 10 },
   );
 });
-
 
 const getDataOnScroll = async () => {
   if (!stopQuery.value) {
