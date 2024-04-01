@@ -5,47 +5,16 @@
       Sobre
     </h1>
     <div class="p-5 bg-white shadow-md rounded mb-3">
-      <p>Projeto simples de Delivery.</p>
-      <br>
-      <p>Desenvolvido aplicação Web completa (responsividade) com módulo cliente e módulo servidor.</p>
-      <br>
-      <p>
-        Principais ferramentas utilizadas no Front-End:
-        <ul class="list-disc list-inside">
-          <li>FrameWork JavaScript Vue.js</li>
-          <li>FrameWork CSS tailwindCss</li>
-          <li>Biblioteca VueUse</li>
-          <li>Biblioteca Vue3 Google Login</li>
-          <li>Biblioteca VueRouter</li>
-          <li>Biblioteca Vuelidate</li>
-          <li>Biblioteca Sweetalert</li>
-          <li>Biblioteca FontAwesomeIcon</li>
-          <li>Biblioteca NProgress</li>
-          <li>Biblioteca Jwt-Decode</li>
-        </ul>
+      <p class="indent-8 text-justify">
+        Gerenciar um estabelecimento no ramo alimentício requer muita disciplina, dedicação, comprometimento com o público e controle de todos os processos que circundam o ofício. Um atraso no pedido, uma descentralização das informações pode acarretar em uma experiencia ruim para o usuário, perda do potencial cliente e comprometer a evolução da marca.
       </p>
       <br>
-      <p>
-        Principais ferramentas utilizadas no Back-End:
-        <ul class="list-disc list-inside">
-          <li>Biblioteca Axios</li>
-          <li>Biblioteca Express</li>
-          <li>Biblioteca PostgreSQL</li>
-          <li>Biblioteca Json Web Token</li>
-          <li>Biblioteca Dotenv</li>
-          <li>Biblioteca Cors</li>
-          <li>Biblioteca Bcrypt</li>
-        </ul>
+      <p class="indent-8 text-justify">
+        Ao realizar um pedido de delivery onde não tenha uma plataforma intuitiva e simples pode se tornar um processo desafiador, complexo e desencadear frustações, uma vez que ter um difícil acesso às informações, possuir um fluxo do processo confuso e não ter uma plataforma compatível com dispositivos da atualidade causará um impacto negativo a comunidade.
       </p>
       <br>
-      <p>
-        Imagens obtidas dos sites:
-        <ul class="list-disc list-inside underline">
-          <li><a href="https://www.pexels.com/pt-br/">Pexels </a></li>
-          <li><a href="https://unsplash.com/pt-br">Unsplash</a></li>
-          <li><a href="https://pixabay.com/pt/">Pixabay</a></li>
-
-        </ul>
+      <p class="indent-8 text-justify">
+        Pensando nessas situações, este projeto propõe o desenvolvimento de uma aplicação web 100% responsiva para desburocratizar e facilitar as solicitações dos pedidos, acompanhamento e gerenciamento das demandas de um estabelecimento que vende hambúrguer ou qualquer outro produto de delivery.
       </p>
     </div>
   </div>
