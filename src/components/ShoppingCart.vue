@@ -218,7 +218,11 @@ async function loadData() {
     systemParams.value.storeAddress = await ConfigurationService.getConfigurationID('storeAddress');
     systemParams.value.deliveryValue = await ConfigurationService.getConfigurationID('deliveryValue');
     const expiresIn = new Date().getTime() + (parseInt(process.env.VUE_APP_MARKET_EXPIRATION_TIME, 10));
-    localStorage.setItem('systemParams', JSON.stringify({value: systemParams.value, expires: expiresIn}));
+
+    if (systemParams.value.storeAddress != false && systemParams.value.deliveryValue != false) {
+      localStorage.setItem('systemParams', JSON.stringify({value: systemParams.value, expires: expiresIn}));
+    }
+
   } else {
     systemParams.value = JSON.parse(localStorage.getItem('systemParams')).value;
   }

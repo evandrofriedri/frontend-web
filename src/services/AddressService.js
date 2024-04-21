@@ -41,7 +41,7 @@ export default {
   },
 
    /**
-   * Metodo para listar endereço da contaID por busca
+   * Metodo para listar endereço da contaID por nome
    * GET
    */
    async getAddressName(params) {

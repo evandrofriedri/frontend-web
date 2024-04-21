@@ -9,6 +9,7 @@ import vue3GoogleLogin from 'vue3-google-login';
 import App from './App.vue';
 import router from './router';
 import icons from './assets/icons';
+import VueApexCharts from 'vue3-apexcharts';
 
 // eslint-disable-next-line import/no-relative-packages
 import '../node_modules/nprogress/nprogress.css';
@@ -26,6 +27,7 @@ const CLIENT_ID = process.env.VUE_APP_CLIENT_ID;
 createApp(App)
   .use(router)
   .use(vue3GoogleLogin, { clientId: CLIENT_ID })
+  .use(VueApexCharts)
   .component('font-awesome-icon', FontAwesomeIcon)
   .component('default-layout', DefaultLayout)
   .component('empty-layout', EmptyLayout)

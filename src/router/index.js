@@ -66,6 +66,12 @@ const routes = [
     meta: { requireAuth: true },
   },
   {
+    path: '/admin/stats',
+    name: 'StatsAdmin',
+    component: lazyLoad('admin/StatsAdminView'),
+    meta: { requireAuth: true },
+  },
+  {
     path: '/:patchMatch(.*)',
     name: 'NotFound',
     component: lazyLoad('NotFoundView'),

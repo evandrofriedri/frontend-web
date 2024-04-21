@@ -9,16 +9,17 @@
       <UserMenu v-if="user" :key="user" :label="user.name.split(' ')[0]" :description="user.email" :image_url="user.image_url" />
       <MenuItemBar v-else icon="fa-solid fa-circle-user" label="Entrar ou Cadastrar" description="" route="/login" />
       <SubMenuItemBar v-if="user" :key="user" icon="fa-solid fa-user-gear" label="Gerenciar Conta" route="/account" @click="toggleMenu()" />
-      <SubMenuItemBar v-if="user" :key="user" icon="fa-solid fa-list-check" label="Meus Pedidos" route="/account/order" @click="toggleMenu()" />
+      <SubMenuItemBar v-if="user" :key="user" icon="fa-solid fa-clipboard-check" label="Meus Pedidos" route="/account/order" @click="toggleMenu()" />
       <SubMenuItemBar v-if="user" :key="user" icon="fa-solid fa-address-card" label="Meus Endereços" route="/account/address" @click="toggleMenu()" />
       <SubMenuItemBar v-if="user" :key="user" icon="fa-solid fa-arrow-right-from-bracket" label="Sair" description="" route="/" @click="logOutUser()" />
       <MenuSeparator v-if="user.role_name === 'admin' || user.role_name === 'employee'" :key="user" />
-        <MenuItemBar v-if="user.role_name === 'admin' || user.role_name === 'employee'" :key="user" icon="fa-solid fa-kitchen-set" label="Gerenciar Pedidos" route="/admin/order" @click="toggleMenu()" />
+        <MenuItemBar v-if="user.role_name === 'admin' || user.role_name === 'employee'" :key="user" icon="fa-solid fa-list-check" label="Gerenciar Pedidos" route="/admin/order" @click="toggleMenu()" />
         <MenuItemBar v-if="user.role_name === 'admin'" :key="user" icon="fa-solid fa-users-gear" label="Gerenciar Contas" route="/admin/account" @click="toggleMenu()" />
         <MenuItemBar v-if="user.role_name === 'admin'" :key="user" icon="fa-solid fa-list-ol" label="Gerenciar Cardápio" route="/admin/menu" @click="toggleMenu()" />
-      <MenuSeparator />
-      <MenuItemBar icon="fa-solid fa-utensils" label="Cardápio" route="/" @click="toggleMenu()" />
-      <MenuItemBar icon="fa-solid fa-circle-info" label="Informações" route="/about" @click="toggleMenu()" />
+        <MenuItemBar v-if="user.role_name === 'admin'" :key="user" icon="fa-solid fa-chart-line" label="Estatísticas" route="/admin/stats" @click="toggleMenu()" />
+        <MenuSeparator />
+      <MenuItemBar icon="fa-solid fa-burger" label="Cardápio" route="/" @click="toggleMenu()" />
+      <MenuItemBar icon="fa-solid fa-circle-info" label="Sobre" route="/about" @click="toggleMenu()" />
       <MenuSeparator />
       <div class="flex mx-auto justify-center">
         <LogoCard class="h-20 w-24" />

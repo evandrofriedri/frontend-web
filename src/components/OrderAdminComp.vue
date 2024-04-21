@@ -168,7 +168,7 @@ function thereIsOrder(obj) {
 
 async function loadStatuses() {
   const response = await StatusService.getStatuses();
-  const data = [{id:-1, name:''}];
+  const data = [{id:-1, name:''},{id:0, name:'Cancelado'}];
   response.forEach(element => {
     data.push({
       id: element.status_id,

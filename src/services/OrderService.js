@@ -15,7 +15,7 @@ export default {
   },
 
    /**
-   * Metodo para listar todos os pedidos por busca
+   * Metodo para listar todos os pedidos por nome
    * GET
    */
    async getOrdersName(params) {
@@ -54,7 +54,7 @@ export default {
   },
 
     /**
-   * Metodo para listar pedido de contaID por busca
+   * Metodo para listar pedido de contaID por nome
    * GET
    */
     async getOrderName(params) {
