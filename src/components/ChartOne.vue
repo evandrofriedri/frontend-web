@@ -12,7 +12,7 @@
           <p class="text-sm font-medium">{{ chartData.year[0] }} - {{ chartData.year[chartData.year.length - 1] }}</p>
         </div>
       </div>
-      <div>
+      <!-- <div>
         <div class="relative z-20 inline-block">
           <select @change="toggle()" name="selectChartOne" id="selectChartOne"
             class="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none">
@@ -31,7 +31,7 @@
             </svg>
           </span>
         </div>
-      </div>
+      </div> -->
     </div>
     <div>
       <div id="chartOne" class="-ml-5">
@@ -46,7 +46,7 @@ import VueApexCharts from 'vue3-apexcharts';
 import StatisticService from '../services/StatisticService';
 
 let chartData = ref(await StatisticService.getStats(JSON.stringify({
-  id: 2, interval: 90,
+  id: 2, interval: 365,
 })));
 const chart = ref(null);
 
@@ -150,10 +150,10 @@ const apexOptions = {
   }
 }
 
-async function toggle() {
-  const selected = document.getElementById("selectChartOne").value;
-  chartData.value = await StatisticService.getStats(JSON.stringify({
-    id: 2, interval: selected,
-  }));
-}
+// async function toggle() {
+//   const selected = document.getElementById("selectChartOne").value;
+//   chartData.value = await StatisticService.getStats(JSON.stringify({
+//     id: 2, interval: selected,
+//   }));
+// }
 </script>
