@@ -7,5 +7,10 @@ module.exports = defineConfig({
     workboxOptions: {
       swSrc: './src/sw.js',
     },
+    name: 'Hambúrguer Delivery',
+    themeColor: '#374151',
+    msTileColor: '#374151',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
   },
 });
