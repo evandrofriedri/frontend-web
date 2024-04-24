@@ -17,6 +17,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import DefaultLayout from './layouts/DefaultLayout.vue';
 import EmptyLayout from './layouts/EmptyLayout.vue';
+import './registerServiceWorker';
 
 library.add({ ...icons });
 

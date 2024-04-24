@@ -1,12 +1,12 @@
 {
-  "name": "frontend",
+  "name": "delivery",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint-fix": "npm run lint --fix",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lint-fix": "npm run lint --fix"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -27,6 +27,7 @@
     "mitt": "^3.0.1",
     "npm": "^10.2.5",
     "nprogress": "^0.2.0",
+    "register-service-worker": "^1.7.2",
     "sweetalert2": "^11.7.27",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
@@ -37,6 +38,7 @@
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
     "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "^5.0.8",
     "autoprefixer": "^10.4.14",
