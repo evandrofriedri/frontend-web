@@ -25,6 +25,18 @@
           </label>
           <p>Conta Ativa</p>
         </div>
+        <div v-if="account.account_id != 0" class="flex mb-4">
+          <label for="chkKeepPass" class="text-base text-gray-800 max-w">
+            <input
+              id="chkKeepPass"
+              v-model="account.keep_pass"
+              class="text-gray-800 bg-gray-50 mr-2 focus:bg-white border border-gray-200 rounded focus:border-gray-500 focus:outline-none checked:bg-gray-100"
+              type="checkbox"
+              @change="toggleCheck"
+            />
+          </label>
+          <p>Manter Senha</p>
+        </div>
       </div>
     </div>
     <div class="grid grid-cols-12">
@@ -68,6 +80,7 @@ const account = ref({
   password: null,
   confirmPassword: null,
   role_id: null,
+  keep_pass: null,
 });
 
 const props = defineProps({
@@ -158,7 +171,7 @@ const submitForm = async () => {
 
   if (account.value.account_id === 0) {
     const response = await AccountService.createAccount(account.value);
-    if (response) {
+    if (response.response.data.message === 'Conta criada com sucesso!') {
       Swal.fire({
         icon: 'success',
         title: 'Cadastro realizado com sucesso!',
@@ -171,7 +184,8 @@ const submitForm = async () => {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao cadastrar novo usuário, tente mais tarde!',
+        title: 'Erro ao cadastrar novo usuário!',
+        text: `${response.response.data.message}`,
         showConfirmButton: true,
         confirmButtonColor: '#374151',
       });
@@ -201,5 +215,13 @@ const submitForm = async () => {
 
   return true;
 };
+
+function toggleCheck() {
+  if (account.value.keep_pass) {
+    account.value.confirmPassword = account.value.password;
+  } else {
+    account.value.confirmPassword = null;
+  }
+}
 
 </script>

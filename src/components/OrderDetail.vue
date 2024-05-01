@@ -8,7 +8,7 @@
         </h1>
       </div>
       <div class="max-h-[560px] overflow-auto">
-        <div :id="`print-document-detail-${props.order.order_id}`" class="p-5 bg-white shadow-md rounded mb-3">
+        <div :id="`print-document-detail-${props.order.order_id}`" class="bg-white rounded mb-3">
           <div class="flex justify-between">
             <h1 class="mb-3 text-base font-semibold text-gray-800">
               Pedido #{{ order.order_id }}, feito no dia {{ order.date }}

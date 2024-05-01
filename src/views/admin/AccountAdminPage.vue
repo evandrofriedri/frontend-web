@@ -69,6 +69,7 @@ const newAccount = ref({
   password: null,
   confirmPassword: null,
   role_id: null,
+  keep_pass: null,
 });
 const listEl = ref(null);
 const itemsToShow = ref(10);
