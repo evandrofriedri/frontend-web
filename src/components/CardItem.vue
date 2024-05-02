@@ -4,10 +4,10 @@
     @click="isModalCardItemOpen = true" @keydown="isModalCardItemOpen = true">
     <div class="flex flex-col justify-between pr-5">
       <div>
-        <p class="mb-2 text-base font-medium text-gray-900">
+        <p class="mb-1 text-base font-medium text-gray-900">
           {{ props.product.name }}
         </p>
-        <p class="mb-2 text-xs text-gray-600">
+        <p class="mb-1 text-xs text-gray-600 max-h-12 text-ellipsis overflow-hidden">
           {{ props.product.description }}
         </p>
       </div>
@@ -27,7 +27,7 @@
       </h1>
     </div>
     <div class="bg-gray-50 justify-between bg-cover bg-center rounded">
-      <img :src="props.product.image_url" class="object-cover h-48 w-full rounded-t" alt="" />
+      <img :src="props.product.image_url" class="object-cover h-48 w-full rounded" alt="" />
     </div>
     <div class="flex flex-col max-h-[400px] overflow-auto">
       <p class="text-sm font-light text-gray-800 text-justify mt-2">
