@@ -2,7 +2,7 @@ import Api from './Api';
 
 export default {
   /**
-   * Metodo para listar todos as formas de pagto
+   * Metodo para listar todos as formas de pagamento
    * GET
    */
   async getPayments() {
@@ -15,7 +15,7 @@ export default {
   },
 
   /**
-   * Metodo para criar nova forma de pagto
+   * Metodo para criar nova forma de pagamento
    * POST
    */
   async createPayment(payment) {
@@ -28,7 +28,7 @@ export default {
   },
 
   /**
-   * Metodo para listar forma de pagto por ID
+   * Metodo para listar forma de pagamento por ID
    * GET
    */
   async getPaymentID(id) {
@@ -41,7 +41,7 @@ export default {
   },
 
    /**
-   * Metodo para listar forma de pagto por nome
+   * Metodo para listar forma de pagamento por nome
    * GET
    */
    async getPaymentName(name) {
@@ -54,7 +54,7 @@ export default {
   },
 
   /**
-   * Metodo para atualizar forma de pagto por ID
+   * Metodo para atualizar forma de pagamento por ID
    * PUT
    */
   async updatePayment(payment) {
@@ -67,7 +67,7 @@ export default {
     }
   },
   /**
-   * Metodo para excluir forma de pagto por ID
+   * Metodo para excluir forma de pagamento por ID
    * DELETE
    */
   async deletePayment(id) {

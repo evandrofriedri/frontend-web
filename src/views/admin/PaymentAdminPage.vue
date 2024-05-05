@@ -1,13 +1,13 @@
 <template>
   <div class="grid gap-1 grid-cols-12 items-center mb-2">
     <div class="col-start-1 md:col-end-2 col-end-3">
-      <BaseButton id="newPayment" icon="fa-solid fa-file-circle-plus" description="" title="Criar nova forma de pagto" @click="isModalPaymentOpen = true" />
+      <BaseButton id="newPayment" icon="fa-solid fa-file-circle-plus" description="" title="Criar nova forma de pagamento" @click="isModalPaymentOpen = true" />
     </div>
     <div class="col-start-5 md:col-start-9 col-end-7 md:col-end-10">
       <PrintButton id="exportData" :data="filteredList" filename="paymentList" />
     </div>
     <div class="col-start-7 md:col-start-10 col-end-13">
-      <SearchInput id="paymentAdminSearch" v-model="search" placeholder="Digite a forma de pagto..." @keyup.stop="filter()" />
+      <SearchInput id="paymentAdminSearch" v-model="search" placeholder="Digite a forma de pagamento..." @keyup.stop="filter()" />
     </div>
   </div>
   <div v-show="foundPayment !== 0" class="p-5 bg-white shadow-md rounded mb-3 overflow-x-auto">
@@ -15,7 +15,7 @@
       <thead class="text-xs text-gray-900 uppercase bg-gray-200">
         <tr>
           <th scope="col" class="px-2 py-2">
-            Forma de Pagto
+            Forma de Pagamento
           </th>
           <th scope="col" class="px-2 py-2">
             Ações
@@ -29,9 +29,9 @@
       </tbody>
     </table>
   </div>
-  <CardNotFound :found="foundPayment" label="Forma de Pagto não encontrado!" />
+  <CardNotFound :found="foundPayment" label="Forma de Pagamento não encontrado!" />
   <ModalWrapper :modal-open="isModalPaymentOpen" screen="FormPayment-0">
-    <FormPayment label-form="Nova Forma de Pagto" label-btn="Cadastrar" :payment="newPayment" />
+    <FormPayment label-form="Nova Forma de Pagamento" label-btn="Cadastrar" :payment="newPayment" />
   </ModalWrapper>
 </template>
 <script setup>

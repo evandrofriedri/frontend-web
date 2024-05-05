@@ -3,15 +3,15 @@
     {{ payment.name }}
   </td>
   <td class="px-2 py-2">
-    <button type="button" title="Excluir Forma de Pagto" @click="deletePayment(payment)">
+    <button type="button" title="Excluir Forma de Pagamento" @click="deletePayment(payment)">
       <font-awesome-icon icon="fa-regular fa-trash-can" />
     </button>&nbsp;&nbsp;
-    <button type="button" title="Editar Forma de Pagto" @click="isModalItemOpen = true">
+    <button type="button" title="Editar Forma de Pagamento" @click="isModalItemOpen = true">
       <font-awesome-icon icon="fa-regular fa-pen-to-square" />
     </button>
   </td>
   <ModalWrapper :modal-open="isModalItemOpen" :screen="`FormPayment-${payment.payment_id}`">
-    <FormPayment label-form="Editar Forma de Pagto" label-btn="Salvar" :payment="payment" />
+    <FormPayment label-form="Editar Forma de Pagamento" label-btn="Salvar" :payment="payment" />
   </ModalWrapper>
 </template>
 
@@ -44,7 +44,7 @@ emitter.on(`setModalFalse-FormPayment-${props.payment.payment_id}`, () => {
 
 function deletePayment(payment) {
   Swal.fire({
-    title: `Deseja excluir forma de pagto ${payment.name}?`,
+    title: `Deseja excluir forma de pagamento ${payment.name}?`,
     text: 'Não poderá reverter após confirmação!',
     icon: 'warning',
     showCancelButton: true,
@@ -58,8 +58,8 @@ function deletePayment(payment) {
       if (response) {
         Swal.fire({
           icon: 'success',
-          title: 'Forma de Pagto excluída com sucesso!',
-          text: `Forma de Pagto ${payment.name} excluída.`,
+          title: 'Forma de Pagamento excluída com sucesso!',
+          text: `Forma de Pagamento ${payment.name} excluída.`,
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
@@ -68,7 +68,7 @@ function deletePayment(payment) {
       } else {
         Swal.fire({
           icon: 'error',
-          title: 'Erro ao excluir forma de pagto, tente mais tarde!',
+          title: 'Erro ao excluir forma de pagamento, tente mais tarde!',
           showConfirmButton: true,
           confirmButtonColor: '#374151',
         });

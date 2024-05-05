@@ -34,7 +34,7 @@
           </template>
         </Suspense>
       </PageTab>
-      <PageTab title="Forma de Pagto">
+      <PageTab title="Forma de Pagamento">
         <Suspense>
           <PaymentAdminPage />
           <template #fallback>

@@ -106,7 +106,7 @@ const submitForm = async () => {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao cadastrar nova forma de pagto, tente mais tarde!',
+        title: 'Erro ao cadastrar nova forma de pagamento, tente mais tarde!',
         showConfirmButton: true,
         confirmButtonColor: '#374151',
       });
@@ -126,7 +126,7 @@ const submitForm = async () => {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Erro ao editar forma de pagto, tente mais tarde!',
+        title: 'Erro ao editar forma de pagamento, tente mais tarde!',
         showConfirmButton: true,
         confirmButtonColor: '#374151',
       });

@@ -94,7 +94,7 @@
             <p>Entrega</p><p> {{ parseFloat(order.delivery).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>
           </div>
           <div class="flex justify-between text-base text-gray-800 font-semibold text-right pb-2">
-            <p>Forma de Pagto</p><p> {{ order.payment }}</p>
+            <p>Forma de Pagamento</p><p> {{ order.payment }}</p>
           </div>
           <div class="flex justify-between text-base text-gray-800 font-semibold">
             <p>Total</p> <p>{{ parseFloat(order.total_value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</p>

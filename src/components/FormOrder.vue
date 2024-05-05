@@ -9,7 +9,7 @@
         </h1>
       </div>
       <div class="flex flex-col">
-        <SelectInput id="payment_id" v-model="order.payment_id" name="payment" :items="payments" label="Forma de Pagto" @update-name="updateName" />
+        <SelectInput id="payment_id" v-model="order.payment_id" name="payment" :items="payments" label="Forma de Pagamento" @update-name="updateName" />
         <label id="obs" class="mt-2">
           <div class="text-base text-gray-800">Observação</div>
           <textarea
